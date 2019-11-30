@@ -60,7 +60,7 @@
                                     <?php if (!empty($post['image'])): ?>
                                         <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
                                     <?php elseif (!empty($post['pfp'])): ?>
-                                        <img src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>" class="card-img" alt="..." style="width: 250px;">
+                                        <img src="profilepfp.php?id=<?php echo $post['profileID']; ?>" class="card-img" alt="..." style="width: 250px;">
                                     <?php else: ?>
                                         <img src="assets\img\fox-1284512_1920.jpg" class="card-img" alt="..." style="width: 250px;">
                                     <?php endif?>
