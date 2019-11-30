@@ -1,0 +1,29 @@
+.navbar-light .navbar-text {
+  color: #d9d9d9;
+}
+.header-blue .navbar .navbar-collapse span .logout {
+  color: #d9d9d9;
+  margin-right: .5rem;
+  text-decoration: none;
+}
+
+.header-blue .navbar .navbar-collapse span .logout:hover {
+  color: #fff;
+}
+
+.center-img img {
+	width: 500px;
+	height: 500px;
+	display: block;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+.center-avatar img {
+	align-content: center;
+	width: 256px;
+	height: 256px;
+	display: block;
+	object-fit: cover;
+	border-radius: 50%;
+}
