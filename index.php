@@ -26,8 +26,7 @@
                         <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
                             <h1>ĐĂNG KÝ NGAY</h1>
                             <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='register.php'">Đăng Ký Ngay</button></div>
-                        <div
-                            class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
+                        <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
                             <div class="center-img">
                                 <img src="assets\img\fox-1284512_1920.jpg">
                             </div>
@@ -56,7 +55,7 @@
                         <div class="col-sm-12">
                             <div class="card" style="background-color: rgba(255, 255, 255, 0.4); border-radius: 0px; width: 90%; float: none; margin: 0 auto;">
                                 <div class="card-body">
-                                    <h5 class="card-title"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></h5>
+                                    <h5 class="card-title"><a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a></h5>
                                     <?php if (!empty($post['image'])): ?>
                                         <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
                                     <?php elseif (!empty($post['pfp'])): ?>

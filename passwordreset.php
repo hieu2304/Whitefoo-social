@@ -72,7 +72,7 @@
                     <?php endif ?>
                 </article>
             <?php else : ?>
-            <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để thực hiện chức năng này.</p>
+                <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để thực hiện chức năng này.</p>
             <?php endif ?>
             </div>
         </div>

@@ -185,22 +185,6 @@
       header('location: index.php');
     }
 
-    function post_status($id, $content, $img, $imgType)
-    {
-      global $db, $errors;
-      if ($img == null){
-        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image) VALUES(?, ?, '')");
-        $post_insert_query->execute([$content, $id]);
-      }
-      else {
-        $imgData = file_get_contents($img['tmp_name']);
-        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, imagetype) VALUES(?, ?, ?, ?)");
-        $post_insert_query->execute([$content, $id, $imgData, $imgType]);
-      }
-      $_SESSION['success'] = "Đăng trạng thái thành công!";
-      header('location: index.php');
-    }
-
     function detectPage()
     {
       $uri = $_SERVER['REQUEST_URI'];
