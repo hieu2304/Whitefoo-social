@@ -161,6 +161,30 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function getNewFeedsByProfileID($profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ?");
+      $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function post_status($id, $content, $img, $imgType)
+    {
+      global $db, $errors;
+      if ($img == null){
+        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image) VALUES(?, ?, '')");
+        $post_insert_query->execute([$content, $id]);
+      }
+      else {
+        $imgData = file_get_contents($img['tmp_name']);
+        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, imagetype) VALUES(?, ?, ?, ?)");
+        $post_insert_query->execute([$content, $id, $imgData, $imgType]);
+      }
+      $_SESSION['success'] = "Đăng trạng thái thành công!";
+      header('location: index.php');
+    }
+
     function post_status($id, $content, $img, $imgType)
     {
       global $db, $errors;
