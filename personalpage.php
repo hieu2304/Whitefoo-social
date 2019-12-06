@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/Modal.css">
 </head>
 
 <body>
@@ -39,10 +40,10 @@
                     <div class="container hero">
                         <div class="row">
                             <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
-                                <h1><?php echo ($currentUser["fullname"] != "" || $currentUser["fullname"]) != null ? $currentUser["fullname"] : $currentUser["username"] ?></h1>
+                                <h1><?php echo $currentUser["username"] ?></h1>
                                 <p>Tên đầy đủ: <?php echo ($currentUser["fullname"] != "" || $currentUser["fullname"]) != null ? $currentUser["fullname"] : "Chưa có"; ?></p>
                                 <p>Số điện thoại: <?php echo ($currentUser["mobilenumber"] != "" || $currentUser["mobilenumber"]) != null ? $currentUser["mobilenumber"] : "Chưa có"; ?></p>
-                                <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='post.php'">Tạo bài viết</button></div>
+                                <button class="btn btn-light btn-lg action-button" type="button" id="postButton">Tạo bài viết</button></div>
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                 <div class="center-avatar">
                                     <?php if (isset($currentUser['pfp'])): ?>
@@ -54,6 +55,32 @@
                             </div>
                         </div>
                     </div>
+                    <!-- The Modal: Post status -->
+                    <div id="postModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="closeModal">&times;</span>
+                            <form method="post" action="post.php" enctype="multipart/form-data">
+                                <div class="form-group input-group">
+                                    <textarea name="content" class="form-control" placeholder="Trạng thái..." rows="5"></textarea>
+                                </div> <!-- form-group -->
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-upload"></i> </span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" name="postimg" class="custom-file-input" id="customFile" accept="image/*">
+                                        <label class="custom-file-label" for="customFile">Hình ảnh</label>
+                                    </div> <!-- form-group -->
+                                </div>
+                                                        
+                                <div class="form-group">
+                                    <button name="post_the_status" type="submit" class="btn btn-primary btn-block">Đăng</button>
+                                </div> <!-- form-group -->
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End of the Modal -->
                     <div class="row" id="newfeed" style="margin-top: 200px; font-family: 'Roboto', sans-serif;">
                         <?php $posts = getNewFeedsByProfileID($currentUser['profileID']); ?>
                         <?php foreach ($posts as $post): ?>
@@ -127,6 +154,13 @@
         </div>
     </div>
     <?php include '_footer.php'; ?>
+    <script src="assets/js/Modal.js"></script>
+    <script>
+        $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 </body>
 
 </html>
