@@ -55,9 +55,9 @@
 #post_information_center_child
 {
 	width: auto;
-	height:  auto;
+	height: 90px;
 	float: left;
-	line-height: 5px;
+	line-height: 10px;
 }
 
 #post_information_wrapper
@@ -65,4 +65,13 @@
 	width: auto;
 	height: 100px;
 	margin: auto;
+	line-height: auto;
+}
+
+#post_content
+{
+	width: 90%;
+	height: auto;
+	margin: auto;
+	float:left;
 }

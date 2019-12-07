@@ -59,21 +59,23 @@
                                 <div class="card-body">
                                         <div id="post_information_wrapper">
                                             <div class="mini-avatar" id="post_information_left_child">
-                                            <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
-                                                <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
-                                            <?php else: ?>
-                                                <img src="assets\img\defaultavataruser.png" style="">                                  
-                                            <?php endif?>
+                                                <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
+                                                    <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
+                                                <?php else: ?>
+                                                    <img src="assets\img\defaultavataruser.png" style="">                                  
+                                                <?php endif?>
                                             </div>      
-                                             <div id="post_information_center_child">
+                                            <div id="post_information_center_child">
                                                  <?php echo "<br>";?>
                                                 <h5 class="card-title">
                                                     <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
                                                 </h5>
-                                                 <p class="card-text">&nbsp&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
+                                                 <p class="card-text">&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
                                             </div>
-                                        </div>                                         
-                                    <p class="card-text"><?php echo $post['content'];?></p>
+                                        </div>
+                                        <div id="post_content">                              
+                                            <p class="card-text"><?php echo $post['content'];?></p>
+                                        </div>
                                     <?php if (!empty($post['image'])): ?>
                                         <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
                                     <?php endif?>
