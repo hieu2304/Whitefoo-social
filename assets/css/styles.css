@@ -33,7 +33,6 @@
 	align-content: left;
 	width: 80px;
 	height: 80px;
-	display: block;
 	object-fit: cover;
 	border-radius: 50%;
 }
@@ -42,7 +41,7 @@
 {
 	width: auto;
 	height: 10px;
-	magin: auto
+	margin: auto;
 }
 
 #post_information_left_child
