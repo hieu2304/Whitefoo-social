@@ -84,7 +84,7 @@
                         <?php foreach ($posts as $post): ?>
                         <div class="col-sm-12">
                             <div id="break_space_between_posts"></div>
-                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 60%; float: none; margin: 0 auto;">
+                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
                                 <div class="card-body">
                                         <div id="post_information_wrapper">
                                             <div class="mini-avatar" id="post_information_left_child">
@@ -103,10 +103,14 @@
                                             </div>
                                         </div>                                              
                                         <div id="post_content">                              
-                                            <p class="card-text"><?php echo $post['content'];?></p>
+                                            <p class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
                                         </div>
                                     <?php if (!empty($post['image'])): ?>
-                                        <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
+                                        <div id="post_img">             
+                                            <?php if (!empty($post['image'])): ?>
+                                                <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="">
+                                            <?php endif?>
+                                        </div>
                                     <?php endif?>
                                 </div>
                             </div>
@@ -143,7 +147,7 @@
                             <?php foreach ($posts as $post): ?>
                         <div class="col-sm-12">
                             <div id="break_space_between_posts"></div>
-                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 60%; float: none; margin: 0 auto;">
+                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
                                 <div class="card-body">
                                         <div id="post_information_wrapper">
                                             <div class="mini-avatar" id="post_information_left_child">
@@ -162,10 +166,14 @@
                                             </div>
                                         </div>                                      
                                         <div id="post_content">                              
-                                            <p class="card-text"><?php echo $post['content'];?></p>
+                                            <p class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
                                         </div>
                                     <?php if (!empty($post['image'])): ?>
-                                        <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
+                                        <div id="post_img">             
+                                            <?php if (!empty($post['image'])): ?>
+                                                <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="">
+                                            <?php endif?>
+                                        </div>
                                     <?php endif?>
                                 </div>
                             </div>

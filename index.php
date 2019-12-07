@@ -55,30 +55,32 @@
                     <?php foreach ($posts as $post): ?>
                         <div class="col-sm-12">
                             <div id="break_space_between_posts"></div>
-                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 60%; float: none; margin: 0 auto;">
+                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
                                 <div class="card-body">
-                                        <div id="post_information_wrapper">
-                                            <div class="mini-avatar" id="post_information_left_child">
-                                                <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
-                                                    <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
-                                                <?php else: ?>
-                                                    <img src="assets\img\defaultavataruser.png" style="">                                  
-                                                <?php endif?>
-                                            </div>      
-                                            <div id="post_information_center_child">
-                                                 <?php echo "<br>";?>
-                                                <h5 class="card-title">
-                                                    <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
-                                                </h5>
-                                                 <p class="card-text">&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
-                                            </div>
+                                    <div id="post_information_wrapper">
+                                        <div class="mini-avatar" id="post_information_left_child">
+                                            <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
+                                                <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
+                                            <?php else: ?>
+                                                <img src="assets\img\defaultavataruser.png" style="">                                  
+                                            <?php endif?>
+                                        </div>      
+                                        <div id="post_information_center_child">
+                                            <?php echo "<br>";?>
+                                            <h5 class="card-title">
+                                                <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
+                                            </h5>
+                                            <p class="card-text">&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
                                         </div>
+                                    </div>
                                         <div id="post_content">                              
-                                            <p class="card-text"><?php echo $post['content'];?></p>
+                                            <p class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
                                         </div>
-                                    <?php if (!empty($post['image'])): ?>
-                                        <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
-                                    <?php endif?>
+                                        <div id="post_img">             
+                                            <?php if (!empty($post['image'])): ?>
+                                                <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="">
+                                            <?php endif?>
+                                        </div>
                                 </div>
                             </div>
                         </div>

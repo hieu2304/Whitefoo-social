@@ -70,7 +70,16 @@
 
 #post_content
 {
-	width: 90%;
+	width: 100%;
+	height: auto;
+	margin: auto;
+	float:left;
+}
+
+#post_img
+{
+	object-fit: cover;
+	width: 220px;
 	height: auto;
 	margin: auto;
 	float:left;
