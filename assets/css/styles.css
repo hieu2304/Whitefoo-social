@@ -27,3 +27,43 @@
 	object-fit: cover;
 	border-radius: 50%;
 }
+
+.mini-avatar img
+{
+	align-content: left;
+	width: 80px;
+	height: 80px;
+	display: block;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+#break_space_between_posts
+{
+	width: auto;
+	height: 10px;
+	magin: auto
+}
+
+#post_information_left_child
+{
+	width: 95px;
+	height: 90px;
+	line-height: auto;
+	float:left;
+}
+
+#post_information_center_child
+{
+	width: auto;
+	height:  auto;
+	float: left;
+	line-height: 5px;
+}
+
+#post_information_wrapper
+{
+	width: auto;
+	height: 100px;
+	margin: auto;
+}

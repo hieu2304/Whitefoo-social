@@ -21,6 +21,7 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
+            <!-- nếu người dùng chưa đăng nhập -->
             <?php if (!isset($_SESSION['profileID'])) : ?>
                     <div class="container hero">
                         <div class="row">
@@ -35,7 +36,9 @@
                             </div>
                         </div>
                     </div>
+            <!-- nếu người dùng đã đăng nhập -->      
             <?php else : ?>
+                <!-- nếu trang vào là trang của người đang đăg nhập (tự vào trang cá nhân của chính mình) -->
                 <?php if (!isset($_GET['id']) || $_GET['id'] == $currentUser['profileID']) : ?>
                     <div class="container hero">
                         <div class="row">
@@ -84,24 +87,46 @@
                     <div class="row" id="newfeed" style="margin-top: 200px; font-family: 'Roboto', sans-serif;">
                         <?php $posts = getNewFeedsByProfileID($currentUser['profileID']); ?>
                         <?php foreach ($posts as $post): ?>
-                            <div class="col-sm-12">
-                                <div class="card" style="background-color: rgba(255, 255, 255, 0.4); border-radius: 0px; width: 90%; float: none; margin: 0 auto;">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a></h5>
-                                        <?php if (!empty($post['image'])): ?>
-                                            <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
-                                        <?php elseif (!empty($post['pfp'])): ?>
-                                            <img src="profilepfp.php?id=<?php echo $post['profileID']; ?>" class="card-img" alt="..." style="width: 250px;">
-                                        <?php else: ?>
-                                            <img src="assets\img\fox-1284512_1920.jpg" class="card-img" alt="..." style="width: 250px;">
-                                        <?php endif?>
-                                        <p class="card-text"><small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
-                                        <p class="card-text"><?php echo $post['content'];?></p>
-                                    </div>
+                        <div class="col-sm-12">
+                            <!-- khung mỗi bài đăng -->
+                            <div id="break_space_between_posts"></div>
+                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 60%; float: none; margin: 0 auto;">
+                                <div class="card-body">
+                                    <!-- in thông tin người đăng -->
+                                        <!-- in ảnh người đăng nằm bên trái của tên người này -->
+                                        <!-- nếu người này có ảnh đại diện thì hiển thị ra, nếu không có thì hiển thị ảnh mặc định -->
+                                        <div class="mini-avatar" id="post_information_wrapper">
+                                            <div id="post_information_left_child">
+                                            <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
+                                                <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
+                                            <?php else: ?>
+                                                <img src="assets\img\defaultavataruser.png" style="">                                  
+                                            <?php endif?>
+                                            </div>      
+                                             <!-- in tên và thời gian người đăng nằm bên phải so với hình ảnh người này -->
+                                             <div id="post_information_center_child">
+                                                 <?php echo "<br>";?>
+                                            <!-- in ra tên người đăng -->
+                                                <h5 class="card-title">
+                                                    <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
+                                                </h5>
+                                                 <!-- in ra thời gian đăng bài này -->
+                                                 <p class="card-text">&nbsp&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
+                                            </div>         
+                                        </div>                                      
+                                    <!-- in ra nội dung cho mỗi post -->            
+                                    <p class="card-text"><?php echo $post['content'];?></p>
+                                    <!-- nếu post có ảnh đính kèm, in ảnh đính kèm -->
+                                    <?php if (!empty($post['image'])): ?>
+                                        <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
+                                    <?php endif?>
                                 </div>
                             </div>
-                        <?php endforeach ?>
+                        </div>
+                        <!-- kết thúc vòng lập lấy bài đăng newfeeds -->
+                    <?php endforeach ?>
                     </div>
+                <!-- nếu trang khác của người đang đăg nhập (vào trang cá nhân của người khác) -->
                 <?php else : ?>
                     <?php $user = findUserByID($_GET['id']); ?>
                     <?php if ($user == null) : ?>
@@ -130,23 +155,46 @@
                         <div class="row" id="newfeed" style="margin-top: 200px; font-family: 'Roboto', sans-serif;">
                             <?php $posts = getNewFeedsByProfileID($user['profileID']); ?>
                             <?php foreach ($posts as $post): ?>
-                                <div class="col-sm-12">
-                                    <div class="card" style="background-color: rgba(255, 255, 255, 0.4); border-radius: 0px; width: 90%; float: none; margin: 0 auto;">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a></h5>
-                                            <?php if (!empty($post['image'])): ?>
-                                                <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
-                                            <?php elseif (!empty($post['pfp'])): ?>
-                                                <img src="profilepfp.php?id=<?php echo $post['profileID']; ?>" class="card-img" alt="..." style="width: 250px;">
+                        <div class="col-sm-12">
+                            <!-- khung mỗi bài đăng -->
+                            <div id="break_space_between_posts"></div>
+                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 60%; float: none; margin: 0 auto;">
+                                <div class="card-body">
+                                    <!-- in thông tin người đăng -->
+                                        <!-- in ảnh người đăng nằm bên trái của tên người này -->
+                                        <!-- nếu người này có ảnh đại diện thì hiển thị ra, nếu không có thì hiển thị ảnh mặc định -->
+                                        <div class="mini-avatar" id="post_information_wrapper">
+                                            <div id="post_information_left_child">
+                                            <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
+                                                <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
                                             <?php else: ?>
-                                                <img src="assets\img\fox-1284512_1920.jpg" class="card-img" alt="..." style="width: 250px;">
+                                                <img src="assets\img\defaultavataruser.png" style="">                                  
                                             <?php endif?>
-                                            <p class="card-text"><small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
-                                            <p class="card-text"><?php echo $post['content'];?></p>
-                                        </div>
-                                    </div>
+                                            </div>      
+                                             <!-- in tên và thời gian người đăng nằm bên phải so với hình ảnh người này -->
+                                             <div id="post_information_center_child">
+                                                 <?php echo "<br>";?>
+                                            <!-- in ra tên người đăng -->
+                                                <h5 class="card-title">
+                                                    <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
+                                                </h5>
+                                                 <!-- in ra thời gian đăng bài này -->
+                                                 <p class="card-text">&nbsp&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>
+                                            </div>
+                                               
+                                        </div>                                      
+                                    <!-- in ra nội dung cho mỗi post -->            
+                                    <p class="card-text"><?php echo $post['content'];?></p>
+                                    
+                                    <!-- nếu post có ảnh đính kèm, in ảnh đính kèm -->
+                                    <?php if (!empty($post['image'])): ?>
+                                        <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="width: 250px;">
+                                    <?php endif?>
                                 </div>
-                            <?php endforeach ?>
+                            </div>
+                        </div>
+                        <!-- kết thúc vòng lập lấy bài đăng newfeeds -->
+                    <?php endforeach ?>
                         </div>
                     <?php endif ?>
                 <?php endif ?>

@@ -289,4 +289,19 @@
         header('location: login.php');
       }
     }
+
+    function CheckAvatarIsNullByUserID($profileID) 
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM users WHERE profileID = ?");
+      $stmt->execute([$profileID]);
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+      if($user['pfp']==NULL or $user['pfp']=="")
+      {
+        // nếu người này không có ảnh đại diện thì return 0
+        return 0;
+      }
+      // nếu người này không có ảnh đại diện thì return 1
+      return 1;
+    }
 ?>
