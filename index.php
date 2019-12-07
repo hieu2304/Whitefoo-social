@@ -60,9 +60,9 @@
                                         <div id="post_information_wrapper">
                                             <div class="mini-avatar" id="post_information_left_child">
                                             <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
-                                                <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="width: 80px;">
+                                                <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
                                             <?php else: ?>
-                                                <img src="assets\img\defaultavataruser.png" style="width: 80px;">                                  
+                                                <img src="assets\img\defaultavataruser.png" style="">                                  
                                             <?php endif?>
                                             </div>      
                                              <div id="post_information_center_child">
