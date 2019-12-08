@@ -25,6 +25,8 @@ ob_start();
                     <?php if (!isset($_GET['postid']) && !isset($_GET['page'])) : ?>
                     <?php header('location: index.php');exit;?>
                     <?php else : 
+                        echo "Tính năng này đã bị chặn lại do vấn đề bảo mật, chỉ cần thay đổi postid là có thể xoá được post của bất kì ai.";
+                        exit;
                         $PostID = $_GET['postid'];
                         $page= $_GET['page'];
                         deletePostByID($PostID);
