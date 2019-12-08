@@ -305,11 +305,11 @@
       return 1;
     }
 
-    function deletePostByID($postID)
+    function deletePost_By_profileID_postID($profileID,$postID)
     {
       global $db;
-      $stmt = $db->prepare("DELETE FROM posts WHERE postID = ?");
-      $stmt->execute([$postID]);
+      $stmt = $db->prepare("DELETE FROM posts WHERE profileID = ? AND postID = ?");
+      $stmt->execute([$profileID,$postID]);
       return 0;
     }
 ?>

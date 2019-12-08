@@ -88,7 +88,7 @@
                                 <div id="break_space_between_posts"></div>
                                 <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
                                     <div class="card-body">
-                                        <?php if($currentUser['profileID'] == $post['profileID']): ?>
+                                    <?php if($currentUser['profileID'] == $post['profileID'] and $_SESSION['profileID']==$post['profileID']): ?>
                                         <div class="no-class-requirement">
                                             <button id="btn_del_post_<?php echo $post['postID']; ?>" type="button" style="float:right;background-color:transparent;font-size:20px;">
                                                 <a href= <?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>  style="color:black;">X</a>
