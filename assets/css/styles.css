@@ -90,7 +90,7 @@
 #post_img
 {
 	object-fit: cover;
-	width: 220px;
+	width: 35%;
 	height: auto;
 	margin: auto;
 	float:left;
