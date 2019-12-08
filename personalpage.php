@@ -88,10 +88,10 @@
                             <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
                                 <div class="card-body">
                                     <?php if($currentUser['profileID']==$post['profileID']){ ?>
-                                    <div class="post_information_button_del">                                   
+                                    <div class="no-class-requirement">
                                         <button id="btn_del_post_<?php echo $post['postID']; ?>" type="button" style="float:right;background-color:transparent;font-size:20px;">
-                                            <a href= <?php echo "DeletePost.php?PostID=". $post['postID']."&page=personal";?>>X</a>
-                                        </button>                              
+                                            <a href= <?php echo "DeletePost.php?PostID=". $post['postID']."&page=main";?>  style="color:black;">X</a>
+                                        </button>                                                                                                   
                                     </div>
                                     <?php }?>
                                         <div id="post_information_wrapper">
