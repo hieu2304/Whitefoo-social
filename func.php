@@ -304,4 +304,12 @@
       // nếu người này không có ảnh đại diện thì return 1
       return 1;
     }
+
+    function DeletePost_PostID($postID)
+    {
+      global $db;
+      $stmt = $db->prepare("DELETE FROM posts WHERE postID = ?");
+      $stmt->execute([$postID]);
+      return 0;
+    }
 ?>

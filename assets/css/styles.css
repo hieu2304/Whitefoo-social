@@ -54,15 +54,26 @@
 
 #post_information_center_child
 {
-	width: auto;
+	width: 90%;
 	height: 90px;
 	float: left;
 	line-height: 10px;
 }
 
+.post_information_button_del
+{
+	/* align-self: right; */
+	/* border-color:transparent ;
+	background-color:transparent; */
+	width: auto;
+	height: 30px;
+	float: auto;
+	line-height: 30px;
+}
+
 #post_information_wrapper
 {
-	width: auto;
+	width: 100%;
 	height: 100px;
 	margin: auto;
 	line-height: auto;
