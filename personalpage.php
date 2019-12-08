@@ -44,6 +44,7 @@
                                 <h1><?php echo $currentUser["username"] ?></h1>
                                 <p>Tên đầy đủ: <?php echo ($currentUser["fullname"] != "" || $currentUser["fullname"]) != null ? $currentUser["fullname"] : "Chưa có"; ?></p>
                                 <p>Số điện thoại: <?php echo ($currentUser["mobilenumber"] != "" || $currentUser["mobilenumber"]) != null ? $currentUser["mobilenumber"] : "Chưa có"; ?></p>
+                                <p>Email: <?php echo ($currentUser["email"] != "" || $currentUser["email"]) != null ? $currentUser["email"] : "Chưa có"; ?></p>
                                 <button class="btn btn-light btn-lg action-button" type="button" id="postButton">Tạo bài viết</button></div>
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                 <div class="center-avatar">
@@ -138,6 +139,7 @@
                                     <h1><?php echo $user["username"]; ?></h1>
                                     <p>Tên đầy đủ: <?php echo ($user["fullname"] != "" || $user["fullname"]) != null ? $user["fullname"] : "Chưa có"; ?></p>
                                     <p>Số điện thoại: <?php echo ($user["mobilenumber"] != "" || $user["mobilenumber"]) != null ? $user["mobilenumber"] : "Chưa có"; ?></p>
+                                    <p style="">Email: <a href="mailto:<?php echo $user["email"];?>" style="color:white;" ><?php echo $user["email"];?></a></p>
                                     <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='post.php'">Kết bạn</button></div>
                                 <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                     <div class="center-avatar">
