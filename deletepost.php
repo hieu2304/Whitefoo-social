@@ -25,7 +25,7 @@ ob_start();
                     <?php if (!isset($_GET['postid']) && !isset($_GET['page'])) : ?>
                     <?php header('location: index.php');exit;?>
                     <?php else :
-                        if (isset($_SESSION['profileID'])):                     
+                        if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']):                     
                             $PostID = $_GET['postid'];
                             $page= $_GET['page'];
                             deletePost_By_profileID_postID($_SESSION['profileID'],$PostID);
