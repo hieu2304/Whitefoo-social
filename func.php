@@ -157,14 +157,14 @@
     function getNewFeeds()
     {
       global $db;
-      $stmt = $db->query("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID");
+      $stmt = $db->query("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID ORDER BY p.createdAt desc");
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function getNewFeedsByProfileID($profileID)
     {
       global $db;
-      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ?");
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.createdAt desc");
       $stmt->execute([$profileID]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
