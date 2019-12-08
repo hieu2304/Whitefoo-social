@@ -1,6 +1,6 @@
 <?php
     require_once('init.php');
-    $posts = getNewFeeds();
+    //getNewFeedsPaginate moved to line 56
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,6 +53,7 @@
                         </div>
                     </div>
                     <div class="row" id="newfeed" style="margin-top: 200px; font-family: 'Roboto', sans-serif;">
+                        <?php $posts = getNewFeedsPaginate(1, 10); //Page 1, limited 10 posts per page ?>
                         <?php foreach ($posts as $post): ?>
                             <div class="col-sm-12">
                                 <div id="break_space_between_posts"></div>
