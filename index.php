@@ -21,80 +21,82 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
-            <?php if (!isset($_SESSION['profileID'])) : ?>
-                <div class="container hero">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
-                            <h1>ĐĂNG KÝ NGAY</h1>
-                            <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='register.php'">Đăng Ký Ngay</button></div>
-                        <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
-                            <div class="center-img">
-                                <img src="assets\img\fox-1284512_1920.jpg">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php else : ?>
-                <div class="container hero">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
-                            <h1>Xin chào, <?php echo ($currentUser["fullname"] != "" || $currentUser["fullname"]) != null ? $currentUser["fullname"] : $currentUser["username"] ?></h1>
-                            <button class="btn btn-light btn-lg action-button" type="button" onClick="document.getElementById('newfeed').scrollIntoView();">Xem các bài viết</button></div>
-                        <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
-                            <div class="center-avatar">
-                                <?php if (isset($currentUser['pfp'])): ?>
-                                    <img src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
-                                <?php else: ?>
-                                    <img src="assets\img\defaultavataruser.png">
-                                <?php endif?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" id="newfeed" style="margin-top: 200px; font-family: 'Roboto', sans-serif;">
-                    <?php foreach ($posts as $post): ?>
-                        <div class="col-sm-12">
-                            <div id="break_space_between_posts"></div>
-                            <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
-                                <div class="card-body">                   
-                                    <?php if($currentUser['profileID']==$post['profileID']){ ?>
-                                    <div class="no-class-requirement">
-                                        <button id="btn_del_post_<?php echo $post['postID']; ?>" type="button" style="float:right;background-color:transparent;font-size:20px;">
-                                            <a href= <?php echo "DeletePost.php?PostID=". $post['postID']."&page=main";?>  style="color:black;">X</a>
-                                        </button>                                                                                                   
-                                    </div>
-                                    <?php }?>
-                                    <div id="post_information_wrapper">
-                                        <div class="mini-avatar" id="post_information_left_child">
-                                            <?php if (CheckAvatarIsNullByUserID($post['profileID'])==1): ?>
-                                                <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
-                                            <?php else: ?>
-                                                <img src="assets\img\defaultavataruser.png" style="">                                  
-                                            <?php endif?>
-                                        </div>      
-                                        <div id="post_information_center_child">
-                                            <?php echo "<br>";?>
-                                            <h5 class="card-title">
-                                                <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
-                                            </h5>
-                                            <p class="card-text">&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>  
-                                        </div>                                                                                                        
-                                    </div>
-                                        <div id="post_content">                              
-                                            <p class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
-                                        </div>                                       
-                                        <div id="post_img">             
-                                            <?php if (!empty($post['image'])): ?>
-                                                <div id="break_space_between_posts"></div>
-                                                <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="..." style="">
-                                            <?php endif?>
-                                        </div>
+            <div id="content">
+                <?php if (!isset($_SESSION['profileID'])) : ?>
+                    <div class="container hero">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
+                                <h1>ĐĂNG KÝ NGAY</h1>
+                                <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='register.php'">Đăng Ký Ngay</button></div>
+                            <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
+                                <div class="center-img">
+                                    <img src="assets\img\fox-1284512_1920.jpg">
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach ?>
-                </div>
-            <?php endif ?> 
+                    </div>
+                <?php else : ?>
+                    <div class="container hero">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
+                                <h1>Xin chào, <?php echo ($currentUser["fullname"] != "" || $currentUser["fullname"]) != null ? $currentUser["fullname"] : $currentUser["username"] ?></h1>
+                                <button class="btn btn-light btn-lg action-button" type="button" onClick="document.getElementById('newfeed').scrollIntoView();">Xem các bài viết</button></div>
+                            <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
+                                <div class="center-avatar">
+                                    <?php if (isset($currentUser['pfp'])): ?>
+                                        <img src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                    <?php else: ?>
+                                        <img src="assets\img\defaultavataruser.png">
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="newfeed" style="margin-top: 200px; font-family: 'Roboto', sans-serif;">
+                        <?php foreach ($posts as $post): ?>
+                            <div class="col-sm-12">
+                                <div id="break_space_between_posts"></div>
+                                <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
+                                    <div class="card-body">                   
+                                        <?php if($currentUser['profileID']==$post['profileID']){ ?>
+                                        <div class="no-class-requirement">
+                                            <button id="btn_del_post_<?php echo $post['postID']; ?>" type="button" style="float:right;background-color:transparent;font-size:20px;">
+                                                <a href= <?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>  style="color:black;">X</a>
+                                            </button>                                                                                                   
+                                        </div>
+                                        <?php }?>
+                                        <div id="post_information_wrapper">
+                                            <div class="mini-avatar" id="post_information_left_child">
+                                                <?php if (isset($post["pfp"])): ?>
+                                                    <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
+                                                <?php else: ?>
+                                                    <img src="assets\img\defaultavataruser.png" style="">                                  
+                                                <?php endif?>
+                                            </div>      
+                                            <div id="post_information_center_child">
+                                                <?php echo "<br>";?>
+                                                <h5 class="card-title">
+                                                    <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
+                                                </h5>
+                                                <p class="card-text">&nbsp<small class="card-subtitle mb-2 text-muted"><?php echo $post['createdAt'];?></small></p>  
+                                            </div>                                                                                                        
+                                        </div>
+                                            <div id="post_content">                              
+                                                <p class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
+                                            </div>                                       
+                                            <div id="post_img">             
+                                                <?php if (!empty($post['image'])): ?>
+                                                    <div id="break_space_between_posts"></div>
+                                                    <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>" style="">
+                                                <?php endif?>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif ?> 
+            </div>
         </div>
     </div>
     <?php include '_footer.php'; ?>

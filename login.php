@@ -18,38 +18,40 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
-            <div class="card bg-transparent border-0 text-light">
-            <?php if (!isset($_SESSION['profileID'])) : ?>
-                <article class="card-body mx-auto" style="max-width: 450px;">
-                    <h4 class="card-title mt-3 text-center">Đăng Nhập</h4>
-                    <form method="post" action="login.php">
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-                            </div>
-                            <input name="email" class="form-control" placeholder="Địa chỉ Email" type="email">
-                        </div> <!-- form-group -->
-                        
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                            </div>
-                            <input name="password" class="form-control" placeholder="Mật khẩu" type="password">
-                        </div> <!-- form-group -->
-                        
-                        <?php include('info.php'); ?>
-                        <?php include('errors.php'); ?>
-                        
-                        <div class="form-group">
-                            <button name="login_user" type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
-                        </div> <!-- form-group -->
-                        <p class="text-center"><a href="passwordforgot.php">Bạn đã quên mật khẩu?</a></p>
-                        <p class="text-center">Chưa có tài khoản? <a href="register.php">Đăng Ký</a> </p>
-                    </form>
-                </article>
-            <?php else : ?>
-                <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để đăng nhập lại.</p>
-            <?php endif ?>
+            <div id="content">
+                <div class="card bg-transparent border-0 text-light">
+                    <?php if (!isset($_SESSION['profileID'])) : ?>
+                        <article class="card-body mx-auto" style="max-width: 450px;">
+                            <h4 class="card-title mt-3 text-center">Đăng Nhập</h4>
+                            <form method="post" action="login.php">
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                                    </div>
+                                    <input name="email" class="form-control" placeholder="Địa chỉ Email" type="email">
+                                </div> <!-- form-group -->
+                                
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                    </div>
+                                    <input name="password" class="form-control" placeholder="Mật khẩu" type="password">
+                                </div> <!-- form-group -->
+                                
+                                <?php include('info.php'); ?>
+                                <?php include('errors.php'); ?>
+                                
+                                <div class="form-group">
+                                    <button name="login_user" type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
+                                </div> <!-- form-group -->
+                                <p class="text-center"><a href="passwordforgot.php">Bạn đã quên mật khẩu?</a></p>
+                                <p class="text-center">Chưa có tài khoản? <a href="register.php">Đăng Ký</a> </p>
+                            </form>
+                        </article>
+                    <?php else : ?>
+                        <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để đăng nhập lại.</p>
+                    <?php endif ?>
+                </div>
             </div>
         </div>
     </div>

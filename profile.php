@@ -18,52 +18,54 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
-            <div class="card bg-transparent border-0 text-light">
-            <?php if (isset($_SESSION['profileID'])) : ?>
-                <article class="card-body mx-auto" style="max-width: 450px;">
-                    <h4 class="card-title mt-3 text-center">Cập Nhật Thông Tin Cá Nhân</h4>
-                    <form method="post" action="profile.php" enctype="multipart/form-data">
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                            </div>
-                            <input name="username" class="form-control" placeholder="Tên người dùng" type="name" value="<?php echo $currentUser['username'] ?>">
-                        </div> <!-- form-group -->
-                        
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                            </div>
-                            <input name="fullname" class="form-control" placeholder="Họ tên" type="name" value="<?php echo $currentUser['fullname'] ?>">
-                        </div> <!-- form-group -->
+            <div id="content">
+                <div class="card bg-transparent border-0 text-light">
+                    <?php if (isset($_SESSION['profileID'])) : ?>
+                        <article class="card-body mx-auto" style="max-width: 450px;">
+                            <h4 class="card-title mt-3 text-center">Cập Nhật Thông Tin Cá Nhân</h4>
+                            <form method="post" action="profile.php" enctype="multipart/form-data">
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                    </div>
+                                    <input name="username" class="form-control" placeholder="Tên người dùng" type="name" value="<?php echo $currentUser['username'] ?>">
+                                </div> <!-- form-group -->
+                                
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                    </div>
+                                    <input name="fullname" class="form-control" placeholder="Họ tên" type="name" value="<?php echo $currentUser['fullname'] ?>">
+                                </div> <!-- form-group -->
 
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-                            </div>
-                            <input name="mobilenumber" class="form-control" placeholder="Số điện thoại" type="mobilenumber" value="<?php echo $currentUser['mobilenumber'] ?>">
-                        </div> <!-- form-group -->
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                                    </div>
+                                    <input name="mobilenumber" class="form-control" placeholder="Số điện thoại" type="mobilenumber" value="<?php echo $currentUser['mobilenumber'] ?>">
+                                </div> <!-- form-group -->
 
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-upload"></i> </span>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" name="uploadpfp" class="custom-file-input" id="customFile" accept="image/*">
-                                <label class="custom-file-label" for="customFile">Ảnh đại diện</label>
-                            </div> <!-- form-group -->
-                        </div>
-                        
-                        <?php include('errors.php'); ?>
-                        
-                        <div class="form-group">
-                            <button name="update_user_profile" type="submit" class="btn btn-primary btn-block">Cập Nhật Thông Tin</button>
-                        </div> <!-- form-group -->
-                    </form>
-                </article>
-            <?php else : ?>
-                <p class="text-center">Bạn chưa đăng nhập, hãy <a href="login.php">Đăng Nhập</a> để xem thông tin cá nhân.</p>
-            <?php endif ?>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-upload"></i> </span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" name="uploadpfp" class="custom-file-input" id="customFile" accept="image/*">
+                                        <label class="custom-file-label" for="customFile">Ảnh đại diện</label>
+                                    </div> <!-- form-group -->
+                                </div>
+                                
+                                <?php include('errors.php'); ?>
+                                
+                                <div class="form-group">
+                                    <button name="update_user_profile" type="submit" class="btn btn-primary btn-block">Cập Nhật Thông Tin</button>
+                                </div> <!-- form-group -->
+                            </form>
+                        </article>
+                    <?php else : ?>
+                        <p class="text-center">Bạn chưa đăng nhập, hãy <a href="login.php">Đăng Nhập</a> để xem thông tin cá nhân.</p>
+                    <?php endif ?>
+                </div>
             </div>
         </div>
     </div>

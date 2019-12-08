@@ -305,7 +305,7 @@
       return 1;
     }
 
-    function DeletePost_PostID($postID)
+    function deletePostByID($postID)
     {
       global $db;
       $stmt = $db->prepare("DELETE FROM posts WHERE postID = ?");

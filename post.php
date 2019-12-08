@@ -18,33 +18,35 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
-            <div class="card bg-transparent border-0 text-light">
-            <?php if (isset($_SESSION['profileID'])) : ?>
-                <article class="card-body mx-auto" style="width: 50%; max-width: 850px;">
-                    <h4 class="card-title mt-3 text-center">Đăng Trạng Thái</h4>
-                    <form method="post" action="post.php" enctype="multipart/form-data">
-                        <div class="form-group input-group">
-                            <textarea name="content" class="form-control" placeholder="Trạng thái..." rows="5"></textarea>
-                        </div> <!-- form-group -->
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-upload"></i> </span>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" name="postimg" class="custom-file-input" id="customFile" accept="image/*">
-                                <label class="custom-file-label" for="customFile">Hình ảnh</label>
-                            </div> <!-- form-group -->
-                        </div>
-                        <?php include('errors.php'); ?>
-                        
-                        <div class="form-group">
-                            <button name="post_the_status" type="submit" class="btn btn-primary btn-block">Đăng</button>
-                        </div> <!-- form-group -->
-                    </form>
-                </article>
-            <?php else : ?>
-                <p class="text-center">Bạn chưa đăng nhập, hãy <a href="login.php">Đăng Nhập</a> để có thể đăng trạng thái.</p>
-            <?php endif ?>
+            <div id="content">
+                <div class="card bg-transparent border-0 text-light">
+                    <?php if (isset($_SESSION['profileID'])) : ?>
+                        <article class="card-body mx-auto" style="width: 50%; max-width: 850px;">
+                            <h4 class="card-title mt-3 text-center">Đăng Trạng Thái</h4>
+                            <form method="post" action="post.php" enctype="multipart/form-data">
+                                <div class="form-group input-group">
+                                    <textarea name="content" class="form-control" placeholder="Trạng thái..." rows="5"></textarea>
+                                </div> <!-- form-group -->
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-upload"></i> </span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" name="postimg" class="custom-file-input" id="customFile" accept="image/*">
+                                        <label class="custom-file-label" for="customFile">Hình ảnh</label>
+                                    </div> <!-- form-group -->
+                                </div>
+                                <?php include('errors.php'); ?>
+                                
+                                <div class="form-group">
+                                    <button name="post_the_status" type="submit" class="btn btn-primary btn-block">Đăng</button>
+                                </div> <!-- form-group -->
+                            </form>
+                        </article>
+                    <?php else : ?>
+                        <p class="text-center">Bạn chưa đăng nhập, hãy <a href="login.php">Đăng Nhập</a> để có thể đăng trạng thái.</p>
+                    <?php endif ?>
+                </div>
             </div>
         </div>
     </div>
