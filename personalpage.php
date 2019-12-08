@@ -88,19 +88,19 @@
                                 <div id="break_space_between_posts"></div>
                                 <div class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
                                     <div class="card-body">
-                                        <?php if($currentUser['profileID']==$post['profileID']){ ?>
+                                        <?php if($currentUser['profileID'] == $post['profileID']): ?>
                                         <div class="no-class-requirement">
                                             <button id="btn_del_post_<?php echo $post['postID']; ?>" type="button" style="float:right;background-color:transparent;font-size:20px;">
                                                 <a href= <?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>  style="color:black;">X</a>
                                             </button>                                                                                                   
                                         </div>
-                                        <?php }?>
+                                        <?php endif ?>
                                             <div id="post_information_wrapper">
                                                 <div class="mini-avatar" id="post_information_left_child">
                                                 <?php if (isset($post["pfp"])): ?>
-                                                    <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
+                                                    <img src="profilepfp.php?id=<?php echo $post['profileID'];?>">
                                                 <?php else: ?>
-                                                    <img src="assets\img\defaultavataruser.png" style="">                                  
+                                                    <img src="assets\img\defaultavataruser.png">                                  
                                                 <?php endif?>
                                                 </div>      
                                                 <div id="post_information_center_child">
@@ -118,7 +118,7 @@
                                             <div id="post_img">             
                                                 <?php if (!empty($post['image'])): ?>
                                                     <div id="break_space_between_posts"></div>
-                                                    <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>" style="">
+                                                    <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
                                                 <?php endif?>
                                             </div>
                                         <?php endif?>
@@ -140,7 +140,7 @@
                                         <h1><?php echo $user["username"]; ?></h1>
                                         <p>Tên đầy đủ: <?php echo ($user["fullname"] != "" || $user["fullname"]) != null ? $user["fullname"] : "Chưa có"; ?></p>
                                         <p>Số điện thoại: <?php echo ($user["mobilenumber"] != "" || $user["mobilenumber"]) != null ? $user["mobilenumber"] : "Chưa có"; ?></p>
-                                        <p style="">Email: <a href="mailto:<?php echo $user["email"];?>" style="color:white;" ><?php echo $user["email"];?></a></p>
+                                        <p>Email: <a href="mailto:<?php echo $user["email"];?>" style="color:white;" ><?php echo $user["email"];?></a></p>
                                         <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='post.php'">Kết bạn</button></div>
                                     <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                         <div class="center-avatar">
@@ -163,9 +163,9 @@
                                             <div id="post_information_wrapper">
                                                 <div class="mini-avatar" id="post_information_left_child">
                                                 <?php if (isset($post["pfp"])): ?>
-                                                    <img src="profilepfp.php?id= <?php echo $post['profileID'];?>" style="">
+                                                    <img src="profilepfp.php?id=<?php echo $post['profileID'];?>">
                                                 <?php else: ?>
-                                                    <img src="assets\img\defaultavataruser.png" style="">                                  
+                                                    <img src="assets\img\defaultavataruser.png">                                  
                                                 <?php endif?>
                                                 </div>      
                                                 <div id="post_information_center_child">
@@ -183,7 +183,7 @@
                                             <div id="post_img">             
                                                 <?php if (!empty($post['image'])): ?>
                                                     <div id="break_space_between_posts"></div>
-                                                    <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>" style="">
+                                                    <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
                                                 <?php endif?>
                                             </div>
                                         <?php endif?>
