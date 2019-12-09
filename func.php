@@ -56,10 +56,24 @@
       return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    function findUserByName($name) {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM users WHERE username LIKE ? OR fullname LIKE ?");
+      $stmt->execute(['%'.$name.'%', '%'.$name.'%']);
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     function findPostByID($postID) {
       global $db;
       $stmt = $db->prepare("SELECT * FROM posts WHERE postID = ?");
       $stmt->execute([$postID]);
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function findPostByContent($content) {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM posts WHERE content LIKE ?");
+      $stmt->execute(['%'. $content .'%']);
       return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -99,7 +113,7 @@
 
     function upload_image($file)
     {
-      global $errors, $target_upload_image_dir;
+      global $errors;
       $uploadable = false;
       $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
       if ($file["size"] > 2097152) {
@@ -161,12 +175,12 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function getNewFeedsPaginate($pageNum = 1, $postLimit = 10)
+    function getNewFeedsPaginate($offset = 0, $postLimit = 10)
     {
       global $db;
-      //$offset = ($pageNum - 1) * $postLimit;
-      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID ORDER BY p.createdAt DESC LIMIT $pageNum, $postLimit");
-      $stmt->execute();
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID ORDER BY p.createdAt DESC LIMIT ?, ?");
+      $stmt->execute([$offset, $postLimit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -178,12 +192,12 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function getNewFeedsByProfileIDPaginate($profileID, $pageNum = 1, $postLimit = 10)
+    function getNewFeedsByProfileIDPaginate($profileID, $offset = 0, $postLimit = 10)
     {
       global $db;
-      //$offset = ($pageNum - 1) * $postLimit;
-      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.createdAt DESC LIMIT $pageNum, $postLimit");
-      $stmt->execute([$profileID]);
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.createdAt DESC LIMIT ?, ?");
+      $stmt->execute([$profileID, $offset, $postLimit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

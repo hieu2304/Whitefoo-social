@@ -29,7 +29,7 @@ $(document).ready(function() {
     }
 
     $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() > $(document).height() && action == 'inactive')
+        if($(window).scrollTop() + $(window).height() > $('#content').height() && action == 'inactive')
         {
             action = 'active';
             start = start + limit;
