@@ -203,7 +203,6 @@
     </div>
     <?php include '_footer.php'; ?>
     <script src="assets/js/modal.js"></script>
-    <script src="assets/js/content.js"></script>
     <script>
         $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();
