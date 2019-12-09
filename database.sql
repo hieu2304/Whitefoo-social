@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2019 at 03:48 PM
+-- Generation Time: Dec 09, 2019 at 01:32 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -25,6 +25,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `friends`
+--
+
+CREATE TABLE `friends` (
+  `id` int(11) NOT NULL,
+  `userone` int(11) NOT NULL,
+  `usertwo` int(11) NOT NULL,
+  `addedTime` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `to_user` int(11) NOT NULL,
+  `from_user` int(11) NOT NULL,
+  `node_type` varchar(32) COLLATE utf8mb4_vietnamese_ci NOT NULL COMMENT 'dạng thông báo (post, comment, friend request, react, message...)',
+  `node_url` varchar(255) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `message` text COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `time` datetime NOT NULL DEFAULT current_timestamp(),
+  `seen` enum('0','1') COLLATE utf8mb4_vietnamese_ci NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts`
 --
 
@@ -33,8 +63,8 @@ CREATE TABLE `posts` (
   `content` text COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `profileID` int(11) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
-  `image` longblob DEFAULT NULL,
-  `imagetype` varchar(10) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
+  `image` longblob NOT NULL,
+  `imagetype` varchar(10) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -45,13 +75,13 @@ CREATE TABLE `posts` (
 
 CREATE TABLE `users` (
   `profileID` int(11) NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `email` varchar(100) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `password` varchar(200) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `fullname` varchar(100) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `password` varchar(128) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `fullname` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `mobilenumber` varchar(20) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `pfp` longblob DEFAULT NULL,
-  `pfptype` varchar(10) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `pfptype` varchar(10) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `code` varchar(32) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
@@ -59,6 +89,18 @@ CREATE TABLE `users` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `friends`
+--
+ALTER TABLE `friends`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `posts`
@@ -75,6 +117,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posts`

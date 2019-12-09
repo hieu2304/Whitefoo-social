@@ -87,7 +87,7 @@
 	float:left;
 }
 
-#post_img
+#post_img img
 {
 	object-fit: cover;
 	width: 35%;

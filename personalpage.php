@@ -31,7 +31,7 @@
                                 <div
                                     class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
                                     <div class="center-img">
-                                        <img src="assets\img\fox-1284512_1920.jpg">
+                                        <img class="lazy" data-src="assets\img\fox-1284512_1920.jpg">
                                     </div>
                                 </div>
                             </div>
@@ -49,9 +49,9 @@
                                 <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                     <div class="center-avatar">
                                         <?php if (isset($currentUser['pfp'])): ?>
-                                            <img src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                            <img class="lazy" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
                                         <?php else: ?>
-                                            <img src="assets\img\defaultavataruser.png">
+                                            <img class="lazy" data-src="assets\img\defaultavataruser.png">
                                         <?php endif?>
                                     </div>
                                 </div>
@@ -98,9 +98,9 @@
                                                     <div id="post_information_wrapper">
                                                         <div class="mini-avatar" id="post_information_left_child">
                                                         <?php if (isset($post["pfp"])): ?>
-                                                            <img src="profilepfp.php?id=<?php echo $post['profileID'];?>">
+                                                            <img class="lazy" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
                                                         <?php else: ?>
-                                                            <img src="assets\img\defaultavataruser.png">                                  
+                                                            <img class="lazy" data-src="assets\img\defaultavataruser.png">                                  
                                                         <?php endif?>
                                                         </div>      
                                                         <div id="post_information_center_child">
@@ -118,7 +118,7 @@
                                                     <div id="post_img">             
                                                         <?php if (!empty($post['image'])): ?>
                                                             <div id="break_space_between_posts"></div>
-                                                            <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+                                                            <img class="lazy" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
                                                         <?php endif?>
                                                     </div>
                                                 <?php endif?>
@@ -146,9 +146,9 @@
                                     <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                         <div class="center-avatar">
                                             <?php if (isset($user['pfp'])): ?>
-                                                <img src="profilepfp.php?id=<?php echo $user['profileID']; ?>">
+                                                <img class="lazy" data-src="profilepfp.php?id=<?php echo $user['profileID']; ?>">
                                             <?php else: ?>
-                                                <img src="assets\img\defaultavataruser.png">
+                                                <img class="lazy" data-src="assets\img\defaultavataruser.png">
                                             <?php endif?>
                                         </div>
                                     </div>
@@ -165,9 +165,9 @@
                                                         <div id="post_information_wrapper">
                                                             <div class="mini-avatar" id="post_information_left_child">
                                                             <?php if (isset($post["pfp"])): ?>
-                                                                <img src="profilepfp.php?id=<?php echo $post['profileID'];?>">
+                                                                <img class="lazy" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
                                                             <?php else: ?>
-                                                                <img src="assets\img\defaultavataruser.png">                                  
+                                                                <img class="lazy" data-src="assets\img\defaultavataruser.png">                                  
                                                             <?php endif?>
                                                             </div>      
                                                             <div id="post_information_center_child">
@@ -185,7 +185,7 @@
                                                         <div id="post_img">             
                                                             <?php if (!empty($post['image'])): ?>
                                                                 <div id="break_space_between_posts"></div>
-                                                                <img src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+                                                                <img class="lazy" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
                                                             <?php endif?>
                                                         </div>
                                                     <?php endif?>

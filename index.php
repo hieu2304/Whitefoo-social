@@ -30,7 +30,7 @@
                                 <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='register.php'">Đăng Ký Ngay</button></div>
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
                                 <div class="center-img">
-                                    <img src="assets\img\fox-1284512_1920.jpg">
+                                    <img class="lazy" data-src="assets\img\fox-1284512_1920.jpg">
                                 </div>
                             </div>
                         </div>
@@ -44,9 +44,9 @@
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                 <div class="center-avatar">
                                     <?php if (isset($currentUser['pfp'])): ?>
-                                        <img src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                        <img class="lazy" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
                                     <?php else: ?>
-                                        <img src="assets\img\defaultavataruser.png">
+                                        <img class="lazy" data-src="assets\img\defaultavataruser.png">
                                     <?php endif?>
                                 </div>
                             </div>
