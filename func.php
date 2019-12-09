@@ -60,7 +60,7 @@
       global $db;
       $stmt = $db->prepare("SELECT * FROM users WHERE username LIKE ? OR fullname LIKE ?");
       $stmt->execute(['%'.$name.'%', '%'.$name.'%']);
-      return $stmt->fetch(PDO::FETCH_ASSOC);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function findPostByID($postID) {
@@ -74,7 +74,7 @@
       global $db;
       $stmt = $db->prepare("SELECT * FROM posts WHERE content LIKE ?");
       $stmt->execute(['%'. $content .'%']);
-      return $stmt->fetch(PDO::FETCH_ASSOC);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function change_password($old_password, $password, $password_retype)
