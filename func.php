@@ -56,11 +56,25 @@
       return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    function findUserByName($name) {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM users WHERE username LIKE ? OR fullname LIKE ?");
+      $stmt->execute(['%'.$name.'%', '%'.$name.'%']);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function findPostByID($postID) {
       global $db;
       $stmt = $db->prepare("SELECT * FROM posts WHERE postID = ?");
       $stmt->execute([$postID]);
       return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function findPostByContent($content) {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM posts WHERE content LIKE ?");
+      $stmt->execute(['%'. $content .'%']);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function change_password($old_password, $password, $password_retype)
@@ -99,7 +113,7 @@
 
     function upload_image($file)
     {
-      global $errors, $target_upload_image_dir;
+      global $errors;
       $uploadable = false;
       $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
       if ($file["size"] > 2097152) {
@@ -157,15 +171,33 @@
     function getNewFeeds()
     {
       global $db;
-      $stmt = $db->query("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID");
+      $stmt = $db->query("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID ORDER BY p.createdAt DESC");
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getNewFeedsPaginate($offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID ORDER BY p.createdAt DESC LIMIT ?, ?");
+      $stmt->execute([$offset, $postLimit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function getNewFeedsByProfileID($profileID)
     {
       global $db;
-      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ?");
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.createdAt DESC");
       $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getNewFeedsByProfileIDPaginate($profileID, $offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.createdAt DESC LIMIT ?, ?");
+      $stmt->execute([$profileID, $offset, $postLimit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -288,5 +320,43 @@
         $stmt->execute([$password, '', 1, $profileID]);
         header('location: login.php');
       }
+    }
+
+    function CheckAvatarIsNullByUserID($profileID) 
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM users WHERE profileID = ?");
+      $stmt->execute([$profileID]);
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+      if($user['pfp']==NULL or $user['pfp']=="")
+      {
+        // nếu người này không có ảnh đại diện thì return 0
+        return 0;
+      }
+      // nếu người này không có ảnh đại diện thì return 1
+      return 1;
+    }
+
+    function deletePost_By_profileID_postID($profileID,$postID)
+    {
+      global $db;
+      $stmt = $db->prepare("DELETE FROM posts WHERE profileID = ? AND postID = ?");
+      $stmt->execute([$profileID,$postID]);
+      return 0;
+    }
+
+    function sendFriendRequest($profileID1, $profileID2)
+    {
+    	global $db;
+    	$stmt = $db->prepare("INSERT INTO friends (userone, usertwo, status) VALUE(?, ?, 0)");
+    	$stmt->execute([$profileID1,$profileID2]);
+    }
+
+    function getFriendRequest($profileID1, $profileID2)
+    {
+    	global $db;
+    	$stmt = $db-> prepare("SELECT * FROM friends WHERE userone = ? AND usertwo = ? ");
+    	$stmt->execute([$profileID1,$profileID2]);
+    	return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 ?>

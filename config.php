@@ -11,4 +11,4 @@ $EMAIL_NAME     = 'BTCN09 - Email';
 $EMAIL_PASSWORD = '123';
 
 // Base url config
-$BASE_URL = 'http://localhost/BTCN09';
+$BASE_URL = 'http://localhost/1760103/web/';

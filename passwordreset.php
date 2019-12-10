@@ -18,62 +18,64 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
-            <div class="card bg-transparent border-0 text-light">
-            <?php if (!isset($_SESSION['profileID'])) : ?>
-                <article class="card-body mx-auto" style="max-width: 450px;">
-                    <h4 class="card-title mt-3 text-center">Đặt Lại Mật Khẩu</h4>
-                    <?php if (!isset($_GET['code'])) : ?>
-                        <form method="get" action="passwordreset.php">
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"> <i class="fa fa-key"></i> </span>
-                                </div>
-                                <input name="code" class="form-control" placeholder="Mã xác nhận" type="code">
-                            </div> <!-- form-group -->
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block">Xác Nhận</button>
-                            </div> <!-- form-group -->
-                        </form>
-                    <?php else : ?>
-                        <?php
-                            //VERIFY RESET PASSWORD CODE
-                            $code = $_GET['code'];
-                            $profileID = verifyResetPassword($code);
-                            $_SESSION['resetPasswordID'] = $profileID;
-                        ?>
-                        <?php if ($profileID > 0): ?>
-                            <form method="post" action="passwordreset.php?code=<?php echo $code; ?>">
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                                    </div>
-                                    <input name="password" class="form-control" placeholder="Mật khẩu mới" type="password">
-                                </div> <!-- form-group -->
+            <div id="content">
+                <div class="card bg-transparent border-0 text-light">
+                    <?php if (!isset($_SESSION['profileID'])) : ?>
+                        <article class="card-body mx-auto" style="max-width: 450px;">
+                            <h4 class="card-title mt-3 text-center">Đặt Lại Mật Khẩu</h4>
+                            <?php if (!isset($_GET['code'])) : ?>
+                                <form method="get" action="passwordreset.php">
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-key"></i> </span>
+                                        </div>
+                                        <input name="code" class="form-control" placeholder="Mã xác nhận" type="code">
+                                    </div> <!-- form-group -->
+                                    
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">Xác Nhận</button>
+                                    </div> <!-- form-group -->
+                                </form>
+                            <?php else : ?>
+                                <?php
+                                    //VERIFY RESET PASSWORD CODE
+                                    $code = $_GET['code'];
+                                    $profileID = verifyResetPassword($code);
+                                    $_SESSION['resetPasswordID'] = $profileID;
+                                ?>
+                                <?php if ($profileID > 0): ?>
+                                    <form method="post" action="passwordreset.php?code=<?php echo $code; ?>">
+                                        <div class="form-group input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                            </div>
+                                            <input name="password" class="form-control" placeholder="Mật khẩu mới" type="password">
+                                        </div> <!-- form-group -->
 
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                            </div>
+                                            <input name="password_retype" class="form-control" placeholder="Xác nhận mật khẩu mới" type="password">
+                                        </div> <!-- form-group -->
+                                        
+                                        <?php include('errors.php'); ?>
+                                        
+                                        <div class="form-group">
+                                            <button name="reset_user_password" type="submit" class="btn btn-primary btn-block">Đổi Mật Khẩu</button>
+                                        </div> <!-- form-group -->
+                                    </form>
+                                <?php else: ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        Mã xác nhận không hợp lệ! <a href="passwordreset.php">Thử lại</a>
                                     </div>
-                                    <input name="password_retype" class="form-control" placeholder="Xác nhận mật khẩu mới" type="password">
-                                </div> <!-- form-group -->
-                                
-                                <?php include('errors.php'); ?>
-                                
-                                <div class="form-group">
-                                    <button name="reset_user_password" type="submit" class="btn btn-primary btn-block">Đổi Mật Khẩu</button>
-                                </div> <!-- form-group -->
-                            </form>
-                        <?php else: ?>
-                            <div class="alert alert-danger" role="alert">
-                                Mã xác nhận không hợp lệ! <a href="passwordreset.php">Thử lại</a>
-                            </div>
-                        <?php endif ?>
+                                <?php endif ?>
+                            <?php endif ?>
+                        </article>
+                    <?php else : ?>
+                        <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để thực hiện chức năng này.</p>
                     <?php endif ?>
-                </article>
-            <?php else : ?>
-                <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để thực hiện chức năng này.</p>
-            <?php endif ?>
+                </div>
             </div>
         </div>
     </div>

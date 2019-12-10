@@ -18,42 +18,44 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
-            <div class="card bg-transparent border-0 text-light">
-            <?php if (isset($_SESSION['profileID'])) : ?>
-                <article class="card-body mx-auto" style="max-width: 450px;">
-                    <h4 class="card-title mt-3 text-center">Đổi Mật Khẩu</h4>
-                    <form method="post" action="password.php">
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                            </div>
-                            <input name="old_passowrd" class="form-control" placeholder="Mật khẩu hiện tại" type="password">
-                        </div> <!-- form-group -->
-                        
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                            </div>
-                            <input name="password" class="form-control" placeholder="Mật khẩu mới" type="password">
-                        </div> <!-- form-group -->
+            <div id="content">
+                <div class="card bg-transparent border-0 text-light">
+                    <?php if (isset($_SESSION['profileID'])) : ?>
+                        <article class="card-body mx-auto" style="max-width: 450px;">
+                            <h4 class="card-title mt-3 text-center">Đổi Mật Khẩu</h4>
+                            <form method="post" action="password.php">
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                    </div>
+                                    <input name="old_passowrd" class="form-control" placeholder="Mật khẩu hiện tại" type="password">
+                                </div> <!-- form-group -->
+                                
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                    </div>
+                                    <input name="password" class="form-control" placeholder="Mật khẩu mới" type="password">
+                                </div> <!-- form-group -->
 
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                            </div>
-                            <input name="password_retype" class="form-control" placeholder="Xác nhận mật khẩu mới" type="password">
-                        </div> <!-- form-group -->
-                        
-                        <?php include('errors.php'); ?>
-                        
-                        <div class="form-group">
-                            <button name="change_user_password" type="submit" class="btn btn-primary btn-block">Đổi Mật Khẩu</button>
-                        </div> <!-- form-group -->
-                    </form>
-                </article>
-            <?php else : ?>
-                <p class="text-center">Bạn chưa đăng nhập, hãy <a href="login.php">Đăng Nhập</a> để có thể đổi mật khẩu.</p>
-            <?php endif ?>
+                                <div class="form-group input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                    </div>
+                                    <input name="password_retype" class="form-control" placeholder="Xác nhận mật khẩu mới" type="password">
+                                </div> <!-- form-group -->
+                                
+                                <?php include('errors.php'); ?>
+                                
+                                <div class="form-group">
+                                    <button name="change_user_password" type="submit" class="btn btn-primary btn-block">Đổi Mật Khẩu</button>
+                                </div> <!-- form-group -->
+                            </form>
+                        </article>
+                    <?php else : ?>
+                        <p class="text-center">Bạn chưa đăng nhập, hãy <a href="login.php">Đăng Nhập</a> để có thể đổi mật khẩu.</p>
+                    <?php endif ?>
+                </div>
             </div>
         </div>
     </div>

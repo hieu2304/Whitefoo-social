@@ -18,44 +18,46 @@
     <div>
         <div class="header-blue">
             <?php include '_nav.php'; ?>
-            <div class="card bg-transparent border-0 text-light">
-            <?php if (!isset($_SESSION['profileID'])) : ?>
-                <article class="card-body mx-auto" style="max-width: 450px;">
-                    <h4 class="card-title mt-3 text-center">Xác Thực Tài Khoản</h4>
-                    <?php if (!isset($_GET['code'])) : ?>
-                        <form method="get" action="verifyuser.php">
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"> <i class="fa fa-key"></i> </span>
-                                </div>
-                                <input name="code" class="form-control" placeholder="Mã xác thực" type="code">
-                            </div> <!-- form-group -->
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block">Xác Nhận</button>
-                            </div> <!-- form-group -->
-                        </form>
+            <div id="content">
+                <div class="card bg-transparent border-0 text-light">
+                    <?php if (!isset($_SESSION['profileID'])) : ?>
+                        <article class="card-body mx-auto" style="max-width: 450px;">
+                            <h4 class="card-title mt-3 text-center">Xác Thực Tài Khoản</h4>
+                            <?php if (!isset($_GET['code'])) : ?>
+                                <form method="get" action="verifyuser.php">
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-key"></i> </span>
+                                        </div>
+                                        <input name="code" class="form-control" placeholder="Mã xác thực" type="code">
+                                    </div> <!-- form-group -->
+                                    
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">Xác Nhận</button>
+                                    </div> <!-- form-group -->
+                                </form>
+                            <?php else : ?>
+                                <?php
+                                    //VERIFY CODE
+                                    $code = $_GET['code'];
+                                    $success = false;
+                                    $success = activateUser($code);
+                                ?>
+                                <?php if ($success): ?>
+                                    <div class="alert alert-success" role="alert">
+                                        Kích hoạt tài khoản thành công! <a href="login.php">Đăng nhập</a>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        Kích hoạt tài khoản thất bại!
+                                    </div>
+                                <?php endif ?>
+                            <?php endif ?>
+                        </article>
                     <?php else : ?>
-                        <?php
-                            //VERIFY CODE
-                            $code = $_GET['code'];
-                            $success = false;
-                            $success = activateUser($code);
-                        ?>
-                        <?php if ($success): ?>
-                            <div class="alert alert-success" role="alert">
-                                Kích hoạt tài khoản thành công! <a href="login.php">Đăng nhập</a>
-                            </div>
-                        <?php else: ?>
-                            <div class="alert alert-danger" role="alert">
-                                Kích hoạt tài khoản thất bại!
-                            </div>
-                        <?php endif ?>
+                    <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để thực hiện chức năng này.</p>
                     <?php endif ?>
-                </article>
-            <?php else : ?>
-            <p class="text-center">Bạn đã đăng nhập, hãy <a href="logout.php?logout=1">Đăng Xuất</a> để thực hiện chức năng này.</p>
-            <?php endif ?>
+                </div>
             </div>
         </div>
     </div>

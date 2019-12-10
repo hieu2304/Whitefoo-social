@@ -16,6 +16,7 @@ session_start();
 
 // Detect page
 $page = detectPage();
+$currentPage = 1;
 
 // initializing variables
 $info = null;
