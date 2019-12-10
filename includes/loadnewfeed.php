@@ -29,9 +29,9 @@
                     <div id="post_information_wrapper">
                         <div class="mini-avatar" id="post_information_left_child">
                             <?php if (isset($post["pfp"])): ?>
-                                <img class="lazy" src="profilepfp.php?id=<?php echo $post['profileID'];?>">
+                                <img class="lazy" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
                             <?php else: ?>
-                                <img class="lazy" src="assets/img/defaultavataruser.png">                                  
+                                <img class="lazy" data-src="assets/img/defaultavataruser.png">                                  
                             <?php endif?>
                         </div>      
                         <div id="post_information_center_child">
@@ -48,7 +48,11 @@
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
+<<<<<<< HEAD
                             <img class="lazy" src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+=======
+                            <img class="lazy" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+>>>>>>> ccd18824a4559c90810b4e062d79320b37e004ad
                         <?php endif?>
                     </div>
                 </div>

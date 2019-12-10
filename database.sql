@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2019 at 01:32 PM
+-- Generation Time: Dec 10, 2019 at 09:13 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -32,7 +32,12 @@ CREATE TABLE `friends` (
   `id` int(11) NOT NULL,
   `userone` int(11) NOT NULL,
   `usertwo` int(11) NOT NULL,
+<<<<<<< HEAD
   `addedTime` datetime NOT NULL DEFAULT current_timestamp()
+=======
+  `addedTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(4) NOT NULL
+>>>>>>> ccd18824a4559c90810b4e062d79320b37e004ad
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
