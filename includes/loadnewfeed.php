@@ -10,20 +10,16 @@
             <div id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto; margin-bottom:10px;">
                 <div class="card-body">
                     <?php if($currentUser['profileID'] == $post['profileID'] and $_SESSION['profileID'] == $post['profileID']): ?>
-                    <div class="post-dropdown">
-                    <button class="post-dropbtn"><i class="fa fa-chevron-down"></i></button>
-                        <div class="post-dropdown-content">
-                            <a href="<?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>"><i class="fa fa-trash-o"></i> Xóa bài viết</a>
-                            <a href="#"><i class="fa fa-pencil-square-o"></i> Chỉnh sửa bài viết</a>
-                            <a href="#"><i class="fa fa-ban"></i> Tắt bình luận</a>
-                        </div>                                                                                                                    
-                    </div>
-                    <?php else:?>
-                    <div class="post-dropdown">
-                    <button class="post-dropbtn"><i class="fa fa-chevron-down"></i></button>
-                        <div class="post-dropdown-content">
-                            <a href="#"><i class="fa fa-exclamation-circle"></i> Báo cáo bài viết này</a>
-                        </div>                                                                                                                    
+                    <div class="navbar navbar-light navbar-expand-md navigation-clean-search" style="float:right; padding: 0% 0% 0% 0%;">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <button class="caret-off" class="dropdown-toggle nav-link" id="post-dropbtn" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-chevron-down"></i></button>
+                                <div class="dropdown-menu dropdown-menu-right" role="menu" id="post-dropdown-content">
+                                    <a class="dropdown-item" role="presentation" href="<?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>"><i class="fa fa-trash-o"></i> Xóa bài viết</a>
+                                    <a class="dropdown-item" role="presentation" href="#"><i class="fa fa-pencil-square-o"></i> Chỉnh sửa bài viết</a>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                     <?php endif;?>
                     <div id="post_information_wrapper">
