@@ -7,8 +7,7 @@
     foreach ($posts as $post) :
 ?>
         <div class="col-sm-12">
-            <div id="break_space_between_posts"></div>
-            <div id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto;">
+            <div id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto; margin-bottom:10px;">
                 <div class="card-body">
                     <?php if($currentUser['profileID'] == $post['profileID'] and $_SESSION['profileID'] == $post['profileID']): ?>
                     <div class="post-dropdown">
