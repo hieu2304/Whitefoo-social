@@ -27,7 +27,7 @@
                     </form>                        
                     <div class="dropdown nav navbar-nav ml-auto">
                       <button class="dropbtn">Xem tùy chọn</button>
-                      <div class="dropdown-content nav navbar-nav mr-auto">
+                      <div class="dropdown-content nav navbar-nav mr-auto" id="wibu-day-day">
                                 <a href="profile.php">Thay đổi thông tin (<?php echo $currentUser['username']; ?>)</a>
                                 <a href="password.php">Đổi mật khẩu</a>
                                 <a href="post.php">Tạo bài viết</a>
