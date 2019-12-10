@@ -32,8 +32,12 @@ CREATE TABLE `friends` (
   `id` int(11) NOT NULL,
   `userone` int(11) NOT NULL,
   `usertwo` int(11) NOT NULL,
+<<<<<<< HEAD
+  `addedTime` datetime NOT NULL DEFAULT current_timestamp()
+=======
   `addedTime` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(4) NOT NULL
+>>>>>>> ccd18824a4559c90810b4e062d79320b37e004ad
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------

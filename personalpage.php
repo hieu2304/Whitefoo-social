@@ -1,6 +1,7 @@
 <?php
     require_once('init.php');
     $posts = null;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -142,7 +143,30 @@
                                         <p>Tên đầy đủ: <?php echo ($user["fullname"] != "" || $user["fullname"]) != null ? $user["fullname"] : "Chưa có"; ?></p>
                                         <p>Số điện thoại: <?php echo ($user["mobilenumber"] != "" || $user["mobilenumber"]) != null ? $user["mobilenumber"] : "Chưa có"; ?></p>
                                         <p>Email: <a href="mailto:<?php echo $user["email"];?>" style="color:white;" ><?php echo $user["email"];?></a></p>
-                                        <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='post.php'">Kết bạn</button></div>
+                                        <input type="hidden" name="userID" value="<?php echo  $_GET['profileID'];?>">
+                                        <?php 
+                                              $isFollowed = getFriendRequest($currentUser["profileID"], $user["profileID"]);
+                                              $isFollower = getFriendRequest($user["profileID"], $currentUser["profileID"]);
+                                         ?>
+
+                                         <?php if($isFollowed != null || $isFollower != null) :
+                                                echo "<form method='POST' action='add-friend.php'>
+                                                    <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Hủy Kết Bạn</button>
+                                                </form>"
+                                         ?>
+
+                                         <?php
+                                            else:
+                                                 echo "<form method='POST' action='add-friend.php'>
+                                                    <button class='btn btn-light btn-lg action-button' name='ddFriend' value='". $user['profileID'] ."'type='submit'>Kết Bạn</button>
+                                                </form>"
+                                         ?>
+
+                                         <?php
+                                            endif  
+                                         ?>
+
+                                    </div>
                                     <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                         <div class="center-avatar">
                                             <?php if (isset($user['pfp'])): ?>

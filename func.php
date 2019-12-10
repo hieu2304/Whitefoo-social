@@ -344,4 +344,19 @@
       $stmt->execute([$profileID,$postID]);
       return 0;
     }
+
+    function sendFriendRequest($profileID1, $profileID2)
+    {
+    	global $db;
+    	$stmt = $db->prepare("INSERT INTO friends (userone, usertwo, status) VALUE(?, ?, 0)");
+    	$stmt->execute([$profileID1,$profileID2]);
+    }
+
+    function getFriendRequest($profileID1, $profileID2)
+    {
+    	global $db;
+    	$stmt = $db-> prepare("SELECT * FROM friends WHERE userone = ? AND usertwo = ? ");
+    	$stmt->execute([$profileID1,$profileID2]);
+    	return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 ?>

@@ -20,19 +20,23 @@
                     <?php if (isset($_SESSION['profileID'])) : ?>
                     <ul class="nav navbar-nav">
                         <li class="nav-item" role="presentation"><a class="nav-link" href="personalpage.php">Trang cá nhân</a></li>
-                    </ul>                       
-                    <ul class="nav navbar-nav">
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="post.php">Tạo bài viết</a></li>
                     </ul>
-                    <ul class="nav navbar-nav">
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="password.php">Đổi mật khẩu</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav">
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="profile.php">Thay đổi thông tin (<?php echo $currentUser['username']; ?>)</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item"><span class="navbar-text"> <a class="login" href="logout.php?logout=1">Đăng xuất</a></li>
-                    </ul>
+                    <form class="form-inline mr-auto" target="_self">
+                            <div class="form-group"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field" name="search">
+                            </div>
+                    </form>                        
+                    <div class="dropdown nav navbar-nav ml-auto">
+                      <button class="dropbtn">Xem tùy chọn</button>
+                      <div class="dropdown-content nav navbar-nav mr-auto">
+                                <a href="profile.php">Thay đổi thông tin (<?php echo $currentUser['username']; ?>)</a>
+                                <a href="password.php">Đổi mật khẩu</a>
+                                <a href="post.php">Tạo bài viết</a>
+                                <a href="logout.php?logout=1">Đăng xuất</a>
+                      </div>
+                    </div>  
+<!--                     <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item" id ="btnLogout"><span class="navbar-text"> <a class="login" href="logout.php?logout=1">Đăng xuất</a></li>
+                    </ul>             -->         
                     <?php else : ?>
                         <!-- Login and Register -->
                     <ul class="nav navbar-nav ml-auto">
