@@ -4,7 +4,18 @@
     require_once("../func.php");
     $pagenum = $_POST['start'];
     $postlimit = $_POST['limit'];
-    $posts = getNewFeedsPaginate($pagenum, $postlimit);
+    $typeofpage = $_POST['page'];
+    $profileID = $_POST['profileID'];
+
+    if($typeofpage == 'main'):
+        $posts = getNewFeedsPaginate($pagenum, $postlimit);
+    else:
+        if($profileID == -1):
+            $posts = getNewFeedsByProfileIDPaginate($_SESSION['profileID'], $pagenum, $postlimit);
+        else:
+            $posts = getNewFeedsByProfileIDPaginate($profileID, $pagenum, $postlimit);
+        endif;
+    endif;
     foreach ($posts as $post) :
 ?>
         <div class="col-sm-12">
