@@ -1,6 +1,4 @@
-<?php require_once('init.php');
-ob_start();
-?>
+<?php require_once("../init.php"); ?>
 <!DOCTYPE html>
 <html>
 
@@ -23,23 +21,15 @@ ob_start();
             <div id="content">
                 <div class="card bg-transparent border-0 text-light">
                     <?php
-                        if (!isset($_GET['postid']) && !isset($_GET['page'])) :
-                            header('location: index.php');
+                        if (!isset($_POST['postID'])) :
                             exit;
                         else :
                             if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']) :                     
-                                $PostID = $_GET['postid'];
-                                $page = $_GET['page'];
+                                $PostID = $_POST['postID'];
+                                $page = $_POST['page'];
                                 deletePost_By_profileID_postID($_SESSION['profileID'],$PostID);
-                                if($page == 'personal'):
-                                    header('location: personalpage.php');
-                                    exit;
-                                else:
-                                    header('location: index.php');
-                                    exit;
-                                endif;
+                                exit;
                             else:
-                                header('location: index.php');
                                 exit;
                             endif;
                         endif ?>

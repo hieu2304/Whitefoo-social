@@ -243,7 +243,6 @@
 
 .post-three-action :active
 {
-	font-size: 105%;
 	text-shadow: black;
 	background-color: rgba(61, 131, 253,0.8);
 }
@@ -255,7 +254,7 @@
 	color:  rgba(59, 105, 180,0.8);
 	font-size: 27px;
 	border: none;
-	padding: 0% 15% 0% 15%;
+	padding: 0% 10% 0% 10%;
 }
 #post-dropbtn:hover
 {
@@ -269,34 +268,34 @@
 
 #post-dropdown-content
 {
-	font-size: 16px;
+	font-size: 17px;
 	position: absolute;
 	right: 1%;
 	top: auto;
 	padding: 0% 0% 0% 0%;
 	background-color:rgba(222, 239, 252, 0.9);
-	width:220px;
-	min-width: 120px;
-	box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+	width: auto;
+	min-width: 130px;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
 	z-index: 1;
 	font-weight: bold;
-	border-radius: 10px;
+	border-radius: 11px;
 }
-#post-dropdown-content a
+#post-dropdown-content button
 {
 	color: black;
-	padding: 10px 15px;
+	padding: 1px 12px 1px 12px;
 	text-decoration: none;
 	display: block;
 	font-weight: bold;
 	border-radius: 10px;
 }
-#post-dropdown-content a:hover
+#post-dropdown-content button:hover
 {
-	font-size: 105%;
 	color:white;
 	background-color: rgb(61, 131, 253);
-	box-shadow: 1px 1px 0px 0px rgba(0,0,0,0.3);
+	box-shadow: 0.5px 0px 0px 0px rgba(0,0,0,0.3);
+	border-radius: 10px;
 }
 
 /* Use to Disable the icon Arrow of the toggle nav-link*/
