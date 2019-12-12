@@ -65,7 +65,7 @@
         </div>
     </div>
     <?php include '_footer.php'; ?>
-    <script src="assets/js/content.js"></script>
+    <script src="assets/js/content-p.js"></script>
 </body>
 
 </html>
