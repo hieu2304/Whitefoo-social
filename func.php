@@ -204,17 +204,17 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function post_status($id, $content, $img, $imgType)
+    function post_status($id, $content, $img, $imgType, $visibility = 0)
     {
       global $db, $errors;
       if ($img == null){
-        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image) VALUES(?, ?, '')");
-        $post_insert_query->execute([$content, $id]);
+        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, visibility) VALUES(?, ?, ?, ?)");
+        $post_insert_query->execute([$content, $id, null, $visibility]);
       }
       else {
         $imgData = file_get_contents($img['tmp_name']);
-        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, imagetype) VALUES(?, ?, ?, ?)");
-        $post_insert_query->execute([$content, $id, $imgData, $imgType]);
+        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, imagetype, visibility) VALUES(?, ?, ?, ?, ?)");
+        $post_insert_query->execute([$content, $id, $imgData, $imgType, $visibility]);
       }
       $_SESSION['success'] = "Đăng trạng thái thành công!";
       header('location: index.php');

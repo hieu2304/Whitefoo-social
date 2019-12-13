@@ -16,7 +16,6 @@ session_start();
 
 // Detect page
 $page = detectPage();
-$currentPage = 1;
 
 // initializing variables
 $info = null;
@@ -34,6 +33,9 @@ $currentUser = null;
 
 if (isset($_SESSION['profileID'])) {
   $currentUser = findUserByID($_SESSION['profileID']);
+  $currentUser['username'] = htmlspecialchars($currentUser['username']);
+  $currentUser['fullname'] = htmlspecialchars($currentUser['fullname']);
+  $currentUser['mobilenumber'] = htmlspecialchars($currentUser['mobilenumber']);
 }
 
 // REGISTER NEW USER
