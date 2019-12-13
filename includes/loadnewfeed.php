@@ -51,7 +51,7 @@
                         </div>                                                                                                        
                     </div>
                     <div id="post_content">                              
-                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
+                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo htmlspecialchars($post['content']);?></p>
                     </div>                                       
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
