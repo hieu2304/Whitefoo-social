@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 35.221.100.79
--- Generation Time: Dec 13, 2019 at 01:10 PM
+-- Generation Time: Dec 13, 2019 at 01:46 PM
 -- Server version: 5.7.14-google
 -- PHP Version: 7.2.24-0ubuntu0.18.04.1
 
@@ -41,10 +41,24 @@ CREATE TABLE `conversations` (
 
 CREATE TABLE `conversations_messages` (
   `id` int(11) NOT NULL,
-  `conversation` int(11) NOT NULL,
+  `conversation` int(11) NOT NULL COMMENT 'id bên conversation',
+  `message` int(11) NOT NULL COMMENT 'id bên conversation_send',
   `profileID` int(11) NOT NULL,
+  `seen` tinyint(4) NOT NULL,
+  `deleted` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conversations_send`
+--
+
+CREATE TABLE `conversations_send` (
+  `id` int(11) NOT NULL,
   `message` text COLLATE utf8_vietnamese_ci NOT NULL,
-  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `profileID` int(11) NOT NULL COMMENT 'id của người đã gửi'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -55,10 +69,10 @@ CREATE TABLE `conversations_messages` (
 
 CREATE TABLE `conversations_users` (
   `id` int(11) NOT NULL,
-  `conversation` int(11) NOT NULL,
+  `conversation` int(11) NOT NULL COMMENT 'id bên conversation',
   `profileID` int(11) NOT NULL,
   `seen` tinyint(4) NOT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `deleted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -144,6 +158,12 @@ ALTER TABLE `conversations_messages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `conversations_send`
+--
+ALTER TABLE `conversations_send`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `conversations_users`
 --
 ALTER TABLE `conversations_users`
@@ -187,6 +207,12 @@ ALTER TABLE `conversations`
 -- AUTO_INCREMENT for table `conversations_messages`
 --
 ALTER TABLE `conversations_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `conversations_send`
+--
+ALTER TABLE `conversations_send`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
