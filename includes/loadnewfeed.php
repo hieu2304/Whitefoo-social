@@ -2,6 +2,7 @@
 <?php
     require_once("../init.php");
     require_once("../func.php");
+    $Parsedown = new Parsedown();
     $pagenum = $_POST['start'];
     $postlimit = $_POST['limit'];
     $typeofpage = $_POST['page'];
@@ -51,7 +52,7 @@
                         </div>                                                                                                        
                     </div>
                     <div id="post_content">                              
-                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo htmlspecialchars($post['content']);?></p>
+                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $Parsedown->text(htmlspecialchars($post['content']));?></p>
                     </div>                                       
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
