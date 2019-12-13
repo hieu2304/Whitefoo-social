@@ -3,6 +3,7 @@
     require_once("../init.php");
     require_once("../func.php");
     $Parsedown = new Parsedown();
+    $Parsedown->setBreaksEnabled(true);
     $pagenum = $_POST['start'];
     $postlimit = $_POST['limit'];
     $typeofpage = $_POST['page'];
