@@ -48,12 +48,12 @@
                             <h5 class="card-title">
                                 <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
                             </h5>
-                            <p class="card-text"><small class="card-subtitle mb-2 text-muted"><i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?></small></p>  
+                            <p class="card-time"><small class="card-subtitle mb-2 text-muted"><i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?></small></p>  
                         </div>                                                                                                        
                     </div>
-                    <div id="post_content">                              
-                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $Parsedown->text(htmlspecialchars($post['content']));?></p>
-                    </div>                                       
+                    <div class="card-text" id="post_content">
+                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $Parsedown->text($post['content']);?></p>
+                    </div>
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
