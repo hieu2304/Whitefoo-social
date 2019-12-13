@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 35.221.100.79
--- Generation Time: Dec 13, 2019 at 01:46 PM
--- Server version: 5.7.14-google
--- PHP Version: 7.2.24-0ubuntu0.18.04.1
+-- Host: 127.0.0.1
+-- Generation Time: Dec 13, 2019 at 11:34 AM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `whitefoodb`
+-- Database: `whitefoodb09`
 --
 
 -- --------------------------------------------------------
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `conversations` (
-  `id` int(11) NOT NULL,
+  `conversationID` int(11) NOT NULL,
   `lastMessageID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
@@ -40,24 +40,23 @@ CREATE TABLE `conversations` (
 --
 
 CREATE TABLE `conversations_messages` (
-  `id` int(11) NOT NULL,
-  `conversation` int(11) NOT NULL COMMENT 'id bên conversation',
-  `message` int(11) NOT NULL COMMENT 'id bên conversation_send',
-  `profileID` int(11) NOT NULL,
+  `conversationID` int(11) NOT NULL COMMENT 'id bên conversation',
+  `messageID` int(11) NOT NULL COMMENT 'id bên conversation_send',
+  `profileID` int(11) NOT NULL COMMENT 'id người gửi/người nhận',
   `seen` tinyint(4) NOT NULL,
-  `deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `conversations_send`
+-- Table structure for table `conversations_sent`
 --
 
-CREATE TABLE `conversations_send` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `conversations_sent` (
+  `messageID` int(11) NOT NULL,
   `message` text COLLATE utf8_vietnamese_ci NOT NULL,
-  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time` datetime NOT NULL DEFAULT current_timestamp(),
   `profileID` int(11) NOT NULL COMMENT 'id của người đã gửi'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
@@ -68,11 +67,10 @@ CREATE TABLE `conversations_send` (
 --
 
 CREATE TABLE `conversations_users` (
-  `id` int(11) NOT NULL,
-  `conversation` int(11) NOT NULL COMMENT 'id bên conversation',
-  `profileID` int(11) NOT NULL,
+  `conversationID` int(11) NOT NULL COMMENT 'id bên conversation',
+  `profileID` int(11) NOT NULL COMMENT 'id người tham gia',
   `seen` tinyint(4) NOT NULL,
-  `deleted` tinyint(4) NOT NULL DEFAULT '0'
+  `deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -85,7 +83,7 @@ CREATE TABLE `friends` (
   `id` int(11) NOT NULL,
   `userone` int(11) NOT NULL,
   `usertwo` int(11) NOT NULL,
-  `addedTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `addedTime` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
@@ -102,8 +100,8 @@ CREATE TABLE `notifications` (
   `node_type` varchar(32) COLLATE utf8mb4_vietnamese_ci NOT NULL COMMENT '(post, comment, friend request, react, message...)',
   `node_url` varchar(255) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `message` text COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `seen` tinyint(4) NOT NULL DEFAULT '0'
+  `time` datetime NOT NULL DEFAULT current_timestamp(),
+  `seen` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -116,8 +114,8 @@ CREATE TABLE `posts` (
   `postID` int(11) NOT NULL,
   `content` text COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `profileID` int(11) NOT NULL,
-  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `image` longblob,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `image` longblob DEFAULT NULL,
   `imagetype` varchar(10) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `visibility` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
@@ -135,10 +133,10 @@ CREATE TABLE `users` (
   `password` varchar(200) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `fullname` varchar(100) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `mobilenumber` varchar(20) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `pfp` longblob,
+  `pfp` longblob DEFAULT NULL,
   `pfptype` varchar(10) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `code` varchar(32) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0'
+  `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
@@ -149,25 +147,25 @@ CREATE TABLE `users` (
 -- Indexes for table `conversations`
 --
 ALTER TABLE `conversations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`conversationID`);
 
 --
 -- Indexes for table `conversations_messages`
 --
 ALTER TABLE `conversations_messages`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`conversationID`,`messageID`,`profileID`);
 
 --
--- Indexes for table `conversations_send`
+-- Indexes for table `conversations_sent`
 --
-ALTER TABLE `conversations_send`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `conversations_sent`
+  ADD PRIMARY KEY (`messageID`);
 
 --
 -- Indexes for table `conversations_users`
 --
 ALTER TABLE `conversations_users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`conversationID`,`profileID`);
 
 --
 -- Indexes for table `friends`
@@ -201,19 +199,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `conversationID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `conversations_messages`
+-- AUTO_INCREMENT for table `conversations_sent`
 --
-ALTER TABLE `conversations_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `conversations_send`
---
-ALTER TABLE `conversations_send`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `conversations_sent`
+  MODIFY `messageID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `friends`

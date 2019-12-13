@@ -1,6 +1,5 @@
 <?php
     require_once('init.php');
-    //getNewFeedsPaginate moved to loadnewfeed.php
 ?>
 <!DOCTYPE html>
 <html>

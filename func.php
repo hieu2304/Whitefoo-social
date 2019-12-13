@@ -6,6 +6,7 @@
 
     //$target_upload_image_dir = "../uploads/img/";
 
+    /* USER */
     function login_user($email, $password)
     {
         global $db, $errors;
@@ -110,6 +111,8 @@
       $_SESSION['success'] = "Cập nhật thông tin thành công!";
       header('location: index.php');
     }
+
+    /* STATUS */
 
     function upload_image($file)
     {
@@ -217,6 +220,13 @@
       header('location: index.php');
     }
 
+    function setVisibility($id, $value)
+    {
+      global $db;
+      $stmt = $db->prepare("UPDATE posts SET visibility = ? WHERE postID = ?");
+      $stmt->execute([$value, $id]);
+    }
+
     function detectPage()
     {
       $uri = $_SERVER['REQUEST_URI'];
@@ -237,6 +247,8 @@
       }
       return $randomString;
     }
+
+    /* EMAIL */
 
     function sendEmail($to, $name, $subject, $content)
     {
@@ -345,6 +357,8 @@
       return 0;
     }
 
+    /* FRIEND REQUEST */
+
     function sendFriendRequest($profileID1, $profileID2)
     {
     	global $db;
@@ -360,19 +374,39 @@
     	return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /* CONVERSATION */
+
     function getConversationByProfileID($profileID)
     {
       global $db;
-      $stmt = $db->prepare("SELECT c.*, u.seen, u.deleted FROM conversations AS c JOIN conversations_users AS u ON c.id = u.conversation WHERE u.profileID = ?");
+      $stmt = $db->prepare("SELECT c.*, u.seen, u.deleted FROM conversations AS c JOIN conversations_users AS u ON c.conversationID = u.conversationID WHERE u.profileID = ?");
       $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getConversationByProfileIDPaginate($profileID, $offset, $limit)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT c.*, u.seen, u.deleted FROM conversations AS c JOIN conversations_users AS u ON c.conversationID = u.conversationID WHERE u.profileID = ? LIMIT ?, ?");
+      $stmt->execute([$profileID, $offset, $limit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function getMessagesByConversation($conversationID)
     {
       global $db;
-      $stmt = $db->prepare("SELECT m.*, c.*, s.* FROM conversations_messages AS m JOIN conversations AS c ON m.conversation = c.id JOIN conversations_send AS s ON m.message = s.id WHERE c.id = ? ORDER BY s.time DESC");
+      $stmt = $db->prepare("SELECT m.*, c.*, s.* FROM conversations_messages AS m JOIN conversations AS c ON m.conversationID = c.conversationID JOIN conversations_sent AS s ON m.messageID = s.messageID WHERE c.conversationID = ? ORDER BY s.time DESC");
       $stmt->execute([$conversationID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getMessagesByConversationPaginate($conversationID, $offset, $limit)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT m.*, c.*, s.* FROM conversations_messages AS m JOIN conversations AS c ON m.conversationID = c.conversationID JOIN conversations_sent AS s ON m.messageID = s.messageID WHERE c.conversationID = ? ORDER BY s.time DESC LIMIT ?, ?");
+      $stmt->execute([$conversationID, $offset, $limit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 ?>
