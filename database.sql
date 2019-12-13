@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 35.221.100.79
--- Generation Time: Dec 13, 2019 at 12:38 PM
+-- Generation Time: Dec 13, 2019 at 01:10 PM
 -- Server version: 5.7.14-google
 -- PHP Version: 7.2.24-0ubuntu0.18.04.1
 
@@ -45,6 +45,20 @@ CREATE TABLE `conversations_messages` (
   `profileID` int(11) NOT NULL,
   `message` text COLLATE utf8_vietnamese_ci NOT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conversations_users`
+--
+
+CREATE TABLE `conversations_users` (
+  `id` int(11) NOT NULL,
+  `conversation` int(11) NOT NULL,
+  `profileID` int(11) NOT NULL,
+  `seen` tinyint(4) NOT NULL,
+  `deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
 -- --------------------------------------------------------
@@ -127,6 +141,12 @@ ALTER TABLE `conversations`
 -- Indexes for table `conversations_messages`
 --
 ALTER TABLE `conversations_messages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `conversations_users`
+--
+ALTER TABLE `conversations_users`
   ADD PRIMARY KEY (`id`);
 
 --

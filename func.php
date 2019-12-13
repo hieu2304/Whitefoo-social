@@ -349,14 +349,30 @@
     {
     	global $db;
     	$stmt = $db->prepare("INSERT INTO friends (userone, usertwo, status) VALUE(?, ?, 0)");
-    	$stmt->execute([$profileID1,$profileID2]);
+    	$stmt->execute([$profileID1, $profileID2]);
     }
 
     function getFriendRequest($profileID1, $profileID2)
     {
     	global $db;
     	$stmt = $db-> prepare("SELECT * FROM friends WHERE userone = ? AND usertwo = ? ");
-    	$stmt->execute([$profileID1,$profileID2]);
+    	$stmt->execute([$profileID1, $profileID2]);
     	return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function getConversationByProfileID($profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT c.*, u.seen, u.deleted FROM conversations AS c JOIN conversations_users AS u ON c.id = u.conversation WHERE u.profileID = ?");
+      $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getMessagesByConversation($conversationID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT m.*, c.*, s.* FROM conversations_messages AS m JOIN conversations AS c ON m.conversation = c.id JOIN conversations_send AS s ON m.message = s.id WHERE c.id = ? ORDER BY s.time DESC");
+      $stmt->execute([$conversationID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 ?>
