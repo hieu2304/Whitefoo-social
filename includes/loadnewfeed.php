@@ -8,6 +8,7 @@
     $postlimit = $_POST['limit'];
     $typeofpage = $_POST['page'];
     $profileID = $_POST['profileID'];
+    $privacy = getPrivacy();
 
     if($typeofpage == 'main'):
         $posts = getNewFeedsPaginate($pagenum, $postlimit);
@@ -31,6 +32,12 @@
                                 <div class="dropdown-menu dropdown-menu-right" role="menu" id="post-dropdown-content">
                                     <button value="<?php echo $post['postID'] . '-deletebtn'; ?>" class="dropdown-item" role="presentation" onclick="getbuttonvalue(this)"><i class="fa fa-trash-o"></i> Xóa bài viết</button>
                                     <!-- <button class="dropdown-item" role="presentation" href="<?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>"><i class="fa fa-pencil-square-o"></i> Chỉnh sửa bài viết</button> -->
+                                    <button id="set-visibility" value="<?php echo $post['postID']; ?>" class="dropdown-item" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-lock"></i> Thay đổi quyền riêng tư</button>
+                                    <div id="visibility-picker" class="dropdown-menu">
+                                        <?php foreach ($privacy as $visibility) : ?>
+                                            <button class="dropdown-item" type="button" name="setprivacy" value="<?php echo $visibility["id"] ?>"><?php echo $visibility["visibility"] ?></button>
+                                        <?php endforeach; ?>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -39,9 +46,9 @@
                     <div id="post_information_wrapper">
                         <div class="mini-avatar" id="post_information_left_child">
                             <?php if (isset($post["pfp"])): ?>
-                                <img class="lazy" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
+                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
                             <?php else: ?>
-                                <img class="lazy" data-src="assets/img/defaultavataruser.png">                                  
+                                <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                             <?php endif?>
                         </div>      
                         <div id="post_information_center_child">
@@ -49,7 +56,12 @@
                             <h5 class="card-title">
                                 <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
                             </h5>
-                            <p class="card-time"><small class="card-subtitle mb-2 text-muted"><i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?></small></p>  
+                            <p class="card-info">
+                                <small class="card-subtitle mb-2 text-muted">
+                                    <i id="visibility" value="<?php echo $post['postID']; ?>" class="post-visibility fa fa-globe"></i>
+                                    <i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?>
+                                </small>
+                            </p>  
                         </div>                                                                                                        
                     </div>
                     <div class="card-text" id="post_content">
@@ -58,7 +70,7 @@
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
-                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazy" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazyload" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
                         <?php endif?>
                     </div>
                 </div>

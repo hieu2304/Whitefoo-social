@@ -198,4 +198,16 @@ if (isset($_POST['reset_user_password']))
   }
 }
 
+//CHANGE POST PRIVACY
+if (isset($_POST['privacyvalue']))
+{
+  $postid = $_POST['postid'];
+  $privacy = $_POST['privacyvalue'];
+  $post = findPostByID($postid);
+  if ($post["profileID"] == $currentUser["profileID"])
+  {
+    setVisibility($postid, $privacy);
+  }
+}
+
 ?>

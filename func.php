@@ -204,6 +204,13 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function getPrivacy()
+    {
+      global $db;
+      $stmt = $db->query("SELECT * FROM post_privacy");
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function post_status($id, $content, $img, $imgType, $visibility = 0)
     {
       global $db, $errors;
@@ -220,11 +227,12 @@
       header('location: index.php');
     }
 
-    function setVisibility($id, $value)
+    function setVisibility($id, $privacy)
     {
       global $db;
       $stmt = $db->prepare("UPDATE posts SET visibility = ? WHERE postID = ?");
-      $stmt->execute([$value, $id]);
+      $stmt->execute([$privacy, $id]);
+      return true;
     }
 
     function detectPage()
