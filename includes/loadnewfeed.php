@@ -1,4 +1,4 @@
-<script src="assets/js/modifypost.js"></script>
+<head><script src="assets/js/modifypost.js"></script></head>
 <?php
     require_once("../init.php");
     require_once("../func.php");
