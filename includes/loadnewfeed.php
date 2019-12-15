@@ -10,12 +10,18 @@
     $privacy = getPrivacy();
 
     if($typeofpage == 'main'):
-        $posts = getNewFeedsPaginate($pagenum, $postlimit);
+        $posts = getVisibleNewFeedsPaginate($currentUser['profileID'], $pagenum, $postlimit);
     else:
         if($profileID == -1):
-            $posts = getNewFeedsByProfileIDPaginate($_SESSION['profileID'], $pagenum, $postlimit);
+            $posts = getNewFeedsByProfileIDPaginate($currentUser['profileID'], $pagenum, $postlimit);
         else:
-            $posts = getNewFeedsByProfileIDPaginate($profileID, $pagenum, $postlimit);
+            if ($profileID == $currentUser['profileID']):
+                $posts = getNewFeedsByProfileIDPaginate($currentUser['profileID'], $pagenum, $postlimit);
+            elseif (isFriend($profileID, $currentUser['profileID'])):
+                $posts = getFriendNewFeedsByFriendIDPaginate($profileID, $pagenum, $postlimit);
+            else:
+                $posts = getPublicNewFeedsByProfileIDPaginate($profileID, $pagenum, $postlimit);
+            endif;
         endif;
     endif;
     foreach ($posts as $post) :
@@ -60,7 +66,7 @@
                             </h5>
                             <p class="card-info">
                                 <small class="card-subtitle mb-2 text-muted">
-                                    <i value="<?php echo $post['postID']; ?>" class="post-visibility fa fa-globe"></i>
+                                    <i value="<?php echo $post['postID']; ?>" class="post-visibility <?php echo $post["visibility"] == 0 ? "fa fa-globe" : ($post["visibility"] == 1 ? "fas fa-user-friends" : "fa fa-lock") ?>"></i>
                                     <i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?>
                                 </small>
                             </p>  

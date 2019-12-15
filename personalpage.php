@@ -1,7 +1,7 @@
 <?php
     require_once('init.php');
     $posts = null;
-
+    $privacy = getPrivacy();
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,7 +67,17 @@
                                 <form method="post" action="post.php" enctype="multipart/form-data">
                                     <div class="form-group input-group">
                                         <textarea name="content" class="form-control" placeholder="Trạng thái..." rows="5"></textarea>
-                                    </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-globe"></i> </span>
+                                        </div>
+                                        <select name="privacy" class="form-control">
+                                            <?php foreach ($privacy as $visibility) : ?>
+                                                <option value="<?php echo $visibility["id"] ?>"><?php echo $visibility["visibility"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div> <!-- form-group -->
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"> <i class="fa fa-upload"></i> </span>

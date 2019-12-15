@@ -133,6 +133,7 @@ if (isset($_POST['update_user_profile']))
 if (isset($_POST['post_the_status']))
 {
   $content = $_POST['content'];
+  $visibility = $_POST['privacy'];
   $img = null;
   $imgType = null;
   if ($_FILES['postimg']['size'] > 0) {
@@ -145,7 +146,7 @@ if (isset($_POST['post_the_status']))
   }
 
   if (count($errors) == 0) {
-    post_status($_SESSION['profileID'], $content, $img, $imgType);
+    post_status($_SESSION['profileID'], $content, $img, $imgType, $visibility);
   }
 }
 

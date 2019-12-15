@@ -187,6 +187,100 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function getPublicNewFeeds()
+    {
+      global $db;
+      $stmt = $db->query("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.visibility = 0 ORDER BY p.createdAt DESC");
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getPublicNewFeedsPaginate($offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.visibility = 0 ORDER BY p.createdAt DESC LIMIT ?, ?");
+      $stmt->execute([$offset, $postLimit]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getPublicNewFeedsByProfileID($profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? AND p.visibility = 0 ORDER BY p.createdAt DESC");
+      $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getPublicNewFeedsByProfileIDPaginate($profileID, $offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? AND p.visibility = 0 ORDER BY p.createdAt DESC LIMIT ?, ?");
+      $stmt->execute([$profileID, $offset, $postLimit]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getVisibleNewFeeds($profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp
+      FROM posts AS p JOIN users AS u ON p.profileID = u.profileID
+      WHERE p.visibility = 0
+      OR
+        EXISTS (SELECT * FROM friends AS f
+        WHERE ((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
+        AND (f.userone = p.profileID OR f.usertwo = p.profileID)
+        AND p.visibility = 1)
+      OR
+        EXISTS (SELECT * FROM users AS u2
+        WHERE u2.profileID = ?
+        AND u2.profileID = p.profileID
+        AND p.visibility = 2)
+      ORDER BY p.createdAt DESC");
+      $stmt->execute([$profileID, $profileID, $profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getVisibleNewFeedsPaginate($profileID, $offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp
+      FROM posts AS p JOIN users AS u ON p.profileID = u.profileID
+      WHERE p.visibility = 0
+      OR
+        EXISTS (SELECT * FROM friends AS f
+        WHERE ((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
+        AND (f.userone = p.profileID OR f.usertwo = p.profileID)
+        AND p.visibility = 1)
+      OR
+        EXISTS (SELECT * FROM users AS u2
+        WHERE u2.profileID = ?
+        AND u2.profileID = p.profileID
+        AND p.visibility = 2)
+      ORDER BY p.createdAt DESC
+      LIMIT ?, ?");
+      $stmt->execute([$profileID, $profileID, $profileID, $offset, $postLimit]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getFriendNewFeedsByFriendID($friendID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? AND (p.visibility = 0 OR p.visibility = 1) ORDER BY p.createdAt DESC");
+      $stmt->execute([$friendID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getFriendNewFeedsByFriendIDPaginate($friendID, $offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? AND (p.visibility = 0 OR p.visibility = 1) ORDER BY p.createdAt DESC LIMIT ?, ?");
+      $stmt->execute([$friendID, $offset, $postLimit]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function getNewFeedsByProfileID($profileID)
     {
       global $db;
@@ -204,6 +298,25 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function post_status($id, $content, $img, $imgType, $visibility)
+    {
+      global $db, $errors;
+      if($visibility >= 0 && $visibility < getPrivacyCount())
+      {
+        if ($img == null){
+          $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, visibility) VALUES(?, ?, ?, ?)");
+          $post_insert_query->execute([$content, $id, null, $visibility]);
+        }
+        else {
+          $imgData = file_get_contents($img['tmp_name']);
+          $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, imagetype, visibility) VALUES(?, ?, ?, ?, ?)");
+          $post_insert_query->execute([$content, $id, $imgData, $imgType, $visibility]);
+        }
+      }
+      $_SESSION['success'] = "Đăng trạng thái thành công!";
+      header('location: index.php');
+    }
+
     function getPrivacy()
     {
       global $db;
@@ -211,28 +324,23 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function post_status($id, $content, $img, $imgType, $visibility = 0)
-    {
-      global $db, $errors;
-      if ($img == null){
-        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, visibility) VALUES(?, ?, ?, ?)");
-        $post_insert_query->execute([$content, $id, null, $visibility]);
-      }
-      else {
-        $imgData = file_get_contents($img['tmp_name']);
-        $post_insert_query = $db->prepare("INSERT INTO posts(content, profileID, image, imagetype, visibility) VALUES(?, ?, ?, ?, ?)");
-        $post_insert_query->execute([$content, $id, $imgData, $imgType, $visibility]);
-      }
-      $_SESSION['success'] = "Đăng trạng thái thành công!";
-      header('location: index.php');
-    }
-
-    function setVisibility($id, $privacy)
+    function getPrivacyCount()
     {
       global $db;
-      $stmt = $db->prepare("UPDATE posts SET visibility = ? WHERE postID = ?");
-      $stmt->execute([$privacy, $id]);
-      return true;
+      $stmt = $db->query("SELECT COUNT(*) FROM post_privacy");
+      return $stmt->fetchColumn();
+    }
+
+    function setVisibility($postid, $visibility)
+    {
+      global $db;
+      if($visibility >= 0 && $visibility < getPrivacyCount())
+      {
+        $stmt = $db->prepare("UPDATE posts SET visibility = ? WHERE postID = ?");
+        $stmt->execute([$visibility, $postid]);
+        return true;
+      }
+      return false;
     }
 
     function detectPage()
@@ -365,7 +473,7 @@
       return 0;
     }
 
-    /* FRIEND REQUEST */
+    /* FRIEND */
 
     function sendFriendRequest($profileID1, $profileID2)
     {
@@ -380,6 +488,17 @@
     	$stmt = $db-> prepare("SELECT * FROM friends WHERE userone = ? AND usertwo = ? ");
     	$stmt->execute([$profileID1, $profileID2]);
     	return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function isFriend($profileID, $friendID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM friends WHERE ((userone = ? AND usertwo = ?) OR (usertwo = ? AND userone = ?)) AND status = 1");
+      $stmt->execute([$profileID, $friendID, $profileID, $friendID]);
+      $result = $stmt->fetchColumn();
+      if ($result > 0)
+        return true;
+      return false;
     }
 
     /* CONVERSATION */

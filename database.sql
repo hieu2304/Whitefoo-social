@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2019 at 09:56 AM
+-- Generation Time: Dec 15, 2019 at 03:01 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -69,8 +69,7 @@ CREATE TABLE `conversations_sent` (
 CREATE TABLE `conversations_users` (
   `conversationID` int(11) NOT NULL COMMENT 'id bên conversation',
   `profileID` int(11) NOT NULL COMMENT 'id người tham gia',
-  `seen` tinyint(4) NOT NULL,
-  `deleted` tinyint(4) NOT NULL DEFAULT 0
+  `seen` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
 
 -- --------------------------------------------------------
