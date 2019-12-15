@@ -46,15 +46,15 @@ ob_start();?>
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont" style="float:left;">                                 
                                     <?php if (isset($anotherUser['pfp'])): ?>
-                                        <img class="lazy rounded-circle user_img" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
+                                        <img class="lazyload rounded-circle user_img" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
                                     <?php else: ?>
-                                        <img class="lazy rounded-circle user_img" data-src="assets\img\defaultavataruser.png" >
+                                        <img class="lazyload rounded-circle user_img" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>                      
                                 </div>
                                 <div class="user_info" style="min-width:10%; width:70%; max-width:70%; float:left;">
                                     <span>
                                         <?php echo ($anotherUser["fullname"] != "" || $anotherUser["fullname"]) != null ? $anotherUser["fullname"] : $anotherUser["username"]; ?>
-                                    </span>                   					
+                                    </span>                                     
                                 </div>
                             </div>        
                         </div>
@@ -69,9 +69,9 @@ ob_start();?>
                                 </div>
                                 <div class="img_cont_msg">
                                     <?php if (isset($currentUser['pfp'])): ?>
-                                        <img class="lazy rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
                                     <?php else: ?>
-                                        <img class="lazy rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>
                                 </div>
                             </div>                            
@@ -79,9 +79,9 @@ ob_start();?>
                             <div class="d-flex justify-content-start mb-4">
                                 <div class="img_cont_msg">
                                     <?php if (isset($anotherUser['pfp'])): ?>
-                                        <img class="lazy rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
                                     <?php else: ?>
-                                        <img class="lazy rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>
                                 </div>
                                 <div class="msg_cotainer" id="temp">
@@ -107,7 +107,7 @@ ob_start();?>
                     </div>                
                     <?php else: header('location: messenger-recent.php'); exit(); ?>
                     <?php endif; ?>
-				</div>
+                </div>
                 <?php else: ?>
                     <p class="text-center">Bạn chưa đăng nhập, hãy <a href="login.php">Đăng Nhập</a> để có thể đăng sử dụng tính năng này.</p>
                 <?php endif ?>

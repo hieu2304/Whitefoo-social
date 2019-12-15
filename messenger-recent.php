@@ -61,9 +61,9 @@
                                             <a href="messenger.php?conversationID=<?php echo $singleRecent['conversationID'];?>&profileID=<?php echo $_SESSION['profileID']; ?>">
                                                 <div class="mini-avatar-recent" value="ảnh nhỏ">
                                                     <?php if (isset($anotherUser["pfp"])): ?>
-                                                        <img class="lazy" data-src="profilepfp.php?id=<?php echo $anotherUser['profileID'];?>">
+                                                        <img class="lazyload" data-src="profilepfp.php?id=<?php echo $anotherUser['profileID'];?>">
                                                     <?php else: ?>
-                                                        <img class="lazy" data-src="assets/img/defaultavataruser.png">                                  
+                                                        <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                                                     <?php endif?> 
                                                 </div>
                                                 <div class="mini-name-mes-recent" value ="tên">

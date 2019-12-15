@@ -51,9 +51,9 @@
                                             <a href="personalpage.php?id=<?php echo $friend["profileID"] ?>">
                                                 <div class="mini-avatar-recent" value="ảnh nhỏ">
                                                     <?php if (isset($friend["pfp"])): ?>
-                                                        <img class="lazy" data-src="profilepfp.php?id=<?php echo $friend['profileID'];?>">
+                                                        <img class="lazyload" data-src="profilepfp.php?id=<?php echo $friend['profileID'];?>">
                                                     <?php else: ?>
-                                                        <img class="lazy" data-src="assets/img/defaultavataruser.png">                                  
+                                                        <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                                                     <?php endif?>
                                                 </div>
                                                 <div class="mini-name-friend" value ="tên">
