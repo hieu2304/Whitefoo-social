@@ -536,4 +536,228 @@
       $stmt->execute([$conversationID, $offset, $limit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    //các hàm sử dụng cho tin nhắn
+
+    function getConversationByProfileIDNoLastMessage($profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT c.conversationID FROM conversations AS c JOIN conversations_users AS u ON c.conversationID = u.conversationID WHERE u.profileID = ? and c.lastMessageID !=0;");
+      $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function checkTheseUsersInConverYet($profileID1, $profileID2)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT U.conversationID FROM conversations_users AS u 
+      JOIN conversations_users AS u2 ON u2.conversationID=u.conversationID WHERE u.profileID = ? AND u2.profileID = ?;");
+
+      $stmt->execute([$profileID1,$profileID2]);
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    //nếu đã tồn tại cuộc trọ chuyện thì trả ra ID cuộc trò chuyện, ngược lại tạo rồi trả
+    function startingChat($profileID1,$profileID2)
+    {
+      $result = checkTheseUsersInConverYet($profileID1,$profileID2);
+        if(!$result):
+          global $db;
+          //thêm rồi lấy ra ID trong 1 cú query
+          $stmt = $db->prepare("INSERT INTO conversations(lastMessageID) VALUES(?);");     
+          $stmt->execute([0]);
+          $stmt = $db->prepare("SELECT max(u.conversationID) FROM conversations AS u;");
+          $stmt->execute();
+          $temp = $stmt->fetch(PDO::FETCH_ASSOC);
+          $conversationID = $temp['max(u.conversationID)'];
+          $stmt = $db->prepare("INSERT INTO conversations_users VALUES(?, ?);");     
+          $stmt->execute([$conversationID, $profileID1]);
+          $stmt = $db->prepare("INSERT INTO conversations_users VALUES(?, ?);");     
+          $stmt->execute([$conversationID, $profileID2]);
+          $result = checkTheseUsersInConverYet($profileID1,$profileID2);
+        endif;
+      return $result;
+    }
+
+    function getTwoUserIDByConversationID($conversationID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT u.profileID AS 'profileID1', u2.profileID AS 'profileID2' FROM conversations_users AS u 
+        JOIN conversations_users AS u2 ON u.conversationID=u2.conversationID WHERE u.conversationID = ? AND u.profileID != u2.profileID LIMIT 1;");
+   
+      $stmt->execute([$conversationID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getAnotherUserIDByConversationIDAndUserID($conversationID, $profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT u.profileID FROM conversations_users AS u WHERE u.conversationID = ? AND u.profileID != ?;");
+   
+      $stmt->execute([$conversationID,$profileID]);
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function getAllRecentMessages($profileID)
+    {
+      //lấy toàn bộ conver ko theo thời gian
+      $allConversations = getConversationByProfileIDNoLastMessage($profileID);
+      $totallist = [];
+      global $db;
+      $temp;
+      // u.proileID là người mà ta đang nói chuyện, sender là ngườii gửi tin nhắn
+      //mỗi cuộc trò chuyện trả ra sẽ có thông tin tên+ảnh của đối phương chat, tin nhắn gần nhất (mình/đối phương), sắp theo thgian, gần nhất là đầu tiên
+      $stmt = $db->prepare("SELECT m.deleted, c.conversationID ,s.time, s.message, s.messageID, s.profileID as 'senderID' 
+      FROM conversations AS c JOIN conversations_messages AS m ON m.messageID = c.lastMessageID
+      JOIN conversations_sent AS s ON s.messageID = c.lastMessageID
+      WHERE c.conversationID = ? AND m.profileID = ? AND c.lastMessageID!=0
+      ORDER BY s.time DESC;");
+
+      foreach($allConversations as $conversation):
+        $stmt->execute([$conversation['conversationID'], $profileID]);      
+        $temp = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($temp['deleted'] == 1 ):
+          $newProperties = getPreMessagePropertiesOfMessageDeleted($temp['conversationID'], $temp['messageID']);
+          if($newProperties != null):
+            $temp['deleted'] = 0;
+            $temp['time'] = $newProperties['time'];
+            $temp['message'] = $newProperties['message'];
+            $temp['senderID'] = $newProperties['profileID'];
+            $temp['message'] = shortcutString($temp['message'],14);
+            array_push($totallist,$temp);
+          endif;
+        else:
+          $temp['message'] = shortcutString($temp['message'],14);
+          array_push($totallist,$temp);
+        endif;
+      endforeach;
+      return $totallist;
+    }
+
+    function senddingMessage($profileID, $conversationID, $message)
+    {
+      global $db;
+      //thêm vào sent với ID người gửi
+      $stmt = $db->prepare("INSERT INTO conversations_sent(message, profileID) VALUES(?, ?);");     
+      $stmt->execute([$message, $profileID]);
+      $stmt = $db->prepare("SELECT max(s.messageID) FROM conversations_sent AS s;");     
+      $stmt->execute();
+      $temp = $stmt->fetch(PDO::FETCH_ASSOC);
+      $messageID = $temp['max(s.messageID)'];
+      $profileID2 = getAnotherUserIDByConversationIDAndUserID($conversationID, $profileID);
+      //thêm vào messages
+      //thêm ng gửi trước
+      $stmt = $db->prepare("INSERT INTO conversations_messages(conversationID, messageID, profileID) VALUES(?, ?, ?);");    
+      $stmt->execute([$conversationID, $messageID, $profileID]);
+      //thêm người nhận
+      $stmt = $db->prepare("INSERT INTO conversations_messages(conversationID, messageID, profileID) VALUES(?, ?, ?);");   
+      $stmt->execute([$conversationID, $messageID, $profileID2['profileID']]);
+
+      //thêm vào conver chính
+      $stmt = $db->prepare("UPDATE conversations AS c SET lastMessageID = ? WHERE c.conversationID = ?;");
+      $stmt->execute([$messageID, $conversationID]);
+    }
+
+    function getFriendIDCol2($profileID)
+    {
+      //lấy danh sách bạn bè khi user hiện tại nằm ở cột 1, friend cột 2
+      global $db;
+      $stmt = $db->prepare("SELECT f.usertwo AS 'friendID' FROM friends f WHERE f.userone = ? AND f.status = 1");
+      $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getFriendIDCol1($profileID)
+    {
+      //lấy danh sách bạn bè khi user hiện tại nằm ở cột 2, friend cột 1
+      global $db;
+      $stmt = $db->prepare("SELECT f.userone AS 'friendID' FROM friends f WHERE f.usertwo = ? AND f.status = 1");
+      $stmt->execute([$profileID]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function shortcutString($inputString, $limit)
+    {
+      $result = $inputString;
+      $lengthStr = strlen($inputString);
+      if($lengthStr > $limit)
+      {
+        $result=null;
+        //giữ lại từ 0 đến giới hạn trừ 3
+        $result = substr( $inputString, 0, $limit-4);
+        $result = $result . '...';
+      }
+      return $result;
+    }
+
+    function getFriendList($profileID)
+    {
+        $lista=getFriendIDCol2($profileID);
+        $listb=getFriendIDCol1($profileID);
+        $totallist=[];
+        foreach($lista as $i)
+        {
+          $temp = findUserByID($i['friendID']);
+          //cắt bớt tên
+          $temp['username'] = shortcutString($temp['username'],45);
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+          array_push($totallist,$temp);
+        }
+        foreach($listb as $j)
+        {
+          $temp = findUserByID($j['friendID']);
+          $temp['username'] = shortcutString($temp['username'],45);
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+          array_push($totallist,$temp);
+        }
+        return $totallist;
+    }
+
+    function getUserList($profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT * FROM users AS u WHERE u.profileID != ?;");
+      $stmt->execute([$profileID]);
+      $list= $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $totallist=[];
+      foreach($list as $i)
+        {
+          $temp = $i;
+          $temp['username'] = shortcutString($temp['username'],45);
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+          array_push($totallist,$temp);
+        }
+        return $totallist;
+    }
+
+    function deleteMessage($conversationID, $messageID, $profileID)
+    {
+      global $db;
+      $stmt = $db->prepare("UPDATE conversations_messages SET deleted = 1 WHERE conversationID = ? AND messageID = ? AND profileID = ?;");
+      $stmt->execute([$conversationID, $messageID, $profileID]);
+    }
+
+    function getPrevMessageIDOfMessageDeleted($conversationID, $messageID)
+    {
+      global $db;
+      $stmt = $db->prepare("SELECT max(m.messageID) AS 'messageID' FROM conversations_messages AS m 
+      WHERE m.conversationID = ? AND m.messageID !=? AND m.deleted != 1;");
+      $stmt->execute([$conversationID, $messageID]);
+      return $stmt->fetch(PDO::FETCH_ASSOC); //gìđó['messageID']
+    }
+
+    function getPreMessagePropertiesOfMessageDeleted($conversationID, $messageID)
+    {
+      $temp = getPrevMessageIDOfMessageDeleted($conversationID, $messageID);
+      $newMessageID = $temp['messageID'];
+      if($newMessageID):
+        global $db;
+        $stmt = $db->prepare("SELECT s.* FROM conversations_sent AS s 
+        JOIN conversations_messages AS m ON m.messageID = s.messageID 
+        WHERE s.messageID =? AND s.profileID = m.profileID;");
+        $stmt->execute([$newMessageID]);
+        return $stmt->fetch(PDO::FETCH_ASSOC); //gìđó['messageID']
+      endif;
+      return null;
+    }
 ?>
