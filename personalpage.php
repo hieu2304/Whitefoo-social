@@ -146,7 +146,7 @@
     <?php include '_footer.php'; ?>
     <script src="assets/js/content-p.js"></script>
     <script src="assets/js/modal.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/privacychange.js"></script>
     <script>
         $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();

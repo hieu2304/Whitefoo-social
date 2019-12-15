@@ -32,8 +32,8 @@
                                 <div class="dropdown-menu dropdown-menu-right" role="menu" id="post-dropdown-content">
                                     <button value="<?php echo $post['postID'] . '-deletebtn'; ?>" class="dropdown-item" role="presentation" onclick="getbuttonvalue(this)"><i class="fa fa-trash-o"></i> Xóa bài viết</button>
                                     <!-- <button class="dropdown-item" role="presentation" href="<?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>"><i class="fa fa-pencil-square-o"></i> Chỉnh sửa bài viết</button> -->
-                                    <button id="set-visibility" value="<?php echo $post['postID']; ?>" class="dropdown-item" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-lock"></i> Thay đổi quyền riêng tư</button>
-                                    <div id="visibility-picker" class="dropdown-menu">
+                                    <button class="set-visibility dropdown-item" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-lock"></i> Thay đổi quyền riêng tư</button>
+                                    <div postid="<?php echo $post['postID']; ?>" class="visibility-picker dropdown-menu">
                                         <?php foreach ($privacy as $visibility) : ?>
                                             <button class="dropdown-item" type="button" name="setprivacy" value="<?php echo $visibility["id"] ?>"><?php echo $visibility["visibility"] ?></button>
                                         <?php endforeach; ?>
@@ -58,7 +58,7 @@
                             </h5>
                             <p class="card-info">
                                 <small class="card-subtitle mb-2 text-muted">
-                                    <i id="visibility" value="<?php echo $post['postID']; ?>" class="post-visibility fa fa-globe"></i>
+                                    <i value="<?php echo $post['postID']; ?>" class="post-visibility fa fa-globe"></i>
                                     <i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?>
                                 </small>
                             </p>  

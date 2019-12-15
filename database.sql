@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2019 at 11:34 AM
+-- Generation Time: Dec 15, 2019 at 09:56 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -123,6 +123,17 @@ CREATE TABLE `posts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `post_privacy`
+--
+
+CREATE TABLE `post_privacy` (
+  `id` int(11) NOT NULL,
+  `visibility` varchar(20) COLLATE utf8mb4_vietnamese_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -184,6 +195,12 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`postID`);
+
+--
+-- Indexes for table `post_privacy`
+--
+ALTER TABLE `post_privacy`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
