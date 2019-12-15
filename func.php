@@ -502,7 +502,6 @@
     }
 
    /* CONVERSATION */
-  /* CONVERSATION */
 
   function getConversationByProfileID($profileID)
   {
@@ -549,7 +548,8 @@
   function getConversationByProfileIDNoLastMessage($profileID)
   {
     global $db;
-    $stmt = $db->prepare("SELECT c.conversationID FROM conversations AS c JOIN conversations_users AS u ON c.conversationID = u.conversationID WHERE u.profileID = ? and c.lastMessageID !=0;");
+    $stmt = $db->prepare("SELECT c.conversationID FROM conversations AS c 
+    JOIN conversations_users AS u ON c.conversationID = u.conversationID WHERE u.profileID = ? and c.lastMessageID !=0;");
     $stmt->execute([$profileID]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -557,7 +557,7 @@
   function checkTheseUsersInConverYet($profileID1, $profileID2)
   {
     global $db;
-    $stmt = $db->prepare("SELECT U.conversationID FROM conversations_users AS u 
+    $stmt = $db->prepare("SELECT u.conversationID FROM conversations_users AS u 
     JOIN conversations_users AS u2 ON u2.conversationID=u.conversationID WHERE u.profileID = ? AND u2.profileID = ?;");
 
     $stmt->execute([$profileID1,$profileID2]);
@@ -577,9 +577,9 @@
         $stmt->execute();
         $temp = $stmt->fetch(PDO::FETCH_ASSOC);
         $conversationID = $temp['max(u.conversationID)'];
-        $stmt = $db->prepare("INSERT INTO conversations_users VALUES(?, ?);");     
+        $stmt = $db->prepare("INSERT INTO conversations_users VALUES(?, ?, 0);");     
         $stmt->execute([$conversationID, $profileID1]);
-        $stmt = $db->prepare("INSERT INTO conversations_users VALUES(?, ?);");     
+        $stmt = $db->prepare("INSERT INTO conversations_users VALUES(?, ?, 0);");     
         $stmt->execute([$conversationID, $profileID2]);
         $result = checkTheseUsersInConverYet($profileID1,$profileID2);
       endif;
@@ -601,7 +601,7 @@
     global $db;
     $stmt = $db->prepare("SELECT u.profileID FROM conversations_users AS u WHERE u.conversationID = ? AND u.profileID != ?;");
  
-    $stmt->execute([$conversationID,$profileID]);
+    $stmt->execute([$conversationID, $profileID]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
@@ -654,10 +654,10 @@
     $profileID2 = getAnotherUserIDByConversationIDAndUserID($conversationID, $profileID);
     //thêm vào messages
     //thêm ng gửi trước
-    $stmt = $db->prepare("INSERT INTO conversations_messages(conversationID, messageID, profileID) VALUES(?, ?, ?);");    
+    $stmt = $db->prepare("INSERT INTO conversations_messages VALUES(?, ?, ?, 0, 0);");    
     $stmt->execute([$conversationID, $messageID, $profileID]);
     //thêm người nhận
-    $stmt = $db->prepare("INSERT INTO conversations_messages(conversationID, messageID, profileID) VALUES(?, ?, ?);");   
+    $stmt = $db->prepare("INSERT INTO conversations_messages VALUES(?, ?, ?, 0, 0);");   
     $stmt->execute([$conversationID, $messageID, $profileID2['profileID']]);
 
     //thêm vào conver chính

@@ -51,8 +51,10 @@
                                 <ul id="myUL2" value="Các cuộc trò chuyện gần đây">
                                 <?php if($allRecentMessages): ?>
                                 <?php foreach($allRecentMessages as $singleRecent):
-                                    $anotherUserID =  getAnotherUserIDByConversationIDAndUserID($singleRecent['conversationID'],$_SESSION['profileID'] );
-                                    $anotherUser = findUserByID($anotherUserID['profileID']);
+                                    $temp = $singleRecent['conversationID'];
+                                    $anotherUserID =  getAnotherUserIDByConversationIDAndUserID($temp, $_SESSION['profileID'] );
+                                    $temp = $anotherUserID['profileID'];
+                                    $anotherUser = findUserByID((int)$temp);
                                     $anotherUser['username'] = shortcutString($anotherUser['username'],18);
                                     $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],18);
                                 ?>
