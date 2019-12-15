@@ -1,4 +1,3 @@
-<script src="assets/js/modifypost.js"></script>
 <?php
     require_once("../init.php");
     require_once("../func.php");
@@ -21,6 +20,9 @@
     endif;
     foreach ($posts as $post) :
 ?>
+        <head>
+            <script src="assets/js/modifypost.js"></script>
+        </head>
         <div class="col-sm-12">
             <div value="<?php echo $post['postID']; ?>" id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto; margin-bottom:10px;">
                 <div class="card-body">
