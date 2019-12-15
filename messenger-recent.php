@@ -49,7 +49,7 @@
                             </div>
                             <div class="card-body msg_card_body" style="overflow-x: auto;">                    
                                 <ul id="myUL2" value="Các cuộc trò chuyện gần đây">
-
+                                <?php if($allRecentMessages): ?>
                                 <?php foreach($allRecentMessages as $singleRecent):
                                     $anotherUserID =  getAnotherUserIDByConversationIDAndUserID($singleRecent['conversationID'],$_SESSION['profileID'] );
                                     $anotherUser = findUserByID($anotherUserID['profileID']);
@@ -86,7 +86,14 @@
                                         <div class="recent-wraper">
                                         <div id="break_space_between_posts"></div>
                                             
-                                 <?php endforeach; ?>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="d-flex bd-highlight">
+                                        <div class="user_info" style="font-size:35px; min-width:10%; width:100%; max-width:100%; text-align:center; align-self: center; color:white; padding-bottom:10px;">
+                                            Hiện tại bạn không có tin nhắn nào gần đây, hãy bấm vào tin nhắn mới nào.                                   					
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 </ul>                            
                             </div>
                         </div>
