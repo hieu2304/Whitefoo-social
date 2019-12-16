@@ -3,6 +3,8 @@
     require_once("../func.php");
     $Parsedown = new Parsedown();
     $Parsedown->setBreaksEnabled(true);
+    $Parsedown->setMarkupEscaped(true);
+
     $pagenum = $_POST['start'];
     $postlimit = $_POST['limit'];
     $typeofpage = $_POST['page'];
@@ -72,9 +74,11 @@
                             </p>  
                         </div>                                                                                                        
                     </div>
-                    <div class="card-text" id="post_content">
-                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $Parsedown->text($post['content']);?></p>
-                    </div>
+                    <?php if (isset($post['content'])) : ?>
+                        <div class="card-text" id="post_content">
+                            <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $Parsedown->text($post['content']);?></p>
+                        </div>
+                    <?php endif; ?>
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>

@@ -23,7 +23,7 @@ $errors = array();
 
 // connect to the db
 try {
-  $db = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8", $DB_USER, $DB_PASSWORD);
+  $db = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4", $DB_USER, $DB_PASSWORD);
 }
 catch (PDOException $ex) {
   echo "Error connecting to mysql: " . $ex->getMessage();
@@ -141,8 +141,8 @@ if (isset($_POST['post_the_status']))
     $imgType = strtolower(pathinfo($_FILES['postimg']["name"], PATHINFO_EXTENSION));
   }
 
-  if (empty($content)) {
-    array_push($errors, "Nội dung bài viết không được để trống");
+  if (empty($content) && $img == null) {
+    array_push($errors, "Không có gì để đăng!");
   }
 
   if (count($errors) == 0) {
