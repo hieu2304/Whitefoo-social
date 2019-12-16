@@ -493,7 +493,7 @@
     function isFriend($profileID, $friendID)
     {
       global $db;
-      $stmt = $db->prepare("SELECT * FROM friends WHERE ((userone = ? AND usertwo = ?) OR (usertwo = ? AND userone = ?)) AND status = 1");
+      $stmt = $db->prepare("SELECT COUNT(*) FROM friends WHERE ((userone = ? AND usertwo = ?) OR (usertwo = ? AND userone = ?)) AND status = 1");
       $stmt->execute([$profileID, $friendID, $profileID, $friendID]);
       $result = $stmt->fetchColumn();
       if ($result > 0)

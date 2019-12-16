@@ -39,7 +39,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
                                 <h1>Xin chào, <?php echo ($currentUser["fullname"] != "" || $currentUser["fullname"]) != null ? $currentUser["fullname"] : $currentUser["username"] ?></h1>
-                                <button class="btn btn-light btn-lg action-button" type="button" onClick="document.getElementById('newfeed').scrollIntoView();">Xem các bài viết</button></div>
+                                <button class="btn btn-light btn-lg action-button scroll-button" target="newfeed" type="button">Xem các bài viết</button></div>
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                 <div class="center-avatar">
                                     <?php if (isset($currentUser['pfp'])): ?>
@@ -66,6 +66,7 @@
     <?php include '_footer.php'; ?>
     <script src="assets/js/content-p.js"></script>
     <script src="assets/js/privacychange.js"></script>
+    <script src="assets/js/scroll.js"></script>
 </body>
 
 </html>
