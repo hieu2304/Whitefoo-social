@@ -15,6 +15,7 @@ ob_start();?>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/messenger-style.css">
     <script src="assets/js/modifypost.js"></script>
+    <script src ="assets/js/autoScrolling.js"></script>
 </head>
 
 <body>
@@ -117,5 +118,7 @@ ob_start();?>
     </div>
     <?php include '_footer.php'; ?>
 </body>
-
+<script>
+    window.onload = scrollling(500);
+</script>
 </html>

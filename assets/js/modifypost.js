@@ -34,34 +34,40 @@ function getbuttonvalue(objbtn)
         profileID = inputvalue.substring(position+1);
         conversationID = inputvalue.substring(0,position);
         message = document.getElementById("inputmessagehere").value;
-        //gửi
-        $.ajax
-        ({
-            url:"includes/sendding-message.php",
-            method:"POST",
-            data:{conversationID:conversationID, profileID:profileID, message:message},
-            cache:false
-        });
-        //tải lại sau 2s
-        timedRefresh(1000);
+        if(!(message == '' || message == " "))
+        {
+            //gửi
+            $.ajax
+            ({
+                url:"includes/sendding-message.php",
+                method:"POST",
+                data:{conversationID:conversationID, profileID:profileID, message:message},
+                cache:false
+            });
+            //tải lại sau 1s
+            timedRefresh(1000);
+        }
     }
     else if(typeOfAction == 'deletemessagebtn')
     {      
-        position = inputvalue.indexOf('=');
-        messageID = inputvalue.substring(position+1);
-        inputvalue = inputvalue.substring(0, position);
-        position = inputvalue.indexOf('+');
-        conversationID = inputvalue.substring(position+1);
-        profileID = inputvalue.substring(0,position);
-        var command_jQuery = '#messaging[value="msg'+ messageID +'"]';
-        $(command_jQuery).remove();
-        $.ajax
-        ({
-            url:"includes/deleting-message.php",
-            method:"POST",
-            data:{conversationID:conversationID, profileID:profileID, messageID:messageID},
-            cache:false
-        });
+        if(confirm("Bạn có chắc là muốn xóa tin nhắn này?"))
+        {
+            position = inputvalue.indexOf('=');
+            messageID = inputvalue.substring(position+1);
+            inputvalue = inputvalue.substring(0, position);
+            position = inputvalue.indexOf('+');
+            conversationID = inputvalue.substring(position+1);
+            profileID = inputvalue.substring(0,position);
+            var command_jQuery = '#messaging[value="msg'+ messageID +'"]';
+            $(command_jQuery).remove();
+            $.ajax
+            ({
+                url:"includes/deleting-message.php",
+                method:"POST",
+                data:{conversationID:conversationID, profileID:profileID, messageID:messageID},
+                cache:false
+            });
+        }
     }
     //we will add more features for post(s) later over here, follow the input 'typeOfAction'
 }

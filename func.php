@@ -689,9 +689,14 @@
     $lengthStr = strlen($inputString);
     if($lengthStr > $limit)
     {
-      $result=null;
-      //giữ lại từ 0 đến giới hạn trừ 3
-      $result = substr( $inputString, 0, $limit-4);
+      $result = null;
+      $result = substr( $inputString, 0, $limit);
+      $newLengthStr = strripos($result,' ',0);
+      if($newLengthStr>1):
+        $result = substr( $inputString, 0, $newLengthStr);
+      else:
+        $result = substr( $inputString, 0, $limit-4);
+      endif;
       $result = $result . '...';
     }
     return $result;
