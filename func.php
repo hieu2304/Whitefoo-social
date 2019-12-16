@@ -550,7 +550,7 @@
     global $db;
     $stmt = $db->prepare("SELECT c.conversationID FROM conversations AS c 
     JOIN conversations_users AS u ON c.conversationID = u.conversationID WHERE u.profileID = ? AND c.lastMessageID !=0 
-    ORDER BY u.conversationID DESC;");
+    ORDER BY c.lastMessageID DESC;");
     $stmt->execute([$profileID]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
