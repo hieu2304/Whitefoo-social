@@ -58,7 +58,7 @@
                     <div id="post_information_wrapper">
                         <div class="mini-avatar" id="post_information_left_child">
                             <?php if (isset($post["pfp"])): ?>
-                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
+                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>&width=720&height=720" src="profilepfp.php?id=<?php echo $post['profileID'];?>&placeholder">
                             <?php else: ?>
                                 <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                             <?php endif?>
@@ -84,7 +84,7 @@
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
-                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazyload" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazyload blur-up" data-src="postimage.php?id=<?php echo $post['postID']; ?>&width=720&height=720" src="postimage.php?id=<?php echo $post['postID']; ?>&placeholder" class="card-img" alt="<?php echo $post['username'] ?>">
                         <?php endif?>
                     </div>
                 </div>

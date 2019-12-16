@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2019 at 03:01 PM
+-- Generation Time: Dec 16, 2019 at 05:56 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `conversations` (
   `conversationID` int(11) NOT NULL,
   `lastMessageID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `conversations_messages` (
   `profileID` int(11) NOT NULL COMMENT 'id người gửi/người nhận',
   `seen` tinyint(4) NOT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 
@@ -55,10 +55,10 @@ CREATE TABLE `conversations_messages` (
 
 CREATE TABLE `conversations_sent` (
   `messageID` int(11) NOT NULL,
-  `message` text COLLATE utf8_vietnamese_ci NOT NULL,
+  `message` mediumtext COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `time` datetime NOT NULL DEFAULT current_timestamp(),
   `profileID` int(11) NOT NULL COMMENT 'id của người đã gửi'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ CREATE TABLE `conversations_users` (
   `conversationID` int(11) NOT NULL COMMENT 'id bên conversation',
   `profileID` int(11) NOT NULL COMMENT 'id người tham gia',
   `seen` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ CREATE TABLE `notifications` (
 
 CREATE TABLE `posts` (
   `postID` int(11) NOT NULL,
-  `content` text COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `content` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `profileID` int(11) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `image` longblob DEFAULT NULL,
@@ -129,6 +129,15 @@ CREATE TABLE `post_privacy` (
   `id` int(11) NOT NULL,
   `visibility` varchar(20) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `post_privacy`
+--
+
+INSERT INTO `post_privacy` (`id`, `visibility`) VALUES
+(0, 'Công khai'),
+(1, 'Bạn bè'),
+(2, 'Riêng tư');
 
 -- --------------------------------------------------------
 

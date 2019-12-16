@@ -56,7 +56,8 @@
                                     $temp = $anotherUserID['profileID'];
                                     $anotherUser = findUserByID((int)$temp);
                                     $anotherUser['username'] = shortcutString($anotherUser['username'],18);
-                                    $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],18);
+                                    if(isset($anotherUser['fullname']))
+                                        $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],18);
                                 ?>
                                     <div class="recent-wraper">                                                       
                                         <li>

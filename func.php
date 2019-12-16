@@ -119,8 +119,8 @@
       global $errors;
       $uploadable = false;
       $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
-      if ($file["size"] > 2097152) {
-        array_push($errors, "Tập tin tải lên quá lớn! (Kích thước tối đa là 2MB)");
+      if ($file["size"] > 8388608) {
+        array_push($errors, "Tập tin tải lên quá lớn! (Kích thước tối đa là 8MB)");
         $uploadable = false;
       }
       else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
@@ -139,7 +139,7 @@
           $uploadable = true;
         }
         else {
-          array_push($errors, "Tập tin không hợp lệ! (Là hình ảnh và nhỏ hơn 2MB)");
+          array_push($errors, "Tập tin không hợp lệ! (Là hình ảnh và nhỏ hơn 8MB)");
           $uploadable = false;
         }
         if ($uploadable) {
@@ -149,27 +149,54 @@
       return null;
     }
 
-    /*
-    function resizeImage($filename, $max_width, $max_height)
+    function resizeImage($image, $imagetype, $max_width, $max_height)
     {
-      list($orig_width, $orig_height) = getimagesize($filename);
-    
-      $width = $orig_width;
-      $height = $orig_height;
-    
-      # taller
-      if ($height > $max_height) {
-          $width = ($max_height / $height) * $width;
-          $height = $max_height;
+      $src_image = imagecreatefromstring($image);
+      $original_width = imagesx($src_image);
+      $original_height = imagesy($src_image);
+
+      if ($original_width < $max_width && $original_height < $max_height)
+      {
+        $width = $original_width;
+        $height = $original_height;
       }
-    
-      # wider
-      if ($width > $max_width) {
-          $height = ($max_width / $width) * $height;
-          $width = $max_width;
+      
+      elseif ($original_width > $original_height) 
+      {
+        $width = $max_width;
+        $height = $original_height * ($max_height / $original_width);
       }
+
+      elseif ($original_width < $original_height) 
+      {
+        $width = $original_width * ($max_width / $original_height);
+        $height = $max_height;
+      }
+
+      elseif ($original_width == $original_height) 
+      {
+        $width = $max_width;
+        $height = $max_height;
+      }
+
+      $new_image = imagecreatetruecolor($width, $height);
+      imagealphablending($new_image, false);
+      imagesavealpha($new_image, true);
+      $transparent = imagecolorallocatealpha($new_image, 255, 255, 255, 127);
+      imagefilledrectangle($new_image, 0, 0, $original_width, $original_height, $transparent);
+      imagecopyresampled($new_image, $src_image, 0, 0, 0, 0, $width, $height, $original_width, $original_height);
+
+      if ($imagetype == 'jpg' || $imagetype == 'jpeg')
+        $output = imagejpeg($new_image);
+      else if ($imagetype == 'png')
+        $output = imagepng($new_image);
+      else if ($imagetype == 'gif')
+        $output = imagegif($new_image);
+      
+      imagedestroy($src_image);
+      imagedestroy($new_image);
+      return $output; 
     }
-    */
 
     function getNewFeeds()
     {

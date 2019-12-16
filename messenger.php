@@ -32,7 +32,8 @@ ob_start();?>
                         $anotherUserID = $temp['profileID'];
                         $anotherUser = findUserByID($anotherUserID);
                         $anotherUser['username'] = shortcutString($anotherUser['username'],90);
-                        $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],90);
+                        if (isset($anotherUser['fullname']))
+                            $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],90);
                         $allMessages = getMessagesByConversation($conversationID);
                         global $currentUser;
                     ?>                
