@@ -48,7 +48,7 @@ ob_start();?>
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont" style="float:left;">                                 
                                     <?php if (isset($anotherUser['pfp'])): ?>
-                                        <img class="lazyload rounded-circle user_img" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
+                                        <img class="lazyload rounded-circle user_img" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&width=450&height=450" src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&placeholder">
                                     <?php else: ?>
                                         <img class="lazyload rounded-circle user_img" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>                      
@@ -71,7 +71,7 @@ ob_start();?>
                                 </div>
                                 <div class="img_cont_msg">
                                     <?php if (isset($currentUser['pfp'])): ?>
-                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>&width=450&height=450" src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>&placeholder">
                                     <?php else: ?>
                                         <img class="lazyload rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>
@@ -81,7 +81,7 @@ ob_start();?>
                             <div class="d-flex justify-content-start mb-4">
                                 <div class="img_cont_msg">
                                     <?php if (isset($anotherUser['pfp'])): ?>
-                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&width=450&height=450" src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&placeholder">
                                     <?php else: ?>
                                         <img class="lazyload rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>

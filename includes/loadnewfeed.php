@@ -58,7 +58,7 @@
                     <div id="post_information_wrapper">
                         <div class="mini-avatar" id="post_information_left_child">
                             <?php if (isset($post["pfp"])): ?>
-                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>&width=720&height=720" src="profilepfp.php?id=<?php echo $post['profileID'];?>&placeholder">
+                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $post['profileID'];?>&placeholder">
                             <?php else: ?>
                                 <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                             <?php endif?>
