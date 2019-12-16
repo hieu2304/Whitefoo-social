@@ -1,6 +1,7 @@
 var inputvalue;
 var typeOfAction;
 var position;
+var postID;
 function getbuttonvalue(objbtn)
 {
     //get all value
@@ -14,7 +15,7 @@ function getbuttonvalue(objbtn)
         //ask user to confirm delete this post by value
         if(confirm("Bạn có chắc là muốn xóa bài viết này?"))
         {
-            postID = Number(inputvalue);
+            let postID = Number(inputvalue);
             //delete the post from the View (div userpost)
             var command_jQuery = '#userpost[value="userpost-'+ inputvalue +'"]';
             $(command_jQuery).remove();
