@@ -20,6 +20,8 @@
                     <?php if (isset($_SESSION['profileID'])) : ?>
                     <ul class="nav navbar-nav">
                         <li class="nav-item" role="presentation"><a class="nav-link" href="personalpage.php">Trang cá nhân</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="messenger-recent.php">Tin nhắn</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="friend-list.php">Danh sách bạn bè</a></li>
                     </ul>
                     <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field" name="search">
