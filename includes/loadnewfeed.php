@@ -8,7 +8,6 @@
     $typeofpage = $_POST['page'];
     $profileID = $_POST['profileID'];
     $privacy = getPrivacy();
-
     if($typeofpage == 'main'):
         $posts = getVisibleNewFeedsPaginate($currentUser['profileID'], $pagenum, $postlimit);
     else:
@@ -24,13 +23,16 @@
             endif;
         endif;
     endif;
+    $temp = 0;
     foreach ($posts as $post) :
+    	if($temp == 0):
 ?>
-        <head>
-            <script src="assets/js/modifypost.js"></script>
-        </head>
+    	<script src="assets/js/modifypost.js"></script>
+    	<?php $temp=1; endif;
+?>
+
         <div class="col-sm-12">
-            <div value="<?php echo $post['postID']; ?>" id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto; margin-bottom:10px;">
+            <div value="<?php echo 'userpost-'.$post['postID']; ?>" id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto; margin-bottom:10px;">
                 <div class="card-body">
                     <?php if($currentUser['profileID'] == $post['profileID'] and $_SESSION['profileID'] == $post['profileID']): ?>
                     <div class="navbar navbar-light navbar-expand-md navigation-clean-search" style="float:right; padding: 0% 0% 0% 0%;">
