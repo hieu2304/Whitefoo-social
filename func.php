@@ -9,38 +9,38 @@
     /* USER */
     function login_user($email, $password)
     {
-        global $db, $errors;
-        $login_check_query = $db->prepare("SELECT * FROM users WHERE email = ? AND status > ?");
-        $login_check_query->execute([$email, 0]);
-        $row = $login_check_query->fetch(PDO::FETCH_ASSOC);
-    
-        if ($row && $email == $row['email'] && password_verify($password, $row['password'])) {
-          $_SESSION['profileID'] = $row['profileID'];
-          $_SESSION['success'] = "Đăng nhập thành công!";
-          header('location: index.php');
-        }
-        else if ($row && $row['status'] <= 0) {
-          array_push($errors, "Bạn cần phải kích hoạt tài khoản để tiếp tục!");
-        }
-        else {
-          array_push($errors, "Sai email hoặc mật khẩu!");
-        }
+      global $db, $errors;
+      $login_check_query = $db->prepare("SELECT * FROM users WHERE email = ? AND status > ?");
+      $login_check_query->execute([$email, 0]);
+      $row = $login_check_query->fetch(PDO::FETCH_ASSOC);
+  
+      if ($row && $email == $row['email'] && password_verify($password, $row['password'])) {
+        $_SESSION['profileID'] = $row['profileID'];
+        $_SESSION['success'] = "Đăng nhập thành công!";
+        header('location: index.php');
+      }
+      else if ($row && $row['status'] <= 0) {
+        array_push($errors, "Bạn cần phải kích hoạt tài khoản để tiếp tục!");
+      }
+      else {
+        array_push($errors, "Sai email hoặc mật khẩu!");
+      }
     }
 
     function register_user($username, $email, $password)
     {
-        global $db, $BASE_URL;
-        $password = password_hash($password, PASSWORD_DEFAULT); // encrypt the password before saving in the database
-        $code = generateRandomString(16);
-        // preparing a statement
-        $stmt = $db->prepare("INSERT INTO users (username, email, password, code, status) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$username, $email, $password, $code, 0]);
-        $profileID = $db->lastInsertID();
-        //$_SESSION['profileID'] = $profileID;
-        $_SESSION['success'] = "Đăng ký thành công!";
-        sendEmail($email, $username, 'Kích hoạt tài khoản', "Truy cập liên kết này để kích hoạt tài khoản <a href=\"$BASE_URL/verifyuser.php?code=$code\">$BASE_URL/verifyuser.php?code=$code</a>");
-        return $profileID;
-        //header('location: index.php');
+      global $db, $BASE_URL;
+      $password = password_hash($password, PASSWORD_DEFAULT); // encrypt the password before saving in the database
+      $code = generateRandomString(16);
+      // preparing a statement
+      $stmt = $db->prepare("INSERT INTO users (username, email, password, code, status) VALUES (?, ?, ?, ?, ?)");
+      $stmt->execute([$username, $email, $password, $code, 0]);
+      $profileID = $db->lastInsertID();
+      //$_SESSION['profileID'] = $profileID;
+      $_SESSION['success'] = "Đăng ký thành công!";
+      sendEmail($email, $username, 'Kích hoạt tài khoản', "Truy cập liên kết này để kích hoạt tài khoản <a href=\"$BASE_URL/verifyuser.php?code=$code\">$BASE_URL/verifyuser.php?code=$code</a>");
+      return $profileID;
+      //header('location: index.php');
     }
 
     function findUserByEmail($email) {
