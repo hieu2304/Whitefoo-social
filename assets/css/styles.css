@@ -42,6 +42,14 @@ html,body
 	border-radius: 50%;
 }
 
+.mini-avatarcmt img
+{
+	align-content: left;
+	width: 45px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
+}
 #break_space_between_posts
 {
 	width: auto;
@@ -240,16 +248,28 @@ html,body
 	border-width: 0px 0.0px 0px 0.4px;
 }
 
-.post-three-action :hover
+.post-three-action a :hover
 {
 	text-shadow: black;
 	background-color: rgba(61, 131, 253,0.4);
 }
 
-.post-three-action :active
+.post-three-action a :active
 {
 	text-shadow: black;
 	background-color: rgba(61, 131, 253,0.8);
+}
+
+.post-three-action a button :hover
+{
+	text-shadow: black;
+	background-color: rgba(61, 131, 253,0.4);
+}
+
+.post-three-action a button :active
+{
+	text-shadow: black;
+	background-color: rgba(29, 105, 236, 0.8);
 }
 
 /** DROPDOWN FOR POST **/
@@ -301,6 +321,13 @@ html,body
 	background-color: rgb(61, 131, 253);
 	box-shadow: 0.5px 0px 0px 0px rgba(0,0,0,0.3);
 	border-radius: 10px;
+}
+#post_content_cmt
+{
+	width: 100%;
+	height: auto;
+	margin: auto;
+	float:left;
 }
 
 /* Use to Disable the icon Arrow of the toggle nav-link*/

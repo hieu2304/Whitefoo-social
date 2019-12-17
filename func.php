@@ -515,8 +515,58 @@
     	$stmt = $db-> prepare("SELECT * FROM friends WHERE userone = ? AND usertwo = ? ");
     	$stmt->execute([$profileID1, $profileID2]);
     	return $stmt->fetch(PDO::FETCH_ASSOC);
+    }   
+    function insertLike_By_profileID_postID($profileID,$postID)
+    {
+      global $db;
+      if(kiemtraLikechua($profileID,$postID)==0)
+      {
+        $stmt = $db->prepare("INSERT INTO likes (id_users,id_posts) VALUE(?,?)");
+        $stmt->execute([$profileID,$postID]);
+      }
+      else  
+        return 0;
+    }
+    function laysoLike_By_postID($postID)
+    {
+      global $db;
+      $count = $db->query("SELECT count(*) FROM likes")->fetchColumn();
+      $stmt = $db->prepare("SELECT COUNT(*) FROM likes WHERE id_posts = ? ");
+      $stmt->execute([$postID]);
+      $count=$stmt->fetchColumn();
+      return $count;
+    }
+    function kiemtraLikechua($profileID,$postID)
+    {
+      global $db;
+      $stmt=$db->prepare("SELECT* FROM likes WHERE  id_users=? AND id_posts = ? ");
+      $stmt->execute([$profileID,$postID]);
+      $like=$stmt->fetch(PDO::FETCH_ASSOC);
+      if($like && $like['id_posts']==$postID){
+        return 1;
+      }
+      return 0;
     }
 
+    function deleteLike_By_profileID_postID($profileID,$postID)
+    {
+      global $db;
+      if(kiemtraLikechua($profileID,$postID)==1)
+      {
+        $stmt = $db->prepare("DELETE  FROM likes WHERE id_users = ? AND id_posts = ?");
+        $stmt->execute([$profileID,$postID]);
+      }
+      else
+        insertLike_By_profileID_postID($profileID,$postID);
+    }
+    function getNewCommentsByProfileIDPaginate($profileID, $offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM comments AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.Time_cmt DESC LIMIT ?, ?");
+      $stmt->execute([$profileID, $offset, $postLimit]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }  
     function isFriend($profileID, $friendID)
     {
       global $db;

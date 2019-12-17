@@ -28,7 +28,6 @@ try {
 catch (PDOException $ex) {
   echo "Error connecting to mysql: " . $ex->getMessage();
 }
-
 $currentUser = null;
 
 if (isset($_SESSION['profileID'])) {

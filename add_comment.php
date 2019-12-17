@@ -1,0 +1,46 @@
+<?php
+
+//add_comment.php
+
+$connect = new PDO('mysql:host=localhost;dbname=sampledb', 'root', '');
+
+$error = '';
+$comment_name = '';
+$comment_content = '';
+
+$comment_name = $_POST["profileID"];
+
+if(empty($_POST["comment_content"]))
+{
+ $error .= '<p class="text-danger">Comment is required</p>';
+}
+else
+{
+ $comment_content = $_POST["comment_content"];
+}
+
+if($error == '')
+{
+ $query = "
+ INSERT INTO comments
+ (parent_comment_id, comment, profileID) 
+ VALUES (:parent_comment_id, :comment, :profileID)
+ ";
+ $statement = $connect->prepare($query);
+ $statement->execute(
+  array(
+   ':parent_comment_id' => $_POST["comment_id"],
+   ':comment'    => $comment_content,
+   ':profileID' => $comment_name
+  )
+ );
+ $error = '<label class="text-success">Comment Added</label>';
+}
+
+$data = array(
+ 'error'  => $error
+);
+
+echo json_encode($data);
+
+?>
