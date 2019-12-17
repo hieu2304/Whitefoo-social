@@ -56,9 +56,9 @@
                         </div>
                     </div>
                     <!-- The Image Modal -->
-                    <div id="imageModal" value="123" class="image-modal">
+                    <div id="imageModal" class="image-modal">
                         <span class="close-img-modal">&times;</span>
-                        <img class="img-modal-content" id="imgModal">
+                        <img class="img-modal-content blur-up" id="imgModal">
                         <div id="modal-caption"></div>
                     </div>
                     <div id="load_more" class="col-sm-12 mt-5 text-center">
