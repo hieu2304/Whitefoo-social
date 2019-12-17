@@ -84,7 +84,7 @@
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
-                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazyload blur-up" data-src="postimage.php?id=<?php echo $post['postID']; ?>&width=720&height=720" src="postimage.php?id=<?php echo $post['postID']; ?>&placeholder" class="card-img" alt="<?php echo $post['username'] ?>">
+                            <img value="<?php echo $post['postID']; ?>" class="lazyload blur-up image-preview" data-src="postimage.php?id=<?php echo $post['postID']; ?>&width=720&height=720" src="postimage.php?id=<?php echo $post['postID']; ?>&placeholder" class="card-img" alt="<?php echo $post['username'] ?>">
                         <?php endif?>
                     </div>
                 </div>
