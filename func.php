@@ -680,10 +680,12 @@
     $temp = $stmt->fetch(PDO::FETCH_ASSOC);
     $messageID = $temp['max(s.messageID)'];
     $profileID2 = getAnotherUserIDByConversationIDAndUserID($conversationID, $profileID);
+
     //thêm vào messages
     //thêm ng gửi trước
     $stmt = $db->prepare("INSERT INTO conversations_messages VALUES(?, ?, ?, 0, 0);");    
     $stmt->execute([$conversationID, $messageID, $profileID]);
+
     //thêm người nhận
     $stmt = $db->prepare("INSERT INTO conversations_messages VALUES(?, ?, ?, 0, 0);");   
     $stmt->execute([$conversationID, $messageID, $profileID2['profileID']]);
@@ -691,6 +693,26 @@
     //thêm vào conver chính
     $stmt = $db->prepare("UPDATE conversations AS c SET lastMessageID = ? WHERE c.conversationID = ?;");
     $stmt->execute([$messageID, $conversationID]);
+
+    //xog hết thì gửi mail thông báo cho người nhận tin nhắn(Another User)
+    $temp = $profileID2['profileID'];
+    $anotherUser = findUserByID((int)$temp);
+    $sendUser = findUserByID($profileID);
+    $currentUserShortcutName = '';
+    if( !($sendUser['fullname'] == "" || $sendUser['fullname'] == null) ):
+      $currentUserShortcutName = $sendUser['fullname'];
+    else:
+      $currentUserShortcutName = $sendUser['username'];
+    endif;
+    if(isset($currentUserShortcutName )):
+      $currentUserShortcutName = shortcutString($currentUserShortcutName,20);
+    else:
+      $currentUserShortcutName = "Người dùng";
+    endif;
+    $messageTitle = "Bạn có tin nhắn mới từ [" . $currentUserShortcutName . "]";
+    $messageContent = "Nội dung: " . shortcutString($message,100);
+
+    sendEmail($anotherUser['email'], $temp, $messageTitle, $messageContent);
   }
 
   function getFriendIDCol2($profileID)
@@ -740,14 +762,18 @@
         $temp = findUserByID($i['friendID']);
         //cắt bớt tên
         $temp['username'] = shortcutString($temp['username'],45);
-        $temp['fullname'] = shortcutString($temp['fullname'],45);
+        if(isset($temp['fullname'])):
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+        endif;
         array_push($totallist,$temp);
       }
       foreach($listb as $j)
       {
         $temp = findUserByID($j['friendID']);
         $temp['username'] = shortcutString($temp['username'],45);
-        $temp['fullname'] = shortcutString($temp['fullname'],45);
+        if(isset($temp['fullname'])):
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+        endif;
         array_push($totallist,$temp);
       }
       return $totallist;
@@ -764,7 +790,9 @@
       {
         $temp = $i;
         $temp['username'] = shortcutString($temp['username'],45);
-        $temp['fullname'] = shortcutString($temp['fullname'],45);
+        if(isset($temp['fullname'])):
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+        endif;
         array_push($totallist,$temp);
       }
       return $totallist;
