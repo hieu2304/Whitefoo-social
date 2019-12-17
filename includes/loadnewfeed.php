@@ -62,11 +62,11 @@
                             <?php else: ?>
                                 <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                             <?php endif?>
-                        </div>      
+                        </div>
                         <div id="post_information_center_child">
                         <div id="break_space_between_posts"></div>
                             <h5 class="card-title">
-                                <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
+                                <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>
                             </h5>
                             <p class="card-info">
                                 <small class="card-subtitle mb-2 text-muted">
@@ -90,15 +90,21 @@
                 </div>
                 <div class="post-action-wrapper">
                     <div class="post-three-action">
+                        <a href="like.php<?php echo '?postID='.$post['postID']; ?>">
                         <button value="<?php echo $post['postID'] . '-likebtn'; ?>" class="btn-action-like"><i class="fa fa-thumbs-up" style="font-weight: bold;"></i> Thích</button>
+                        </a>
                     </div>
                     <div class="post-three-action">
+                        <a href="text.php<?php echo '?postID='.$post['postID']; ?>">
                         <button value="<?php echo $post['postID'] . '-commentbtn'; ?>" class="btn-action-comment"><i class="fa fa-comment" style="font-weight: bold;"></i> Bình Luận</button>
+                        </a>
                     </div>
                     <div class="post-three-action">
+                        <a href="#<?php echo '' ?>">
                         <button value="<?php echo $post['postID'] . '-sharebtn'; ?>" class="btn-action-share"><i class="fa fa-reply" style="font-weight: bold;"></i> Chia sẻ</button>
+                        </a>
                     </div>
-                </div>
+                    </div>                    
                 <div id="break_space_between_posts"></div>
             </div>
         </div>
