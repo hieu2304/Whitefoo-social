@@ -26,8 +26,8 @@
         }
         elseif (isset($_GET['placeholder']))
         {
-            $placeholder_width = 48;
-            $placeholder_height = 48;
+            $placeholder_width = 40;
+            $placeholder_height = 40;
             
             ob_start();
             resizeImage($post['image'], $imagetype, $placeholder_width, $placeholder_height);
