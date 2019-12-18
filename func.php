@@ -708,10 +708,12 @@
           $temp['time'] = $newProperties['time'];
           $temp['message'] = $newProperties['message'];
           $temp['senderID'] = $newProperties['profileID'];
-          $temp['message'] = shortcutString($temp['message'],14);
+          $temp['message'] = str_replace("<br>","",$temp['message']);
+          $temp['message'] = shortcutString($temp['message'],14);      
           array_push($totallist,$temp);
         endif;
       else:
+        $temp['message'] = str_replace('<br>'," ", $temp['message']);
         $temp['message'] = shortcutString($temp['message'],14);
         array_push($totallist,$temp);
       endif;
