@@ -29,7 +29,7 @@
                                 <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='register.php'">Đăng Ký Ngay</button></div>
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
                                 <div class="center-img">
-                                    <img class="lazyload" data-src="assets\img\fox-1284512_1920.jpg">
+                                    <img class="lazyload blur-up" data-src="assets\img\fox-1284512_1920.jpg" src="assets\img\fox-1284512_placeholder.jpg">
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                 <div class="center-avatar">
                                     <?php if (isset($currentUser['pfp'])): ?>
-                                        <img class="lazyload" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                        <img class="lazyload blur-up" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>&width=720&height=720" src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>&placeholder">
                                     <?php else: ?>
                                         <img class="lazyload" data-src="assets\img\defaultavataruser.png">
                                     <?php endif?>
@@ -54,6 +54,12 @@
                     <div id="newfeed" style="margin-top: 200px; font-family: 'Roboto', sans-serif;">
                         <div class="row" id="newfeed_content">
                         </div>
+                    </div>
+                    <!-- The Image Modal -->
+                    <div id="imageModal" class="image-modal">
+                        <span class="close-img-modal">&times;</span>
+                        <img class="img-modal-content blur-up" id="imgModal">
+                        <div id="modal-caption"></div>
                     </div>
                     <div id="load_more" class="col-sm-12 mt-5 text-center">
                         <div id="spinner"></div>
@@ -67,6 +73,10 @@
     <script src="assets/js/content-p.js"></script>
     <script src="assets/js/privacychange.js"></script>
     <script src="assets/js/scroll.js"></script>
+<<<<<<< HEAD
+=======
+    <script src="assets/js/imagemodal.js"></script>
+>>>>>>> eb54c5ec9db9ad462926468714914f4fc4b891a6
 </body>
 
 </html>

@@ -56,14 +56,15 @@
                                     $temp = $anotherUserID['profileID'];
                                     $anotherUser = findUserByID((int)$temp);
                                     $anotherUser['username'] = shortcutString($anotherUser['username'],18);
-                                    $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],18);
+                                    if(isset($anotherUser['fullname']))
+                                        $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],18);
                                 ?>
                                     <div class="recent-wraper">                                                       
                                         <li>
                                             <a href="messenger.php?conversationID=<?php echo $singleRecent['conversationID'];?>&profileID=<?php echo $_SESSION['profileID']; ?>">
                                                 <div class="mini-avatar-recent" value="ảnh nhỏ">
                                                     <?php if (isset($anotherUser["pfp"])): ?>
-                                                        <img class="lazyload" data-src="profilepfp.php?id=<?php echo $anotherUser['profileID'];?>">
+                                                        <img class="lazyload" data-src="profilepfp.php?id=<?php echo $anotherUser['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $anotherUser['profileID'];?>&placeholder">
                                                     <?php else: ?>
                                                         <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                                                     <?php endif?> 

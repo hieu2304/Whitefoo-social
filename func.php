@@ -9,38 +9,38 @@
     /* USER */
     function login_user($email, $password)
     {
-        global $db, $errors;
-        $login_check_query = $db->prepare("SELECT * FROM users WHERE email = ? AND status > ?");
-        $login_check_query->execute([$email, 0]);
-        $row = $login_check_query->fetch(PDO::FETCH_ASSOC);
-    
-        if ($row && $email == $row['email'] && password_verify($password, $row['password'])) {
-          $_SESSION['profileID'] = $row['profileID'];
-          $_SESSION['success'] = "Đăng nhập thành công!";
-          header('location: index.php');
-        }
-        else if ($row && $row['status'] <= 0) {
-          array_push($errors, "Bạn cần phải kích hoạt tài khoản để tiếp tục!");
-        }
-        else {
-          array_push($errors, "Sai email hoặc mật khẩu!");
-        }
+      global $db, $errors;
+      $login_check_query = $db->prepare("SELECT * FROM users WHERE email = ? AND status > ?");
+      $login_check_query->execute([$email, 0]);
+      $row = $login_check_query->fetch(PDO::FETCH_ASSOC);
+  
+      if ($row && $email == $row['email'] && password_verify($password, $row['password'])) {
+        $_SESSION['profileID'] = $row['profileID'];
+        $_SESSION['success'] = "Đăng nhập thành công!";
+        header('location: index.php');
+      }
+      else if ($row && $row['status'] <= 0) {
+        array_push($errors, "Bạn cần phải kích hoạt tài khoản để tiếp tục!");
+      }
+      else {
+        array_push($errors, "Sai email hoặc mật khẩu!");
+      }
     }
 
     function register_user($username, $email, $password)
     {
-        global $db, $BASE_URL;
-        $password = password_hash($password, PASSWORD_DEFAULT); // encrypt the password before saving in the database
-        $code = generateRandomString(16);
-        // preparing a statement
-        $stmt = $db->prepare("INSERT INTO users (username, email, password, code, status) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$username, $email, $password, $code, 0]);
-        $profileID = $db->lastInsertID();
-        //$_SESSION['profileID'] = $profileID;
-        $_SESSION['success'] = "Đăng ký thành công!";
-        sendEmail($email, $username, 'Kích hoạt tài khoản', "Truy cập liên kết này để kích hoạt tài khoản <a href=\"$BASE_URL/verifyuser.php?code=$code\">$BASE_URL/verifyuser.php?code=$code</a>");
-        return $profileID;
-        //header('location: index.php');
+      global $db, $BASE_URL;
+      $password = password_hash($password, PASSWORD_DEFAULT); // encrypt the password before saving in the database
+      $code = generateRandomString(16);
+      // preparing a statement
+      $stmt = $db->prepare("INSERT INTO users (username, email, password, code, status) VALUES (?, ?, ?, ?, ?)");
+      $stmt->execute([$username, $email, $password, $code, 0]);
+      $profileID = $db->lastInsertID();
+      //$_SESSION['profileID'] = $profileID;
+      $_SESSION['success'] = "Đăng ký thành công!";
+      sendEmail($email, $username, 'Kích hoạt tài khoản', "Truy cập liên kết này để kích hoạt tài khoản <a href=\"$BASE_URL/verifyuser.php?code=$code\">$BASE_URL/verifyuser.php?code=$code</a>");
+      return $profileID;
+      //header('location: index.php');
     }
 
     function findUserByEmail($email) {
@@ -119,8 +119,8 @@
       global $errors;
       $uploadable = false;
       $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
-      if ($file["size"] > 2097152) {
-        array_push($errors, "Tập tin tải lên quá lớn! (Kích thước tối đa là 2MB)");
+      if ($file["size"] > 8388608) {
+        array_push($errors, "Tập tin tải lên quá lớn! (Kích thước tối đa là 8MB)");
         $uploadable = false;
       }
       else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
@@ -139,7 +139,7 @@
           $uploadable = true;
         }
         else {
-          array_push($errors, "Tập tin không hợp lệ! (Là hình ảnh và nhỏ hơn 2MB)");
+          array_push($errors, "Tập tin không hợp lệ! (Là hình ảnh và nhỏ hơn 8MB)");
           $uploadable = false;
         }
         if ($uploadable) {
@@ -149,27 +149,54 @@
       return null;
     }
 
-    /*
-    function resizeImage($filename, $max_width, $max_height)
+    function resizeImage($image, $imagetype, $max_width, $max_height)
     {
-      list($orig_width, $orig_height) = getimagesize($filename);
-    
-      $width = $orig_width;
-      $height = $orig_height;
-    
-      # taller
-      if ($height > $max_height) {
-          $width = ($max_height / $height) * $width;
-          $height = $max_height;
+      $src_image = imagecreatefromstring($image);
+      $original_width = imagesx($src_image);
+      $original_height = imagesy($src_image);
+
+      if ($original_width < $max_width && $original_height < $max_height)
+      {
+        $width = $original_width;
+        $height = $original_height;
       }
-    
-      # wider
-      if ($width > $max_width) {
-          $height = ($max_width / $width) * $height;
-          $width = $max_width;
+      
+      elseif ($original_width > $original_height) 
+      {
+        $width = $max_width;
+        $height = $original_height * ($max_height / $original_width);
       }
+
+      elseif ($original_width < $original_height) 
+      {
+        $width = $original_width * ($max_width / $original_height);
+        $height = $max_height;
+      }
+
+      elseif ($original_width == $original_height) 
+      {
+        $width = $max_width;
+        $height = $max_height;
+      }
+
+      $new_image = imagecreatetruecolor($width, $height);
+      imagealphablending($new_image, false);
+      imagesavealpha($new_image, true);
+      $transparent = imagecolorallocatealpha($new_image, 255, 255, 255, 127);
+      imagefilledrectangle($new_image, 0, 0, $original_width, $original_height, $transparent);
+      imagecopyresampled($new_image, $src_image, 0, 0, 0, 0, $width, $height, $original_width, $original_height);
+
+      if ($imagetype == 'jpg' || $imagetype == 'jpeg')
+        $output = imagejpeg($new_image);
+      else if ($imagetype == 'png')
+        $output = imagepng($new_image);
+      else if ($imagetype == 'gif')
+        $output = imagegif($new_image);
+      
+      imagedestroy($src_image);
+      imagedestroy($new_image);
+      return $output; 
     }
-    */
 
     function getNewFeeds()
     {
@@ -514,7 +541,58 @@
       $stmt = $db ->prepare("DELETE FROM friends WHERE (userone = ? and usertwo = ?) OR (usertwo = ? and userone = ?)");
       $stmt -> execute([$profileID1, $profileID2,$profileID1, $profileID2]);
     }
+    
+    function insertLike_By_profileID_postID($profileID,$postID)
+    {
+      global $db;
+      if(kiemtraLikechua($profileID,$postID)==0)
+      {
+        $stmt = $db->prepare("INSERT INTO likes (id_users,id_posts) VALUE(?,?)");
+        $stmt->execute([$profileID,$postID]);
+      }
+      else  
+        return 0;
+    }
+    function laysoLike_By_postID($postID)
+    {
+      global $db;
+      $count = $db->query("SELECT count(*) FROM likes")->fetchColumn();
+      $stmt = $db->prepare("SELECT COUNT(*) FROM likes WHERE id_posts = ? ");
+      $stmt->execute([$postID]);
+      $count=$stmt->fetchColumn();
+      return $count;
+    }
+    function kiemtraLikechua($profileID,$postID)
+    {
+      global $db;
+      $stmt=$db->prepare("SELECT* FROM likes WHERE  id_users=? AND id_posts = ? ");
+      $stmt->execute([$profileID,$postID]);
+      $like=$stmt->fetch(PDO::FETCH_ASSOC);
+      if($like && $like['id_posts']==$postID){
+        return 1;
+      }
+      return 0;
+    }
 
+    function deleteLike_By_profileID_postID($profileID,$postID)
+    {
+      global $db;
+      if(kiemtraLikechua($profileID,$postID)==1)
+      {
+        $stmt = $db->prepare("DELETE  FROM likes WHERE id_users = ? AND id_posts = ?");
+        $stmt->execute([$profileID,$postID]);
+      }
+      else
+        insertLike_By_profileID_postID($profileID,$postID);
+    }
+    function getNewCommentsByProfileIDPaginate($profileID, $offset = 0, $postLimit = 10)
+    {
+      global $db;
+      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM comments AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.Time_cmt DESC LIMIT ?, ?");
+      $stmt->execute([$profileID, $offset, $postLimit]);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }  
     function isFriend($profileID, $friendID)
     {
       global $db;
@@ -656,10 +734,12 @@
           $temp['time'] = $newProperties['time'];
           $temp['message'] = $newProperties['message'];
           $temp['senderID'] = $newProperties['profileID'];
-          $temp['message'] = shortcutString($temp['message'],14);
+          $temp['message'] = str_replace("<br>","",$temp['message']);
+          $temp['message'] = shortcutString($temp['message'],14);      
           array_push($totallist,$temp);
         endif;
       else:
+        $temp['message'] = str_replace('<br>'," ", $temp['message']);
         $temp['message'] = shortcutString($temp['message'],14);
         array_push($totallist,$temp);
       endif;
@@ -689,6 +769,26 @@
     //thêm vào conver chính
     $stmt = $db->prepare("UPDATE conversations AS c SET lastMessageID = ? WHERE c.conversationID = ?;");
     $stmt->execute([$messageID, $conversationID]);
+
+    //xog hết thì gửi mail thông báo cho người nhận tin nhắn(Another User)
+    $temp = $profileID2['profileID'];
+    $anotherUser = findUserByID((int)$temp);
+    $sendUser = findUserByID($profileID);
+    $currentUserShortcutName = '';
+    if( !($sendUser['fullname'] == "" || $sendUser['fullname'] == null) ):
+      $currentUserShortcutName = $sendUser['fullname'];
+    else:
+      $currentUserShortcutName = $sendUser['username'];
+    endif;
+    if(isset($currentUserShortcutName )):
+      $currentUserShortcutName = shortcutString($currentUserShortcutName,20);
+    else:
+      $currentUserShortcutName = "Người dùng";
+    endif;
+    $messageTitle = "Bạn có tin nhắn mới từ [" . $currentUserShortcutName . "]";
+    $messageContent = "Nội dung: " . "<br>" . shortcutString($message,100);
+
+    sendEmail($anotherUser['email'], $temp, $messageTitle, $messageContent);
   }
 
   function getFriendIDCol2($profileID)
@@ -738,14 +838,18 @@
         $temp = findUserByID($i['friendID']);
         //cắt bớt tên
         $temp['username'] = shortcutString($temp['username'],45);
-        $temp['fullname'] = shortcutString($temp['fullname'],45);
+        if(isset($temp['fullname'])):
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+        endif;
         array_push($totallist,$temp);
       }
       foreach($listb as $j)
       {
         $temp = findUserByID($j['friendID']);
         $temp['username'] = shortcutString($temp['username'],45);
-        $temp['fullname'] = shortcutString($temp['fullname'],45);
+        if(isset($temp['fullname'])):
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+        endif;
         array_push($totallist,$temp);
       }
       return $totallist;
@@ -762,7 +866,9 @@
       {
         $temp = $i;
         $temp['username'] = shortcutString($temp['username'],45);
-        $temp['fullname'] = shortcutString($temp['fullname'],45);
+        if(isset($temp['fullname'])):
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+        endif;
         array_push($totallist,$temp);
       }
       return $totallist;

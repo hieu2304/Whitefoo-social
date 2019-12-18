@@ -42,6 +42,14 @@ html,body
 	border-radius: 50%;
 }
 
+.mini-avatarcmt img
+{
+	align-content: left;
+	width: 45px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
+}
 #break_space_between_posts
 {
 	width: auto;
@@ -240,16 +248,28 @@ html,body
 	border-width: 0px 0.0px 0px 0.4px;
 }
 
-.post-three-action :hover
+.post-three-action a :hover
 {
 	text-shadow: black;
 	background-color: rgba(61, 131, 253,0.4);
 }
 
-.post-three-action :active
+.post-three-action a :active
 {
 	text-shadow: black;
 	background-color: rgba(61, 131, 253,0.8);
+}
+
+.post-three-action a button :hover
+{
+	text-shadow: black;
+	background-color: rgba(61, 131, 253,0.4);
+}
+
+.post-three-action a button :active
+{
+	text-shadow: black;
+	background-color: rgba(29, 105, 236, 0.8);
 }
 
 /** DROPDOWN FOR POST **/
@@ -302,6 +322,13 @@ html,body
 	box-shadow: 0.5px 0px 0px 0px rgba(0,0,0,0.3);
 	border-radius: 10px;
 }
+#post_content_cmt
+{
+	width: 100%;
+	height: auto;
+	margin: auto;
+	float:left;
+}
 
 /* Use to Disable the icon Arrow of the toggle nav-link*/
 .caret-off::before {
@@ -327,4 +354,94 @@ html,body
 	margin-right: 10px;
 }
 
+.blur-up {
+	-webkit-filter: blur(10px);
+	filter: blur(10px);
+	transition: filter 400ms, -webkit-filter 400ms;
+}
 
+.blur-up.lazyloaded {
+	-webkit-filter: blur(0);
+	filter: blur(0);
+}
+
+.image-preview {
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.image-modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+  
+.img-modal-content {
+	margin: auto;
+	display: block;
+	width: 35%;
+	max-width: 80%;
+}
+
+/* Caption of Modal Image */
+#modal-caption {
+	margin: auto;
+	display: block;
+	width: 80%;
+	max-width: 700px;
+	text-align: center;
+	color: #ccc;
+	padding: 10px 0;
+	height: 150px;
+}
+
+/* Add Animation */
+.img-modal-content, #modal-caption {
+	-webkit-animation-name: zoom-img-modal;
+	-webkit-animation-duration: 0.3s;
+	animation-name: zoom-img-modal;
+	animation-duration: 0.3s;
+}
+  
+@-webkit-keyframes zoom-img-modal {
+	from {-webkit-transform:scale(0)} 
+	to {-webkit-transform:scale(1)}
+}
+  
+@keyframes zoom-img-modal {
+	from {transform:scale(0)} 
+	to {transform:scale(1)}
+}
+  
+/* The Close Button */
+.close-img-modal {
+	position: absolute;
+	top: 15px;
+	right: 35px;
+	color: #f1f1f1;
+	font-size: 40px;
+	font-weight: bold;
+	transition: 0.3s;
+}
+  
+.close-img-modal:hover,
+.close-img-modal:focus {
+	color: #bbb;
+	text-decoration: none;
+	cursor: pointer;
+}
+  
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+	.img-modal-content {
+		width: 80%;
+  }
+}

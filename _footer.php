@@ -17,6 +17,5 @@
                 <p class="copyright">Đồ án WEB - 2019</p>
             </footer>
         </div>
-        <script type="text/javascript" src="assets/js/lazysizes.min.js" async=""></script>
     </body>
 </html>

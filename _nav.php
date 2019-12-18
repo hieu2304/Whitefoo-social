@@ -9,6 +9,7 @@
         <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <script src="assets/js/searching-approximately.js"></script>
+        <script type="text/javascript" src="assets/js/lazysizes.min.js" async=""></script>
     </head>
     <body>
         <nav class="navbar navbar-light navbar-expand-md">

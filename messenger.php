@@ -11,13 +11,14 @@ ob_start();?>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <script src="assets/js/modifypost.js"></script>
+    <script src ="assets/js/autoScrolling.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-button@latest/dist/index.min.js"></script>
+    <Script src ="assets/js/emoji.js"></script>
     <link rel="stylesheet" href="assets/css/Header-Blue.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/messenger-style.css">
-    <script src="assets/js/modifypost.js"></script>
-    <script src ="assets/js/autoScrolling.js"></script>
 </head>
-
 <body>
     <div>
         <div class="header-blue">
@@ -32,7 +33,8 @@ ob_start();?>
                         $anotherUserID = $temp['profileID'];
                         $anotherUser = findUserByID($anotherUserID);
                         $anotherUser['username'] = shortcutString($anotherUser['username'],90);
-                        $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],90);
+                        if (isset($anotherUser['fullname']))
+                            $anotherUser['fullname'] = shortcutString($anotherUser['fullname'],90);
                         $allMessages = getMessagesByConversation($conversationID);
                         global $currentUser;
                     ?>                
@@ -47,7 +49,7 @@ ob_start();?>
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont" style="float:left;">                                 
                                     <?php if (isset($anotherUser['pfp'])): ?>
-                                        <img class="lazyload rounded-circle user_img" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
+                                        <img class="lazyload rounded-circle user_img" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&width=450&height=450" src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&placeholder">
                                     <?php else: ?>
                                         <img class="lazyload rounded-circle user_img" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>                      
@@ -70,7 +72,7 @@ ob_start();?>
                                 </div>
                                 <div class="img_cont_msg">
                                     <?php if (isset($currentUser['pfp'])): ?>
-                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>&width=450&height=450" src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>&placeholder">
                                     <?php else: ?>
                                         <img class="lazyload rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>
@@ -80,7 +82,7 @@ ob_start();?>
                             <div class="d-flex justify-content-start mb-4">
                                 <div class="img_cont_msg">
                                     <?php if (isset($anotherUser['pfp'])): ?>
-                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>">
+                                        <img class="lazyload rounded-circle user_img_msg" data-src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&width=450&height=450" src="profilepfp.php?id=<?php echo (int)$anotherUserID; ?>&placeholder">
                                     <?php else: ?>
                                         <img class="lazyload rounded-circle user_img_msg" data-src="assets\img\defaultavataruser.png" >
                                     <?php endif?>
@@ -95,12 +97,13 @@ ob_start();?>
                         </div>
                         <div class="card-footer">
                             <div class="input-group">
-                                <textarea id="inputmessagehere" class="form-control type_msg" style="border-radius: 15px 0px 0px 15px;" placeholder="Nhập tin nhắn..."></textarea>                               
                                 <div class="input-group-append">
-                                    <button value="<?php echo $conversationID.'='.$currenUserID.'-sendbtn'; ?>" onclick="getbuttonvalue(this)" class="input-group-text send_btn" style="color:white; font-size: 30px;">
-                                    <!-- <span class="input-group-text send_btn"> -->                                   
-                                            <i class="fas fa-location-arrow"> </i>                              
-                                    <!-- </span> -->
+                                    <button id="emoji-button" class="input-group-text my_emoji_btn" style="width:50px; background-color: transparent;"><img draggable="false" class="emoji" alt="😀" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/1f600.svg" style="width:30px; background-color: transparent;"></button>
+                                </div>
+                                <textarea onKeyPress="typingMessage(event);" id="inputmessagehere" class="form-control type_msg" style="border-radius: 0px 0px 0px 0px;" placeholder="Nhập tin nhắn..."></textarea>                               
+                                <div class="input-group-append">
+                                    <button id="sendbtn" value="<?php echo $conversationID.'='.$currenUserID.'-sendbtn'; ?>" onclick="getbuttonvalue(this)" class="input-group-text send_btn" style="color:white; font-size: 30px;">                                                                 
+                                        <i class="fas fa-location-arrow"> </i>                                                                  
                                     </button>
                                 </div>
                             </div>

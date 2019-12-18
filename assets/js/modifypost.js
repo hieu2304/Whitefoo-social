@@ -2,6 +2,24 @@ var inputvalue;
 var typeOfAction;
 var position;
 var postID;
+
+//the function that checking the input
+function typingMessage(event)
+{
+    if (event.keyCode == 13 || event.which == 13) 
+    {
+        //nếu người dùng bấm shift enter xuống dòng thì ko gửi
+        if(!event.shiftKey)
+        {
+            event.preventDefault();
+            //alert('enter');
+            //trigger cho cái nút nó tự bấm
+            document.getElementById("sendbtn").click();
+        }
+    }
+}
+
+
 function getbuttonvalue(objbtn)
 {
     //get all value
@@ -37,6 +55,8 @@ function getbuttonvalue(objbtn)
         message = document.getElementById("inputmessagehere").value;
         if(!(message == '' || message == " "))
         {
+            //thay các dòng endline, shiftenter... bằng br
+            message = message.replace(/(?:\r\n|\r|\n)/g, '<br>');
             //gửi
             $.ajax
             ({

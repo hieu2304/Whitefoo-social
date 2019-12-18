@@ -30,11 +30,11 @@ function SearchingFunc1() {
     filter = input.value.toUpperCase();
     if(filter!='')
     {
-        myUL1.style.display = "block";
+        myUL1.style.display = "none";
     }
     else
     {
-        myUL1.style.display = "none";
+        myUL1.style.display = "block";
     }
     ul = document.getElementById("myUL1");
     li = ul.getElementsByTagName("li");

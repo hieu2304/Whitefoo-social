@@ -58,15 +58,15 @@
                     <div id="post_information_wrapper">
                         <div class="mini-avatar" id="post_information_left_child">
                             <?php if (isset($post["pfp"])): ?>
-                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
+                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $post['profileID'];?>&placeholder">
                             <?php else: ?>
                                 <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                             <?php endif?>
-                        </div>      
+                        </div>
                         <div id="post_information_center_child">
                         <div id="break_space_between_posts"></div>
                             <h5 class="card-title">
-                                <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
+                                <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>
                             </h5>
                             <p class="card-info">
                                 <small class="card-subtitle mb-2 text-muted">
@@ -84,21 +84,27 @@
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
-                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazyload" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+                            <img value="<?php echo $post['postID']; ?>" class="lazyload blur-up image-preview" data-src="postimage.php?id=<?php echo $post['postID']; ?>&width=720&height=720" src="postimage.php?id=<?php echo $post['postID']; ?>&placeholder" class="card-img" alt="<?php echo $post['username'] ?>">
                         <?php endif?>
                     </div>
                 </div>
                 <div class="post-action-wrapper">
                     <div class="post-three-action">
+                        <a href="like.php<?php echo '?postID='.$post['postID']; ?>">
                         <button value="<?php echo $post['postID'] . '-likebtn'; ?>" class="btn-action-like"><i class="fa fa-thumbs-up" style="font-weight: bold;"></i> Thích</button>
+                        </a>
                     </div>
                     <div class="post-three-action">
+                        <a href="text.php<?php echo '?postID='.$post['postID']; ?>">
                         <button value="<?php echo $post['postID'] . '-commentbtn'; ?>" class="btn-action-comment"><i class="fa fa-comment" style="font-weight: bold;"></i> Bình Luận</button>
+                        </a>
                     </div>
                     <div class="post-three-action">
+                        <a href="#<?php echo '' ?>">
                         <button value="<?php echo $post['postID'] . '-sharebtn'; ?>" class="btn-action-share"><i class="fa fa-reply" style="font-weight: bold;"></i> Chia sẻ</button>
+                        </a>
                     </div>
-                </div>
+                    </div>                    
                 <div id="break_space_between_posts"></div>
             </div>
         </div>
