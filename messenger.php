@@ -100,9 +100,9 @@ ob_start();?>
                                 <div class="input-group-append">
                                     <button id="emoji-button" class="input-group-text my_emoji_btn" style="width:50px; background-color: transparent;"><img draggable="false" class="emoji" alt="😀" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/1f600.svg" style="width:30px; background-color: transparent;"></button>
                                 </div>
-                                <textarea id="inputmessagehere" class="form-control type_msg" style="border-radius: 0px 0px 0px 0px;" placeholder="Nhập tin nhắn..."></textarea>                               
+                                <textarea onKeyPress="typingMessage(event);" id="inputmessagehere" class="form-control type_msg" style="border-radius: 0px 0px 0px 0px;" placeholder="Nhập tin nhắn..."></textarea>                               
                                 <div class="input-group-append">
-                                    <button value="<?php echo $conversationID.'='.$currenUserID.'-sendbtn'; ?>" onclick="getbuttonvalue(this)" class="input-group-text send_btn" style="color:white; font-size: 30px;">                                                                 
+                                    <button id="sendbtn" value="<?php echo $conversationID.'='.$currenUserID.'-sendbtn'; ?>" onclick="getbuttonvalue(this)" class="input-group-text send_btn" style="color:white; font-size: 30px;">                                                                 
                                         <i class="fas fa-location-arrow"> </i>                                                                  
                                     </button>
                                 </div>
