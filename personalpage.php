@@ -1,7 +1,7 @@
 <?php
     require_once('init.php');
     $posts = null;
-
+    $privacy = getPrivacy();
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/status.css">
     <link rel="stylesheet" href="assets/css/Modal.css">
+    <link rel="stylesheet" href="assets/css/spinners/style.css">
 </head>
 
 <body>
@@ -33,7 +35,7 @@
                                 <div
                                     class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
                                     <div class="center-img">
-                                        <img class="lazy" data-src="assets\img\fox-1284512_1920.jpg">
+                                        <img class="lazyload" data-src="assets\img\fox-1284512_1920.jpg">
                                     </div>
                                 </div>
                             </div>
@@ -51,9 +53,9 @@
                                 <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                     <div class="center-avatar">
                                         <?php if (isset($currentUser['pfp'])): ?>
-                                            <img class="lazy" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                            <img class="lazyload" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
                                         <?php else: ?>
-                                            <img class="lazy" data-src="assets\img\defaultavataruser.png">
+                                            <img class="lazyload" data-src="assets\img\defaultavataruser.png">
                                         <?php endif?>
                                     </div>
                                 </div>
@@ -65,7 +67,17 @@
                                 <form method="post" action="post.php" enctype="multipart/form-data">
                                     <div class="form-group input-group">
                                         <textarea name="content" class="form-control" placeholder="Trạng thái..." rows="5"></textarea>
-                                    </div>
+                                    </div> <!-- form-group -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-globe"></i> </span>
+                                        </div>
+                                        <select name="privacy" class="form-control">
+                                            <?php foreach ($privacy as $visibility) : ?>
+                                                <option value="<?php echo $visibility["id"] ?>"><?php echo $visibility["visibility"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div> <!-- form-group -->
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"> <i class="fa fa-upload"></i> </span>
@@ -98,20 +110,36 @@
                                         <p>Email: <a href="mailto:<?php echo $user["email"];?>" style="color:white;" ><?php echo $user["email"];?></a></p>
                                         <input type="hidden" name="userID" value="<?php echo  $_GET['profileID'];?>">
                                         <?php 
-                                              $isFollowed = getFriendRequest($currentUser["profileID"], $user["profileID"]);
-                                              $isFollower = getFriendRequest($user["profileID"], $currentUser["profileID"]);
+                                              $isExist = getFriendRequestStatus($currentUser["profileID"], $user["profileID"],$currentUser["profileID"], $user["profileID"]);
                                          ?>
-                                         <?php if($isFollowed != null || $isFollower != null) :
-                                                echo "<form method='POST' action='add-friend.php'>
-                                                    <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Hủy Kết Bạn</button>
-                                                </form>"
-                                         ?>
-                                         <?php
-                                            else:
-                                                 echo "<form method='POST' action='add-friend.php'>
-                                                    <button class='btn btn-light btn-lg action-button' name='ddFriend' value='". $user['profileID'] ."'type='submit'>Kết Bạn</button>
-                                                </form>"
-                                         ?>
+                                         <?php if($isExist["status"] == 0 && $isExist["userone"] == $currentUser["profileID"]) :?>
+                                           <?php
+                                                    echo "<form method='POST' action='remove-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Hủy Yêu Cầu Kết Bạn</button>
+                                                    </form>"
+                                             ?>
+
+                                          <?php elseif($isExist["status"] == null ) :?>
+                                           <?php
+                                                     echo "<form method='POST' action='add-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='addFriend' value='". $user['profileID'] ."'type='submit'>Kết Bạn</button>
+                                                    </form>"
+                                             ?>                                      
+
+                                         <?php elseif($isExist["status"] == 0 && $isExist["usertwo"] == $currentUser["profileID"]) :?>
+                                           <?php
+                                                    echo "<form method='POST' action='remove-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='acceptFriendRequest' value='". $user['profileID'] ."'type='submit'>Chấp Nhận Yêu Cầu Kết Bạn</button>
+                                                        <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Từ Chối Yêu Cầu Kết Bạn</button>
+                                                    </form>"
+                                             ?>
+                                             <?php
+                                                else:
+                                                    echo "<p><i class='fas fa-user-friends'> Bạn bè </i></p>";
+                                                     echo "<form method='POST' action='remove-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Hủy Kết Bạn</button>
+                                                    </form>"
+                                             ?>
                                          <?php
                                             endif  
                                          ?>
@@ -119,9 +147,9 @@
                                     <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                         <div class="center-avatar">
                                             <?php if (isset($user['pfp'])): ?>
-                                                <img class="lazy" data-src="profilepfp.php?id=<?php echo $user['profileID']; ?>">
+                                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $user['profileID']; ?>">
                                             <?php else: ?>
-                                                <img class="lazy" data-src="assets\img\defaultavataruser.png">
+                                                <img class="lazyload" data-src="assets\img\defaultavataruser.png">
                                             <?php endif?>
                                         </div>
                                     </div>
@@ -144,6 +172,7 @@
     <?php include '_footer.php'; ?>
     <script src="assets/js/content-p.js"></script>
     <script src="assets/js/modal.js"></script>
+    <script src="assets/js/privacychange.js"></script>
     <script>
         $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();

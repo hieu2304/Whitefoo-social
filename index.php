@@ -1,6 +1,5 @@
 <?php
     require_once('init.php');
-    //getNewFeedsPaginate moved to loadnewfeed.php
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,8 +11,8 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/status.css">
     <link rel="stylesheet" href="assets/css/spinners/style.css">
 </head>
 
@@ -30,7 +29,7 @@
                                 <button class="btn btn-light btn-lg action-button" type="button" Onclick="window.location.href='register.php'">Đăng Ký Ngay</button></div>
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
                                 <div class="center-img">
-                                    <img class="lazy" data-src="assets\img\fox-1284512_1920.jpg">
+                                    <img class="lazyload" data-src="assets\img\fox-1284512_1920.jpg">
                                 </div>
                             </div>
                         </div>
@@ -40,13 +39,13 @@
                         <div class="row">
                             <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
                                 <h1>Xin chào, <?php echo ($currentUser["fullname"] != "" || $currentUser["fullname"]) != null ? $currentUser["fullname"] : $currentUser["username"] ?></h1>
-                                <button class="btn btn-light btn-lg action-button" type="button" onClick="document.getElementById('newfeed').scrollIntoView();">Xem các bài viết</button></div>
+                                <button class="btn btn-light btn-lg action-button scroll-button" target="newfeed" type="button">Xem các bài viết</button></div>
                             <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">
                                 <div class="center-avatar">
                                     <?php if (isset($currentUser['pfp'])): ?>
-                                        <img class="lazy" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
+                                        <img class="lazyload" data-src="profilepfp.php?id=<?php echo $currentUser['profileID']; ?>">
                                     <?php else: ?>
-                                        <img class="lazy" data-src="assets\img\defaultavataruser.png">
+                                        <img class="lazyload" data-src="assets\img\defaultavataruser.png">
                                     <?php endif?>
                                 </div>
                             </div>
@@ -66,6 +65,8 @@
     </div>
     <?php include '_footer.php'; ?>
     <script src="assets/js/content-p.js"></script>
+    <script src="assets/js/privacychange.js"></script>
+    <script src="assets/js/scroll.js"></script>
 </body>
 
 </html>

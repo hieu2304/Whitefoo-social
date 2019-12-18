@@ -16,7 +16,6 @@ session_start();
 
 // Detect page
 $page = detectPage();
-$currentPage = 1;
 
 // initializing variables
 $info = null;
@@ -24,7 +23,7 @@ $errors = array();
 
 // connect to the db
 try {
-  $db = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8", $DB_USER, $DB_PASSWORD);
+  $db = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4", $DB_USER, $DB_PASSWORD);
 }
 catch (PDOException $ex) {
   echo "Error connecting to mysql: " . $ex->getMessage();
@@ -34,6 +33,9 @@ $currentUser = null;
 
 if (isset($_SESSION['profileID'])) {
   $currentUser = findUserByID($_SESSION['profileID']);
+  $currentUser['username'] = htmlspecialchars($currentUser['username']);
+  $currentUser['fullname'] = htmlspecialchars($currentUser['fullname']);
+  $currentUser['mobilenumber'] = htmlspecialchars($currentUser['mobilenumber']);
 }
 
 // REGISTER NEW USER
@@ -131,6 +133,7 @@ if (isset($_POST['update_user_profile']))
 if (isset($_POST['post_the_status']))
 {
   $content = $_POST['content'];
+  $visibility = $_POST['privacy'];
   $img = null;
   $imgType = null;
   if ($_FILES['postimg']['size'] > 0) {
@@ -138,12 +141,12 @@ if (isset($_POST['post_the_status']))
     $imgType = strtolower(pathinfo($_FILES['postimg']["name"], PATHINFO_EXTENSION));
   }
 
-  if (empty($content)) {
-    array_push($errors, "Nội dung bài viết không được để trống");
+  if (empty($content) && $img == null) {
+    array_push($errors, "Không có gì để đăng!");
   }
 
   if (count($errors) == 0) {
-    post_status($_SESSION['profileID'], $content, $img, $imgType);
+    post_status($_SESSION['profileID'], $content, $img, $imgType, $visibility);
   }
 }
 
@@ -194,6 +197,26 @@ if (isset($_POST['reset_user_password']))
     resetPassword($profileID, $password, $password_retype);
     $info = "Thay đổi mật khẩu thành công.";
   }
+}
+
+//CHANGE POST PRIVACY
+if (isset($_POST['privacyvalue']))
+{
+  $postid = $_POST['postid'];
+  $privacy = $_POST['privacyvalue'];
+  $post = findPostByID($postid);
+  if ($post["profileID"] == $currentUser["profileID"])
+  {
+    setVisibility($postid, $privacy);
+  }
+}
+
+//ACCEPT FRIEND REQUEST
+if (isset($_POST['acceptFriendRequest']))
+{
+  $friendID = $_POST['acceptFriendRequest'];
+  acceptFriendRequest($friendID, $currentUser["profileID"]);
+  header('Location: personalpage.php?id='.$friendID);
 }
 
 ?>

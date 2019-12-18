@@ -1,25 +1,40 @@
-<script src="assets/js/modifypost.js"></script>
 <?php
     require_once("../init.php");
     require_once("../func.php");
+    $Parsedown = new Parsedown();
+    $Parsedown->setBreaksEnabled(true);
+    $Parsedown->setMarkupEscaped(true);
+
     $pagenum = $_POST['start'];
     $postlimit = $_POST['limit'];
     $typeofpage = $_POST['page'];
     $profileID = $_POST['profileID'];
-
+    $privacy = getPrivacy();
     if($typeofpage == 'main'):
-        $posts = getNewFeedsPaginate($pagenum, $postlimit);
+        $posts = getVisibleNewFeedsPaginate($currentUser['profileID'], $pagenum, $postlimit);
     else:
         if($profileID == -1):
-            $posts = getNewFeedsByProfileIDPaginate($_SESSION['profileID'], $pagenum, $postlimit);
+            $posts = getNewFeedsByProfileIDPaginate($currentUser['profileID'], $pagenum, $postlimit);
         else:
-            $posts = getNewFeedsByProfileIDPaginate($profileID, $pagenum, $postlimit);
+            if ($profileID == $currentUser['profileID']):
+                $posts = getNewFeedsByProfileIDPaginate($currentUser['profileID'], $pagenum, $postlimit);
+            elseif (isFriend($profileID, $currentUser['profileID'])):
+                $posts = getFriendNewFeedsByFriendIDPaginate($profileID, $pagenum, $postlimit);
+            else:
+                $posts = getPublicNewFeedsByProfileIDPaginate($profileID, $pagenum, $postlimit);
+            endif;
         endif;
     endif;
+    $temp = 0;
     foreach ($posts as $post) :
+    	if($temp == 0):
 ?>
+    	<script src="assets/js/modifypost.js"></script>
+    	<?php $temp=1; endif;
+?>
+
         <div class="col-sm-12">
-            <div value="<?php echo $post['postID']; ?>" id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto; margin-bottom:10px;">
+            <div value="<?php echo 'userpost-'.$post['postID']; ?>" id="userpost" class="card" style="background-color: rgba(255, 255, 255, 0.75); border-radius: 0px; width: 70%; float: none; margin: 0 auto; margin-bottom:10px;">
                 <div class="card-body">
                     <?php if($currentUser['profileID'] == $post['profileID'] and $_SESSION['profileID'] == $post['profileID']): ?>
                     <div class="navbar navbar-light navbar-expand-md navigation-clean-search" style="float:right; padding: 0% 0% 0% 0%;">
@@ -29,6 +44,12 @@
                                 <div class="dropdown-menu dropdown-menu-right" role="menu" id="post-dropdown-content">
                                     <button value="<?php echo $post['postID'] . '-deletebtn'; ?>" class="dropdown-item" role="presentation" onclick="getbuttonvalue(this)"><i class="fa fa-trash-o"></i> Xóa bài viết</button>
                                     <!-- <button class="dropdown-item" role="presentation" href="<?php echo "deletepost.php?postid=". $post['postID']."&page=main";?>"><i class="fa fa-pencil-square-o"></i> Chỉnh sửa bài viết</button> -->
+                                    <button class="set-visibility dropdown-item" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-lock"></i> Thay đổi quyền riêng tư</button>
+                                    <div postid="<?php echo $post['postID']; ?>" class="visibility-picker dropdown-menu">
+                                        <?php foreach ($privacy as $visibility) : ?>
+                                            <button class="dropdown-item" type="button" name="setprivacy" value="<?php echo $visibility["id"] ?>"><?php echo $visibility["visibility"] ?></button>
+                                        <?php endforeach; ?>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -37,9 +58,9 @@
                     <div id="post_information_wrapper">
                         <div class="mini-avatar" id="post_information_left_child">
                             <?php if (isset($post["pfp"])): ?>
-                                <img class="lazy" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
+                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>">
                             <?php else: ?>
-                                <img class="lazy" data-src="assets/img/defaultavataruser.png">                                  
+                                <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                             <?php endif?>
                         </div>      
                         <div id="post_information_center_child">
@@ -47,16 +68,23 @@
                             <h5 class="card-title">
                                 <a href="personalpage.php?id=<?php echo $post["profileID"] ?>"><strong><?php echo ($post["fullname"] != "" || $post["fullname"]) != null ? $post["fullname"] : $post["username"] ?></strong></a>                                                                     
                             </h5>
-                            <p class="card-text"><small class="card-subtitle mb-2 text-muted"><i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?></small></p>  
+                            <p class="card-info">
+                                <small class="card-subtitle mb-2 text-muted">
+                                    <i value="<?php echo $post['postID']; ?>" class="post-visibility <?php echo $post["visibility"] == 0 ? "fa fa-globe" : ($post["visibility"] == 1 ? "fas fa-user-friends" : "fa fa-lock") ?>"></i>
+                                    <i class="fa fa-calendar"></i> <?php echo $post['createdAt'];?>
+                                </small>
+                            </p>  
                         </div>                                                                                                        
                     </div>
-                    <div id="post_content">                              
-                        <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
-                    </div>                                       
+                    <?php if (isset($post['content'])) : ?>
+                        <div class="card-text" id="post_content">
+                            <p value="<?php echo $post['postID'] . '-postcontent'; ?>" class="card-text" style="width: 90%;"><?php echo $Parsedown->text($post['content']);?></p>
+                        </div>
+                    <?php endif; ?>
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
-                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazy" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
+                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazyload" data-src="postimage.php?id=<?php echo $post['postID']; ?>" class="card-img" alt="<?php echo $post['username'] ?>">
                         <?php endif?>
                     </div>
                 </div>
