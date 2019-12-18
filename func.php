@@ -760,7 +760,7 @@
       $currentUserShortcutName = "Người dùng";
     endif;
     $messageTitle = "Bạn có tin nhắn mới từ [" . $currentUserShortcutName . "]";
-    $messageContent = "Nội dung: " . shortcutString($message,100);
+    $messageContent = "Nội dung: " . "<br>" . shortcutString($message,100);
 
     sendEmail($anotherUser['email'], $temp, $messageTitle, $messageContent);
   }
