@@ -84,10 +84,13 @@
                     <div id="post_img">             
                         <?php if (!empty($post['image'])): ?>
                             <div id="break_space_between_posts"></div>
-                            <img value="<?php echo $post['postID'] . '-postimg'; ?>" class="lazyload blur-up" data-src="postimage.php?id=<?php echo $post['postID']; ?>&width=720&height=720" src="postimage.php?id=<?php echo $post['postID']; ?>&placeholder" class="card-img" alt="<?php echo $post['username'] ?>">
+                            <img value="<?php echo $post['postID']; ?>" class="lazyload blur-up image-preview" data-src="postimage.php?id=<?php echo $post['postID']; ?>&width=720&height=720" src="postimage.php?id=<?php echo $post['postID']; ?>&placeholder" class="card-img" alt="<?php echo $post['username'] ?>">
                         <?php endif?>
                     </div>
                 </div>
+
+                <?php $bien=laysoLike_By_postID($post['postID']);?>
+                    <p class="card-text" style="float: left; min-width: 250px;"><small class="card-subtitle mb-2 text-muted" style="padding-left:1%;"><?php echo $bien.' Lượt thích';?></small></p>
                 <div class="post-action-wrapper">
                     <div class="post-three-action">
                         <a href="like.php<?php echo '?postID='.$post['postID']; ?>">
@@ -95,9 +98,7 @@
                         </a>
                     </div>
                     <div class="post-three-action">
-                        <a href="text.php<?php echo '?postID='.$post['postID']; ?>">
-                        <button value="<?php echo $post['postID'] . '-commentbtn'; ?>" class="btn-action-comment"><i class="fa fa-comment" style="font-weight: bold;"></i> Bình Luận</button>
-                        </a>
+                    <button value="<?php echo $post['postID'] . '-commentbtn'; ?>" onclick="getbuttonvalue(this)" class="btn-action-comment"><i class="fa fa-comment" style="font-weight: bold;"></i> Bình Luận</button>
                     </div>
                     <div class="post-three-action">
                         <a href="#<?php echo '' ?>">
@@ -106,6 +107,49 @@
                     </div>
                     </div>                    
                 <div id="break_space_between_posts"></div>
+                <div style="display: none;" class = "card-text" id = "comment_area_<?php echo $post['postID'];?>">
+                        <form method ="post" endtype="multipart/formdata"> 
+                             <textarea style="width: 90%; margin-left:5%; min-width:200px;" name="txt1" id="txt1"></textarea>                                                 
+                            <div class= "form-group">
+                                <!-- <input type="hidden" name="comment_id" id="comment_id" value="0" /> -->
+                                <button type="submit" style = "margin-left:5%;" id="submit" name="submit" value ="<?php echo $post['postID'] . '-cmtbtn'; ?>" class="submit" ><i class="fa fa-comment" style="font-weight: bold;"></i> Đăng</button>
+                            </div>
+                        </form>                                                                          
+                        <?php
+                             if(isset($_POST["submit"])):
+                                if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']) :
+                                    $PostID = $post['postID'];
+                                    $ProfileId = $_SESSION['profileID'];
+                                    $var = $_POST["txt1"];
+                                    global $db;
+                                    $stmt = $db->prepare("INSERT INTO comments (comment,profileID,postID) VALUE(?,?,?)");
+                                    $stmt->execute([$var,$_SESSION['profileID'],$PostID]);
+                                else:
+                                    header('location: logout.php');
+                                    exit;
+                                endif;    
+                             else:
+                                 var_dump($_POST["submit"]);        
+                             endif;
+                        ?>
+                        <div style="display: block;"id="area_commt_<?php echo  $post['postID'];?>">
+                                <?php $comments = getAllComment($post['postID']);?>
+                                <?php foreach($comments as $comment): ?>
+                                    <div class="mini-avatar-comment" value="ảnh nhỏ">
+                                                    <?php if (isset($comment["pfp"])): ?>
+                                                        <img style="padding:16px;width:13%" class="lazyload" data-src="profilepfp.php?id=<?php echo $comment['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $comment['profileID'];?>&placeholder">
+                                                    <?php else: ?>
+                                                        <img style="padding:16px;width:13%" class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
+                                                    <?php endif?>
+                                                </div>
+                                     <div class="mini-name-comment" value ="tên">
+                                        <div class="mini-name-recent" id="show-cmt"><?php echo ($comment["fullname"] != "" || $comment["fullname"]) != null ? $comment["fullname"] : $comment["username"] ?></div>    
+                                        <div> <?php if( $comment['comment']!= ' '){ echo $comment['comment'];} ?> </div>                   
+                                     </div>
+                                <?php endforeach; ?>                              
+                        </div>                                       
+                </div>               
+            <div id="break_space_between_posts"></div>                 
             </div>
-        </div>
+        </div>       
 <?php endforeach ?>

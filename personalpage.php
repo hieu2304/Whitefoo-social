@@ -110,20 +110,36 @@
                                         <p>Email: <a href="mailto:<?php echo $user["email"];?>" style="color:white;" ><?php echo $user["email"];?></a></p>
                                         <input type="hidden" name="userID" value="<?php echo  $_GET['profileID'];?>">
                                         <?php 
-                                              $isFollowed = getFriendRequest($currentUser["profileID"], $user["profileID"]);
-                                              $isFollower = getFriendRequest($user["profileID"], $currentUser["profileID"]);
+                                              $isExist = getFriendRequestStatus($currentUser["profileID"], $user["profileID"],$currentUser["profileID"], $user["profileID"]);
                                          ?>
-                                         <?php if($isFollowed != null || $isFollower != null) :
-                                                echo "<form method='POST' action='add-friend.php'>
-                                                    <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Hủy Kết Bạn</button>
-                                                </form>"
-                                         ?>
-                                         <?php
-                                            else:
-                                                 echo "<form method='POST' action='add-friend.php'>
-                                                    <button class='btn btn-light btn-lg action-button' name='ddFriend' value='". $user['profileID'] ."'type='submit'>Kết Bạn</button>
-                                                </form>"
-                                         ?>
+                                         <?php if($isExist["status"] == 0 && $isExist["userone"] == $currentUser["profileID"]) :?>
+                                           <?php
+                                                    echo "<form method='POST' action='remove-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Hủy Yêu Cầu Kết Bạn</button>
+                                                    </form>"
+                                             ?>
+
+                                          <?php elseif($isExist["status"] == null ) :?>
+                                           <?php
+                                                     echo "<form method='POST' action='add-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='addFriend' value='". $user['profileID'] ."'type='submit'>Kết Bạn</button>
+                                                    </form>"
+                                             ?>                                      
+
+                                         <?php elseif($isExist["status"] == 0 && $isExist["usertwo"] == $currentUser["profileID"]) :?>
+                                           <?php
+                                                    echo "<form method='POST' action='remove-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='acceptFriendRequest' value='". $user['profileID'] ."'type='submit'>Chấp Nhận Yêu Cầu Kết Bạn</button>
+                                                        <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Từ Chối Yêu Cầu Kết Bạn</button>
+                                                    </form>"
+                                             ?>
+                                             <?php
+                                                else:
+                                                    echo "<p><i class='fas fa-user-friends'> Bạn bè </i></p>";
+                                                     echo "<form method='POST' action='remove-friend.php'>
+                                                        <button class='btn btn-light btn-lg action-button' name='unFriend' value='". $user['profileID'] ."'type='submit'>Hủy Kết Bạn</button>
+                                                    </form>"
+                                             ?>
                                          <?php
                                             endif  
                                          ?>
@@ -145,6 +161,12 @@
                         <div class="row" id="newfeed_content">
                         </div>
                     </div>
+                    <!-- The Image Modal -->
+                    <div id="imageModal" class="image-modal">
+                        <span class="close-img-modal">&times;</span>
+                        <img class="img-modal-content blur-up" id="imgModal">
+                        <div id="modal-caption"></div>
+                    </div>
                     <div id="load_more" class="col-sm-12 mt-5 text-center">
                         <div id="spinner"></div>
                         <button id="button_more" name="button_more" style="display: none" data-page="<?php echo $currentPage ?>" class="btn btn-primary">Xem thêm</button>
@@ -157,6 +179,7 @@
     <script src="assets/js/content-p.js"></script>
     <script src="assets/js/modal.js"></script>
     <script src="assets/js/privacychange.js"></script>
+    <script src="assets/js/imagemodal.js"></script>
     <script>
         $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();

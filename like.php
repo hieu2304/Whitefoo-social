@@ -31,7 +31,7 @@
                             if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']) :                     
                                 $PostID = $_GET['postID'];                                       
                                 $ProfileId = $_GET['profileID'];
-                                if($PostID == $post['postID']):
+                                if($PostID ==17):
                                     deleteLike_By_profileID_postID($_SESSION['profileID'],$PostID);
                                     header('location: index.php');
                                 else:

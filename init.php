@@ -210,4 +210,12 @@ if (isset($_POST['privacyvalue']))
   }
 }
 
+//ACCEPT FRIEND REQUEST
+if (isset($_POST['acceptFriendRequest']))
+{
+  $friendID = $_POST['acceptFriendRequest'];
+  acceptFriendRequest($friendID, $currentUser["profileID"]);
+  header('Location: personalpage.php?id='.$friendID);
+}
+
 ?>

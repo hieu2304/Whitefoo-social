@@ -504,18 +504,45 @@
 
     function sendFriendRequest($profileID1, $profileID2)
     {
-    	global $db;
-    	$stmt = $db->prepare("INSERT INTO friends (userone, usertwo, status) VALUE(?, ?, 0)");
-    	$stmt->execute([$profileID1, $profileID2]);
+      global $db, $BASE_URL;
+      $email = $db->prepare("SELECT email FROM users WHERE profileID = ? ");
+      $email->execute([$profileID2]);
+      $email1 = $email->fetchColumn();
+      $name = $db->prepare("SELECT username FROM users WHERE profileID = ? ");
+      $name->execute([$profileID2]);
+      $name1 = $name->fetchColumn();
+      $sendername = $db->prepare("SELECT username FROM users WHERE profileID = ? ");
+      $sendername->execute([$profileID1]);
+      $result = $sendername->fetchColumn();
+      $stmt = $db->prepare("INSERT INTO friends (userone, usertwo, status) VALUE(?, ?, 0)");
+      $stmt->execute([$profileID1,$profileID2]);
+      sendEmail($email1, $name1,'Thông báo lời mời kết bạn', $result . " đã gửi lời mời kết bạn đến bạn<br>Xem ngay: <a href=\"$BASE_URL/personalpage.php?id=$profileID1\">$BASE_URL/personalpage.php?id=$profileID1</a>");
+       // sendEmail($email, $username, 'Kích hoạt tài khoản', "Truy cập liên kết này để kích hoạt tài khoản <a href=\"$BASE_URL/verifyuser.php?code=$code\">$BASE_URL/verifyuser.php?code=$code</a>");
     }
 
-    function getFriendRequest($profileID1, $profileID2)
+    function acceptFriendRequest($profileID1, $profileID2)
     {
-    	global $db;
-    	$stmt = $db-> prepare("SELECT * FROM friends WHERE userone = ? AND usertwo = ? ");
-    	$stmt->execute([$profileID1, $profileID2]);
-    	return $stmt->fetch(PDO::FETCH_ASSOC);
-    }   
+      global $db;
+      $stmt = $db->prepare("UPDATE friends SET status = ? WHERE (userone = ? AND usertwo = ?) OR (usertwo = ? and userone = ? ) AND status = 0");
+      $stmt->execute([1, $profileID1, $profileID2, $profileID1, $profileID2]);
+    }
+
+    function getFriendRequestStatus($profileID1, $profileID2)
+    {
+      global $db;
+      $stmt = $db-> prepare("SELECT userone,usertwo,status FROM friends WHERE (userone = ? AND usertwo = ?) OR (usertwo = ? and userone = ? )");
+      $stmt->execute([$profileID1,$profileID2,$profileID1,$profileID2]);
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function removeFriendRequest($profileID1, $profileID2)
+    {
+      global $db;
+      $stmt = $db ->prepare("DELETE FROM friends WHERE (userone = ? and usertwo = ?) OR (usertwo = ? and userone = ?)");
+      $stmt -> execute([$profileID1, $profileID2,$profileID1, $profileID2]);
+    }
+    
+    /* hàm dành cho tin nhắn và like*/
     function insertLike_By_profileID_postID($profileID,$postID)
     {
       global $db;
@@ -708,10 +735,12 @@
           $temp['time'] = $newProperties['time'];
           $temp['message'] = $newProperties['message'];
           $temp['senderID'] = $newProperties['profileID'];
-          $temp['message'] = shortcutString($temp['message'],14);
+          $temp['message'] = str_replace("<br>","",$temp['message']);
+          $temp['message'] = shortcutString($temp['message'],14);      
           array_push($totallist,$temp);
         endif;
       else:
+        $temp['message'] = str_replace('<br>'," ", $temp['message']);
         $temp['message'] = shortcutString($temp['message'],14);
         array_push($totallist,$temp);
       endif;
@@ -730,12 +759,10 @@
     $temp = $stmt->fetch(PDO::FETCH_ASSOC);
     $messageID = $temp['max(s.messageID)'];
     $profileID2 = getAnotherUserIDByConversationIDAndUserID($conversationID, $profileID);
-
     //thêm vào messages
     //thêm ng gửi trước
     $stmt = $db->prepare("INSERT INTO conversations_messages VALUES(?, ?, ?, 0, 0);");    
     $stmt->execute([$conversationID, $messageID, $profileID]);
-
     //thêm người nhận
     $stmt = $db->prepare("INSERT INTO conversations_messages VALUES(?, ?, ?, 0, 0);");   
     $stmt->execute([$conversationID, $messageID, $profileID2['profileID']]);
@@ -760,7 +787,7 @@
       $currentUserShortcutName = "Người dùng";
     endif;
     $messageTitle = "Bạn có tin nhắn mới từ [" . $currentUserShortcutName . "]";
-    $messageContent = "Nội dung: " . shortcutString($message,100);
+    $messageContent = "Nội dung: " . "<br>" . shortcutString($message,100);
 
     sendEmail($anotherUser['email'], $temp, $messageTitle, $messageContent);
   }
@@ -878,5 +905,24 @@
     endif;
     return null;
   }
-    
+  function getAllComment($postID)
+  {
+    global $db;
+    $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp
+    FROM comments AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.postID=? AND p.comment !=' '
+     ORDER BY p.Time_cmt ASC");
+    $stmt->execute([$postID]);
+    $list= $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $totallist=[];
+    foreach($list as $i)
+      {
+        $temp = $i;
+        $temp['username'] = shortcutString($temp['username'],45);
+        if(isset($temp['fullname'])):
+          $temp['fullname'] = shortcutString($temp['fullname'],45);
+        endif;
+        array_push($totallist,$temp);
+      }
+      return $totallist;
+  }    
 ?>

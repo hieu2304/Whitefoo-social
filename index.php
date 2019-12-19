@@ -55,6 +55,12 @@
                         <div class="row" id="newfeed_content">
                         </div>
                     </div>
+                    <!-- The Image Modal -->
+                    <div id="imageModal" class="image-modal">
+                        <span class="close-img-modal">&times;</span>
+                        <img class="img-modal-content blur-up" id="imgModal">
+                        <div id="modal-caption"></div>
+                    </div>
                     <div id="load_more" class="col-sm-12 mt-5 text-center">
                         <div id="spinner"></div>
                         <button id="button_more" name="button_more" style="display: none" data-page="<?php echo $currentPage ?>" class="btn btn-primary">Xem thêm</button>
@@ -67,6 +73,10 @@
     <script src="assets/js/content-p.js"></script>
     <script src="assets/js/privacychange.js"></script>
     <script src="assets/js/scroll.js"></script>
+<<<<<<< HEAD
+=======
+    <script src="assets/js/imagemodal.js"></script>
+>>>>>>> eb54c5ec9db9ad462926468714914f4fc4b891a6
 </body>
 
 </html>
