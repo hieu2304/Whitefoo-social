@@ -1,6 +1,8 @@
 <?php 
         require_once('init.php');
         ob_start();
+        $ID = $_GET['postID'];
+        $post = findPostByID($ID);
 ?>
 <!DOCTYPE html>
 <html>
