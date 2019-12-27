@@ -44,8 +44,8 @@
                     <form method ="post" endtype="multipart/formdata">                   
                     <textarea  style="width: 100%; margin-left:0%; min-width:200px;"name="txt1" id="txt1"></textarea>
                         <div class="form-group">                       
-                            <!-- <input type="hidden" name="comment_id" id="comment_id" value="0" /> -->
-                            <button style="margin-left:91%;" type="submit" name="submit" id="submit" class="btn btn-info" value="Đăng" ><i class="fa fa-comment" style="font-weight: bold;"></i>  Đăng</button>
+                            <input type="hidden" name="comment_id" id="comment_id" value="0" />
+                            <button style="margin-left:91%;" type="submit" name="submit" id="submit" class="btn btn-info" value="submit" ><i class="fa fa-comment" style="font-weight: bold;"></i>  Đăng</button>
                         </div>    
                         <?php               
                             if (!isset($_GET['postID']) && !isset($_GET['profileID'])) :
@@ -53,12 +53,12 @@
                                 exit;
                             else :
                                 {if(isset($_POST["submit"]))                         
-                                        if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID'] and $post['visibility']!=2) :                                                    
+                                        if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']) :                                                    
                                             $PostID = $_GET['postID'];                                      
                                             $ProfileId = $_SESSION['profileID'];
                                             $var = $_POST["txt1"];
                                             global $db;
-                                            $stmt = $db->prepare("INSERT INTO comments (comment,profileID,postID) VALUE(?,?,?)");
+                                            $stmt = $db->prepare("INSERT INTO comments (comment,profileIDcmt,postID) VALUE(?,?,?)");
                                             $stmt->execute([$var,$_SESSION['profileID'],$PostID]);
                                         else:
                                             header('location: index.php');
