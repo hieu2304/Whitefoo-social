@@ -65,6 +65,13 @@ html,body
 	float:left;
 }
 
+#post_information_left_child_cmt
+{
+	width: 85px;
+	height: 80px;
+	line-height: auto;
+	float:left;
+}
 #post_information_center_child
 {
 	width: 85%;

@@ -141,12 +141,7 @@
                                                     </form>"
                                              ?>
                                          <?php
-                                            endif;
-                                            $temp = startingChat($_SESSION['profileID'], $user['profileID']);
-                                            echo "<form method='GET' action='messenger.php'>
-                                            <input name ='conversationID' value ='". $temp['conversationID'] ."' style = 'display:none;'>
-                                            <button class='btn btn-light btn-lg action-button' name='profileID' value='". $_SESSION['profileID'] ."'type='submit'>Nhắn tin</button>
-                                            </form>";
+                                            endif  
                                          ?>
                                     </div>
                                     <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-1 d-none d-lg-block">

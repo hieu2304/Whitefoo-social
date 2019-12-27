@@ -98,7 +98,9 @@
                         </a>
                     </div>
                     <div class="post-three-action">
-                    <button value="<?php echo $post['postID'] . '-commentbtn'; ?>" onclick="getbuttonvalue(this)" class="btn-action-comment"><i class="fa fa-comment" style="font-weight: bold;"></i> Bình Luận</button>
+                        <a href="comment.php<?php echo '?postID='.$post['postID']; ?>">
+                        <button value="<?php echo $post['postID'] . '-commentbtn'; ?>" onclick="getbuttonvalue(this)" class="btn-action-comment"><i class="fa fa-comment" style="font-weight: bold;"></i> Bình Luận</button>
+                        </a>
                     </div>
                     <div class="post-three-action">
                         <a href="#<?php echo '' ?>">
@@ -113,23 +115,7 @@
                                 <a href="comment.php<?php echo '?postID='.$post['postID']; ?>">                              
                                     <button type="submit" style = "margin-left:5%;" id="submit" name="submit" value ="<?php echo $post['postID'] . '-cmtbtn'; ?>" class="submit" ><i class="fa fa-comment" style="font-weight: bold;"></i> Đăng</button>
                                 </a>                                                  
-                    </div>                                                                                             
-                        <div style="display: block;"id="area_commt_<?php echo  $post['postID'];?>">
-                                <?php $comments = getAllComment($post['postID']);?>
-                                <?php foreach($comments as $comment): ?>
-                                    <div class="mini-avatar-comment" value="ảnh nhỏ">
-                                                    <?php if (isset($comment["pfp"])): ?>
-                                                        <img style="padding:16px;width:13%" class="lazyload" data-src="profilepfp.php?id=<?php echo $comment['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $comment['profileID'];?>&placeholder">
-                                                    <?php else: ?>
-                                                        <img style="padding:16px;width:13%" class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
-                                                    <?php endif?>
-                                                </div>
-                                     <div class="mini-name-comment" value ="tên">
-                                        <div class="mini-name-recent" id="show-cmt"><?php ($comment["fullname"] != "" || $comment["fullname"]) != null ? $comment["fullname"] : $comment["username"] ?></div>    
-                                        <div> <?php if( $comment['comment']!= ' '){ echo $comment['comment'];} ?> </div>                   
-                                     </div>
-                                <?php endforeach; ?>                              
-                        </div>                                       
+                    </div>                                                                                                                                   
                 </div>                               
             <div id="break_space_between_posts"></div>                 
             </div>

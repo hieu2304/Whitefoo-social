@@ -1,6 +1,7 @@
 <?php 
         require_once('init.php');
         ob_start();
+        $post =findPostByID($_GET['postID']); 
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,9 +29,8 @@
                             header('location: index.php');
                             exit;
                         else :                           
-                            if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']) :                     
-                                $PostID = $_GET['postID'];
-                                $post =findPostByID($_GET['postID']);                                      
+                            if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID'] and $post['visibility'] != 2) :                     
+                                $PostID = $_GET['postID'];                                     
                                 $ProfileId = $_GET['profileID'];
                                 if($PostID ==$post['postID']):
                                     deleteLike_By_profileID_postID($_SESSION['profileID'],$PostID);
