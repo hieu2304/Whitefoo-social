@@ -28,7 +28,7 @@ function SearchingFunc1() {
     var input, filter, ul, li1, li, a, i, txtValue;
     input = document.getElementById("myInput1");
     filter = input.value.toUpperCase();
-    if(filter!='')
+    if(filter=='')
     {
         myUL1.style.display = "none";
     }

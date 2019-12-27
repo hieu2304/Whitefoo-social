@@ -39,9 +39,9 @@
                                               <a href="personalpage.php?id=<?php echo $user["profileID"] ?>" style="display: flex; margin-bottom: 10px;text-decoration: none;">
                                                 <div class="component-pic" value="profilePic" style="margin-right: 10px;">
                                                     <?php if (isset($user["pfp"])): ?>
-                                                        <img style="width:30px; margin: 5px 0 0 10px;" class="lazyload" data-src="profilepfp.php?id=<?php echo $user['profileID'];?>">
+                                                        <img style="width:30px; height: 30px ; margin: 5px 0 0 10px;" class="lazyload" data-src="profilepfp.php?id=<?php echo $user['profileID'];?>">
                                                     <?php else: ?>
-                                                        <img style="width:30px; margin: 5px 0 0 10px;" class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
+                                                        <img style="width:30px; height: 30px ; margin: 5px 0 0 10px;" class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                                                     <?php endif?>
                                                 </div>
                                                 <div class="component-name" value ="tên">
