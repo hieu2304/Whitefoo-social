@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 19, 2019 lúc 12:15 PM
--- Phiên bản máy phục vụ: 10.4.10-MariaDB
--- Phiên bản PHP: 7.3.12
+-- Host: 127.0.0.1
+-- Generation Time: Dec 27, 2019 at 02:55 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,102 +19,27 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `sampledb`
+-- Database: `whitefoodb09`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `comments`
+-- Table structure for table `comments`
 --
 
 CREATE TABLE `comments` (
-  `comment_id` int(11) NOT NULL,
+  `commentid` int(11) NOT NULL,
   `comment` text COLLATE utf8mb4_vietnamese_ci DEFAULT ' ',
-  `profileID` int(11) NOT NULL,
+  `profileIDcmt` int(11) NOT NULL,
   `postID` int(11) NOT NULL,
-  `Time_cmt` datetime NOT NULL DEFAULT current_timestamp()
+  `Timecmt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
-
---
--- Đang đổ dữ liệu cho bảng `comments`
---
-
-INSERT INTO `comments` (`comment_id`, `comment`, `profileID`, `postID`, `Time_cmt`) VALUES
-(6, '            s', 2, 9, '2019-12-16 16:45:25'),
-(7, 'dasd', 2, 9, '2019-12-16 16:45:29'),
-(8, '            ds', 2, 9, '2019-12-16 16:45:39'),
-(9, '   s   ', 2, 11, '2019-12-16 22:50:42'),
-(10, '      asdsd      ', 2, 11, '2019-12-16 22:50:46'),
-(11, '      asdsd      ', 2, 11, '2019-12-16 22:57:38'),
-(12, '      asdsd      ', 2, 11, '2019-12-16 22:59:10'),
-(13, '      asdsd      ', 2, 11, '2019-12-16 22:59:43'),
-(14, '      asdsd      ', 2, 11, '2019-12-16 23:02:51'),
-(15, '      asdsd      ', 2, 11, '2019-12-16 23:10:19'),
-(16, '      asdsd      ', 2, 11, '2019-12-16 23:10:38'),
-(17, '      asdsd      ', 2, 11, '2019-12-16 23:13:43'),
-(18, '      asdsd      ', 2, 11, '2019-12-16 23:18:47'),
-(19, 'asdas', 2, 11, '2019-12-16 23:18:59'),
-(20, '          asdas  ', 2, 11, '2019-12-16 23:19:03'),
-(21, '            ', 2, 11, '2019-12-16 23:19:04'),
-(22, '    dd        ', 2, 11, '2019-12-16 23:19:05'),
-(23, '    dd        ', 2, 11, '2019-12-16 23:19:17'),
-(24, 'asdasd         ', 2, 11, '2019-12-16 23:19:21'),
-(25, '            asdasd', 2, 11, '2019-12-16 23:35:13'),
-(26, '            d', 2, 11, '2019-12-16 23:35:14'),
-(27, '            d', 2, 11, '2019-12-16 23:56:01'),
-(28, '            d', 2, 11, '2019-12-17 00:00:58'),
-(29, '            s', 2, 11, '2019-12-17 00:01:04'),
-(30, '            ', 2, 11, '2019-12-17 11:21:28'),
-(31, '            ', 2, 11, '2019-12-17 11:21:48'),
-(32, '            ', 2, 11, '2019-12-17 11:22:05'),
-(33, '  asdas', 2, 11, '2019-12-17 11:24:16'),
-(34, '  asdas', 2, 11, '2019-12-17 11:30:42'),
-(35, '            asd', 2, 11, '2019-12-17 15:09:56'),
-(36, 'asd         ', 2, 11, '2019-12-17 15:10:01'),
-(37, 'asdas', 2, 11, '2019-12-17 15:21:25'),
-(38, 'asdas', 2, 11, '2019-12-17 15:21:36'),
-(39, '                     dasd    ', 2, 11, '2019-12-17 15:21:39'),
-(40, NULL, 2, 13, '2019-12-18 10:39:40'),
-(41, NULL, 2, 12, '2019-12-18 10:39:40'),
-(42, NULL, 2, 13, '2019-12-18 10:39:45'),
-(43, NULL, 2, 12, '2019-12-18 10:39:45'),
-(44, NULL, 2, 13, '2019-12-18 10:39:52'),
-(45, NULL, 2, 12, '2019-12-18 10:39:52'),
-(46, NULL, 2, 13, '2019-12-18 10:49:09'),
-(47, NULL, 2, 12, '2019-12-18 10:49:09'),
-(48, NULL, 2, 13, '2019-12-18 10:49:11'),
-(49, NULL, 2, 12, '2019-12-18 10:49:11'),
-(50, NULL, 2, 13, '2019-12-18 10:49:14'),
-(51, NULL, 2, 12, '2019-12-18 10:49:14'),
-(52, NULL, 2, 13, '2019-12-18 10:49:18'),
-(53, NULL, 2, 12, '2019-12-18 10:49:18'),
-(54, NULL, 2, 13, '2019-12-18 10:49:31'),
-(55, NULL, 2, 12, '2019-12-18 10:49:31'),
-(60, 'cmt1', 2, 13, '2019-12-18 10:57:30'),
-(61, 'cmt2', 2, 12, '2019-12-18 10:57:30'),
-(62, 'cmt3', 2, 13, '2019-12-19 01:12:25'),
-(63, 'cmt4', 2, 12, '2019-12-19 01:12:25'),
-(64, 'cmt5', 2, 13, '2019-12-19 01:33:20'),
-(65, 'cmt6', 2, 12, '2019-12-19 01:33:20'),
-(70, NULL, 2, 17, '2019-12-19 14:32:24'),
-(71, NULL, 2, 16, '2019-12-19 14:32:24'),
-(72, NULL, 2, 15, '2019-12-19 14:32:24'),
-(73, NULL, 2, 12, '2019-12-19 14:32:24'),
-(74, NULL, 2, 17, '2019-12-19 15:04:13'),
-(75, NULL, 2, 17, '2019-12-19 15:08:55'),
-(76, NULL, 2, 17, '2019-12-19 15:08:59'),
-(77, NULL, 2, 17, '2019-12-19 15:16:03'),
-(78, NULL, 2, 17, '2019-12-19 15:18:21'),
-(79, NULL, 2, 17, '2019-12-19 15:28:10'),
-(80, NULL, 2, 17, '2019-12-19 15:28:36'),
-(81, NULL, 2, 17, '2019-12-19 15:35:13'),
-(82, NULL, 2, 17, '2019-12-19 15:36:30');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `conversations`
+-- Table structure for table `conversations`
 --
 
 CREATE TABLE `conversations` (
@@ -122,17 +47,10 @@ CREATE TABLE `conversations` (
   `lastMessageID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Đang đổ dữ liệu cho bảng `conversations`
---
-
-INSERT INTO `conversations` (`conversationID`, `lastMessageID`) VALUES
-(1, 1);
-
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `conversations_messages`
+-- Table structure for table `conversations_messages`
 --
 
 CREATE TABLE `conversations_messages` (
@@ -143,18 +61,10 @@ CREATE TABLE `conversations_messages` (
   `deleted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Đang đổ dữ liệu cho bảng `conversations_messages`
---
-
-INSERT INTO `conversations_messages` (`conversationID`, `messageID`, `profileID`, `seen`, `deleted`) VALUES
-(1, 1, 1, 0, 0),
-(1, 1, 2, 0, 0);
-
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `conversations_sent`
+-- Table structure for table `conversations_sent`
 --
 
 CREATE TABLE `conversations_sent` (
@@ -164,17 +74,10 @@ CREATE TABLE `conversations_sent` (
   `profileID` int(11) NOT NULL COMMENT 'id của người đã gửi'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Đang đổ dữ liệu cho bảng `conversations_sent`
---
-
-INSERT INTO `conversations_sent` (`messageID`, `message`, `time`, `profileID`) VALUES
-(1, '🙁<br>', '2019-12-19 11:46:46', 2);
-
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `conversations_users`
+-- Table structure for table `conversations_users`
 --
 
 CREATE TABLE `conversations_users` (
@@ -183,18 +86,10 @@ CREATE TABLE `conversations_users` (
   `seen` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Đang đổ dữ liệu cho bảng `conversations_users`
---
-
-INSERT INTO `conversations_users` (`conversationID`, `profileID`, `seen`) VALUES
-(1, 1, 0),
-(1, 2, 0);
-
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `friends`
+-- Table structure for table `friends`
 --
 
 CREATE TABLE `friends` (
@@ -208,7 +103,7 @@ CREATE TABLE `friends` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `likes`
+-- Table structure for table `likes`
 --
 
 CREATE TABLE `likes` (
@@ -218,41 +113,10 @@ CREATE TABLE `likes` (
   `time_likes` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Đang đổ dữ liệu cho bảng `likes`
---
-
-INSERT INTO `likes` (`id_likes`, `id_users`, `id_posts`, `time_likes`) VALUES
-(64, 2, 9, '2019-12-14 14:43:43'),
-(65, 2, 11, '2019-12-17 11:08:23'),
-(66, 2, 13, '2019-12-17 16:08:48'),
-(67, 2, 12, '2019-12-19 02:22:42'),
-(70, 2, 14, '2019-12-19 07:10:05'),
-(72, 2, 16, '2019-12-19 11:52:59'),
-(73, 2, 15, '2019-12-19 11:53:05'),
-(76, 2, 17, '2019-12-19 18:09:57');
-
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `notifications`
---
-
-CREATE TABLE `notifications` (
-  `id` int(11) NOT NULL,
-  `to_user` int(11) NOT NULL,
-  `from_user` int(11) NOT NULL,
-  `node_type` varchar(32) COLLATE utf8mb4_vietnamese_ci NOT NULL COMMENT 'dạng thông báo (post, comment, friend request, react, message...)',
-  `node_url` varchar(255) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `message` text COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `time` datetime NOT NULL DEFAULT current_timestamp(),
-  `seen` enum('0','1') COLLATE utf8mb4_vietnamese_ci NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `posts`
+-- Table structure for table `posts`
 --
 
 CREATE TABLE `posts` (
@@ -265,17 +129,10 @@ CREATE TABLE `posts` (
   `visibility` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Đang đổ dữ liệu cho bảng `posts`
---
-
-INSERT INTO `posts` (`postID`, `content`, `profileID`, `createdAt`, `image`, `imagetype`, `visibility`) VALUES
-(17, 'aaaa', 2, '2019-12-19 11:07:59', NULL, NULL, 0);
-
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `post_privacy`
+-- Table structure for table `post_privacy`
 --
 
 CREATE TABLE `post_privacy` (
@@ -284,7 +141,7 @@ CREATE TABLE `post_privacy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `post_privacy`
+-- Dumping data for table `post_privacy`
 --
 
 INSERT INTO `post_privacy` (`id`, `visibility`) VALUES
@@ -295,145 +152,131 @@ INSERT INTO `post_privacy` (`id`, `visibility`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `profileID` int(11) NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `email` varchar(100) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `password` varchar(128) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `fullname` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `password` varchar(200) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `fullname` varchar(100) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `mobilenumber` varchar(20) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `pfp` longblob DEFAULT NULL,
-  `pfptype` varchar(10) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `pfptype` varchar(10) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `code` varchar(32) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
---
-
-INSERT INTO `users` (`profileID`, `username`, `email`, `password`, `fullname`, `mobilenumber`, `pfp`, `pfptype`, `code`, `status`) VALUES
-(1, '1760005', 'dangtrunghieu2304@gmail.com', '$2y$10$xPoZmsKeokTa7mgXafNXNOyGPfovlR296uLOMSlUjPQm7iY6vwUHy', NULL, NULL, NULL, '', 'agpgJvYybgoFu7aO', 0),
-(2, 'tester', 'timchideyeu1998@gmail.com', '$2y$10$JiD/po9JSIniGAzL97Puvug5PnuIG5Nr5faLFxAC6LCnkc/WARqJG', 'noname', '114', NULL, 'png', '', 1);
-
---
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `comments`
+-- Indexes for table `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`comment_id`);
+  ADD PRIMARY KEY (`commentid`);
 
 --
--- Chỉ mục cho bảng `conversations`
+-- Indexes for table `conversations`
 --
 ALTER TABLE `conversations`
   ADD PRIMARY KEY (`conversationID`);
 
 --
--- Chỉ mục cho bảng `conversations_messages`
+-- Indexes for table `conversations_messages`
 --
 ALTER TABLE `conversations_messages`
   ADD PRIMARY KEY (`conversationID`,`messageID`,`profileID`);
 
 --
--- Chỉ mục cho bảng `conversations_sent`
+-- Indexes for table `conversations_sent`
 --
 ALTER TABLE `conversations_sent`
   ADD PRIMARY KEY (`messageID`);
 
 --
--- Chỉ mục cho bảng `conversations_users`
+-- Indexes for table `conversations_users`
 --
 ALTER TABLE `conversations_users`
   ADD PRIMARY KEY (`conversationID`,`profileID`);
 
 --
--- Chỉ mục cho bảng `friends`
+-- Indexes for table `friends`
 --
 ALTER TABLE `friends`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `likes`
+-- Indexes for table `likes`
 --
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`id_likes`);
 
 --
--- Chỉ mục cho bảng `notifications`
---
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`);
-
---
--- Chỉ mục cho bảng `posts`
+-- Indexes for table `posts`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`postID`);
 
 --
--- Chỉ mục cho bảng `post_privacy`
+-- Indexes for table `post_privacy`
 --
 ALTER TABLE `post_privacy`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`profileID`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `comments`
+-- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `commentid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `conversations`
+-- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `conversationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `conversationID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `conversations_sent`
+-- AUTO_INCREMENT for table `conversations_sent`
 --
 ALTER TABLE `conversations_sent`
-  MODIFY `messageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `messageID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `likes`
+-- AUTO_INCREMENT for table `friends`
 --
-ALTER TABLE `likes`
-  MODIFY `id_likes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
-
---
--- AUTO_INCREMENT cho bảng `notifications`
---
-ALTER TABLE `notifications`
+ALTER TABLE `friends`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `posts`
+-- AUTO_INCREMENT for table `likes`
 --
-ALTER TABLE `posts`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+ALTER TABLE `likes`
+  MODIFY `id_likes` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `users`
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `profileID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `profileID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

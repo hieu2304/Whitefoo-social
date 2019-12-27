@@ -73,10 +73,7 @@
     <script src="assets/js/content-p.js"></script>
     <script src="assets/js/privacychange.js"></script>
     <script src="assets/js/scroll.js"></script>
-<<<<<<< HEAD
-=======
     <script src="assets/js/imagemodal.js"></script>
->>>>>>> eb54c5ec9db9ad462926468714914f4fc4b891a6
 </body>
 
 </html>

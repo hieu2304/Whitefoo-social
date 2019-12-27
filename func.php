@@ -66,14 +66,14 @@
 
     function findPostByID($postID) {
       global $db;
-      $stmt = $db->prepare("SELECT * FROM posts WHERE postID = ?");
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.postID = ?");
       $stmt->execute([$postID]);
       return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     function findPostByContent($content) {
       global $db;
-      $stmt = $db->prepare("SELECT * FROM posts WHERE content LIKE ?");
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM posts AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.content LIKE ?");
       $stmt->execute(['%'. $content .'%']);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -909,7 +909,7 @@
   function getAllComment($postID)
   {
     global $db;
-    $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp
+    $stmt = $db->prepare("SELECT p.*, u.profileID, u.username, u.fullname, u.pfp
     FROM comments AS p JOIN users AS u ON p.profileIDcmt = u.profileID WHERE p.postID=? AND p.comment !=' '
      ORDER BY p.Timecmt ASC");
     $stmt->execute([$postID]);
