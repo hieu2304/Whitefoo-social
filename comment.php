@@ -26,6 +26,9 @@
             exit;
         }
     }
+    $Parsedown = new Parsedown();
+    $Parsedown->setBreaksEnabled(true);
+    $Parsedown->setMarkupEscaped(true);
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,7 +61,7 @@
                     <div id="post_information_center_child">
                     <div id="break_space_between_posts"></div>
                         <div class="card-text" id="post_content">
-                            <p style="text-align: left; margin: 30px;font-size: 30px;" class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
+                            <p style="text-align: left; margin: 30px;font-size: 30px;" class="card-text" style="width: 90%;"><?php echo $Parsedown->text($post['content']);?></p>
                     </div>
                     </div>
                 </div>
@@ -106,7 +109,7 @@
                                     </div>                                    
                                     <div id="post_information_center_child">
                                         <div class="card-text" id="post_content">
-                                            <p style="margin-top: 30px;margin-left:15px" class="card-text" style="width: 90%;"><?php echo $comment['comment'];?></p>
+                                            <p style="margin-top: 30px;margin-left:15px" class="card-text" style="width: 90%;"><?php echo $Parsedown->text($comment['comment']);?></p>
                                         </div>                                      
                                     </div>
                                     </div>
