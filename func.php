@@ -257,7 +257,7 @@
         EXISTS (SELECT * FROM friends AS f
         WHERE ((((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
         AND (f.userone = p.profileID OR f.usertwo = p.profileID))
-        OR u.profileID = p.profileID)
+        OR ? = p.profileID)
         AND p.visibility = 1)
       OR
         EXISTS (SELECT * FROM users AS u2
@@ -265,7 +265,7 @@
         AND u2.profileID = p.profileID
         AND p.visibility = 2)
       ORDER BY p.createdAt DESC");
-      $stmt->execute([$profileID, $profileID, $profileID]);
+      $stmt->execute([$profileID, $profileID, $profileID, $profileID]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -280,7 +280,7 @@
         EXISTS (SELECT * FROM friends AS f
         WHERE ((((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
         AND (f.userone = p.profileID OR f.usertwo = p.profileID))
-        OR u.profileID = p.profileID)
+        OR ? = p.profileID)
         AND p.visibility = 1)
       OR
         EXISTS (SELECT * FROM users AS u2
@@ -289,7 +289,7 @@
         AND p.visibility = 2)
       ORDER BY p.createdAt DESC
       LIMIT ?, ?");
-      $stmt->execute([$profileID, $profileID, $profileID, $offset, $postLimit]);
+      $stmt->execute([$profileID, $profileID, $profileID, $profileID, $offset, $postLimit]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
