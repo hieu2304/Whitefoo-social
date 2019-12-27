@@ -1,8 +1,31 @@
 <?php 
-        require_once('init.php');
-        ob_start();
-        $post =findPostByID($_GET['postID']);
-        $postText=getNewCommentsByPost($currentUser['profileID'],$_GET['postID']);
+    require_once('init.php');
+    ob_start();
+    $post = findPostByID($_GET['postID']);
+    if ($post == null)
+    {
+        echo "Bài viết không khả dụng.";
+        exit;
+    }
+    elseif ($post["visibility"] == 1)
+    {
+        if ($currentUser["profileID"] != $post["profileID"])
+        {
+            if (isFriend($currentUser["profileID"], $post["profileID"]) == false)
+            {
+                echo "Bài viết không khả dụng.";
+                exit;
+            }
+        }
+    }
+    elseif ($post["visibility"] == 2)
+    {
+        if($currentUser["profileID"] != $post["profileID"])
+        {
+            echo "Bài viết không khả dụng";
+            exit;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,44 +48,44 @@
             <?php include '_nav.php'; ?>
             <div class ="card-body"style="background-color: rgba(255,255,255,0.75);width:70%; margin-left: 200px;"> 
                 <div  id="post_information_wrapper">
-                            <div class="mini-avatar" id="post_information_left_child">
-                                <?php if (isset($post["pfp"])): ?>
-                                    <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $post['profileID'];?>&placeholder">
-                                <?php else: ?>
-                                    <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
-                                <?php endif?>
-                            </div>
-                            <div id="post_information_center_child">
-                            <div id="break_space_between_posts"></div>
-                                <div class="card-text" id="post_content">
-                                    <p style="text-align: left; margin: 30px;font-size: 30px;" class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
-                            </div>                                      
-                            </div>
-                </div>                          
-                <div id="break_space_between_posts"></div>    
+                    <div class="mini-avatar" id="post_information_left_child">
+                        <?php if (isset($post["pfp"])): ?>
+                            <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $post['profileID'];?>&placeholder">
+                        <?php else: ?>
+                            <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
+                        <?php endif?>
+                    </div>
+                    <div id="post_information_center_child">
+                    <div id="break_space_between_posts"></div>
+                        <div class="card-text" id="post_content">
+                            <p style="text-align: left; margin: 30px;font-size: 30px;" class="card-text" style="width: 90%;"><?php echo $post['content'];?></p>
+                    </div>
+                    </div>
+                </div>
+                <div id="break_space_between_posts"></div>
                 <div id="content">
                     <form method ="post" endtype="multipart/formdata">                   
                     <textarea  style="width: 100%; margin-left:0%; min-width:200px;"name="txt1" id="txt1"></textarea>
                         <div class="form-group">                       
                             <input type="hidden" name="comment_id" id="comment_id" value="0" />
                             <button style="margin-left:91%;" type="submit" name="submit" id="submit" class="btn btn-info" value="submit" ><i class="fa fa-comment" style="font-weight: bold;"></i>  Đăng</button>
-                        </div>    
-                        <?php               
+                        </div>
+                        <?php
                             if (!isset($_GET['postID']) && !isset($_GET['profileID'])) :
                                 header('location: index.php');
                                 exit;
                             else :
                                 {if(isset($_POST["submit"]))                         
-                                        if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']) :                                                    
-                                            $PostID = $_GET['postID'];                                      
-                                            $ProfileId = $_SESSION['profileID'];
-                                            $var = $_POST["txt1"];
-                                            global $db;
-                                            $stmt = $db->prepare("INSERT INTO comments (comment,profileIDcmt,postID) VALUE(?,?,?)");
-                                            $stmt->execute([$var,$_SESSION['profileID'],$PostID]);
-                                        else:
-                                            header('location: index.php');
-                                            exit;
+                                    if (isset($_SESSION['profileID']) and $_SESSION['profileID'] == $currentUser['profileID']) :                                                    
+                                        $PostID = $_GET['postID'];                                      
+                                        $ProfileId = $_SESSION['profileID'];
+                                        $var = $_POST["txt1"];
+                                        global $db;
+                                        $stmt = $db->prepare("INSERT INTO comments (comment,profileIDcmt,postID) VALUE(?,?,?)");
+                                        $stmt->execute([$var,$_SESSION['profileID'],$PostID]);
+                                    else:
+                                        header('location: index.php');
+                                        exit;
                                 endif;}
                             endif ?>
                         <div id="break_space_between_posts"></div>      

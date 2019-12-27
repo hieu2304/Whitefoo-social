@@ -1,7 +1,31 @@
 <?php 
-        require_once('init.php');
-        ob_start();
-        $post =findPostByID($_GET['postID']); 
+    require_once('init.php');
+    ob_start();
+    $post = findPostByID($_GET['postID']);
+    if ($post == null)
+    {
+        echo "Bài viết không khả dụng.";
+        exit;
+    }
+    elseif ($post["visibility"] == 1)
+    {
+        if ($currentUser["profileID"] != $post["profileID"])
+        {
+            if (isFriend($currentUser["profileID"], $post["profileID"]) == false)
+            {
+                echo "Bài viết không khả dụng.";
+                exit;
+            }
+        }
+    }
+    elseif ($post["visibility"] == 2)
+    {
+        if($currentUser["profileID"] != $post["profileID"])
+        {
+            echo "Bài viết không khả dụng";
+            exit;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html>

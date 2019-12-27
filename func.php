@@ -255,8 +255,9 @@
       WHERE p.visibility = 0
       OR
         EXISTS (SELECT * FROM friends AS f
-        WHERE ((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
-        AND (f.userone = p.profileID OR f.usertwo = p.profileID)
+        WHERE ((((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
+        AND (f.userone = p.profileID OR f.usertwo = p.profileID))
+        OR u.profileID = p.profileID)
         AND p.visibility = 1)
       OR
         EXISTS (SELECT * FROM users AS u2
@@ -277,8 +278,9 @@
       WHERE p.visibility = 0
       OR
         EXISTS (SELECT * FROM friends AS f
-        WHERE ((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
-        AND (f.userone = p.profileID OR f.usertwo = p.profileID)
+        WHERE ((((f.userone = ? OR f.usertwo = ?) AND f.status = 1)
+        AND (f.userone = p.profileID OR f.usertwo = p.profileID))
+        OR u.profileID = p.profileID)
         AND p.visibility = 1)
       OR
         EXISTS (SELECT * FROM users AS u2
