@@ -2,6 +2,7 @@
         require_once('init.php');
         ob_start();
         $post =findPostByID($_GET['postID']);
+        $postText=getNewCommentsByPost($currentUser['profileID'],$_GET['postID']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,22 +69,25 @@
                         <div style="display: block;"id="area_commt_<?php echo  $post['postID'];?>">
                             <div  id="post_information_wrapper"> 
                                 <?php $comments = getAllComment($post['postID']);?>
-                                <?php foreach($comments as $comment): ?>
+                                <?php foreach($comments as $comment): ?>                                   
                                     <div style="background-color:white"  id="post_information_wrapper">
                                          <div class="mini-avatarcmt" id="post_information_left_child"style="width:50px;height:70px;margin-left:15px;margin-top:10px">
-                                             <?php if (isset($post["pfp"])): ?>
-                                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $post['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $post['profileID'];?>&placeholder">
+                                             <?php if (isset($comment["pfp"])): ?>
+                                                <img class="lazyload" data-src="profilepfp.php?id=<?php echo $comment['profileID'];?>&width=450&height=450" src="profilepfp.php?id=<?php echo $comment['profileID'];?>&placeholder">
                                             <?php else: ?>
                                                 <img class="lazyload" data-src="assets/img/defaultavataruser.png">                                  
                                             <?php endif?>
-                                    </div>
+                                        <div style="margin-left:4px;font-weight: bold;color:rgb(100, 149, 237);"  id="show-cmt">
+                                            <?php echo $comment["username"];?>
+                                        </div>    
+                                    </div>                                    
                                     <div id="post_information_center_child">
                                         <div class="card-text" id="post_content">
                                             <p style="margin-top: 30px;margin-left:15px" class="card-text" style="width: 90%;"><?php echo $comment['comment'];?></p>
                                         </div>                                      
                                     </div>
                                     </div>
-                                    <div class="mini-name-recent" id="show-cmt"><?php ($comment["fullname"] != "" || $comment["fullname"]) != null ? $comment["fullname"] : $comment["username"] ?></div>               
+                                                      
                             </div>                               
                                 <?php endforeach; ?>                                                       
                         </div>                         

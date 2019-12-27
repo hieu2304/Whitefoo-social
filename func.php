@@ -586,14 +586,15 @@
       else
         insertLike_By_profileID_postID($profileID,$postID);
     }
-    function getNewCommentsByProfileIDPaginate($profileID, $offset = 0, $postLimit = 10)
+    // cho comment
+    function getNewCommentsByPost($profileID, $postID)
     {
       global $db;
-      $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
-      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM comments AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.profileID = ? ORDER BY p.Time_cmt DESC LIMIT ?, ?");
-      $stmt->execute([$profileID, $offset, $postLimit]);
+      $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp FROM comments AS p JOIN users AS u ON p.profileIDcmt = u.profileID WHERE p.profileIDcmt = ? p.postID=?  ORDER BY p.Timecmt DESC" );
+      $stmt->execute([$profileID,$postID]);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }  
+    }
+    //  
     function isFriend($profileID, $friendID)
     {
       global $db;
@@ -909,8 +910,8 @@
   {
     global $db;
     $stmt = $db->prepare("SELECT p.*, u.username, u.fullname, u.pfp
-    FROM comments AS p JOIN users AS u ON p.profileID = u.profileID WHERE p.postID=? AND p.comment !=' '
-     ORDER BY p.Time_cmt ASC");
+    FROM comments AS p JOIN users AS u ON p.profileIDcmt = u.profileID WHERE p.postID=? AND p.comment !=' '
+     ORDER BY p.Timecmt ASC");
     $stmt->execute([$postID]);
     $list= $stmt->fetchAll(PDO::FETCH_ASSOC);
     $totallist=[];

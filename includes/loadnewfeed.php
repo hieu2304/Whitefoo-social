@@ -109,14 +109,14 @@
                     </div>
                     </div>                    
                 <div id="break_space_between_posts"></div>
-                <div style="display: none;" class = "card-text" id = "comment_area_<?php echo $post['postID'];?>">
+                <!-- <div style="display: none;" class = "card-text" id = "comment_area_<?php echo $post['postID'];?>">
                              <textarea style="width: 90%; margin-left:5%; min-width:200px;" name="txt1" id="txt1"></textarea>                                                 
                     <div class= "form-group"> 
                                 <a href="comment.php<?php echo '?postID='.$post['postID']; ?>">                              
                                     <button type="submit" style = "margin-left:5%;" id="submit" name="submit" value ="<?php echo $post['postID'] . '-cmtbtn'; ?>" class="submit" ><i class="fa fa-comment" style="font-weight: bold;"></i> Đăng</button>
                                 </a>                                                  
                     </div>                                                                                                                                   
-                </div>                               
+                </div>                                -->
             <div id="break_space_between_posts"></div>                 
             </div>
         </div>       

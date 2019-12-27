@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 19, 2019 lúc 12:15 PM
+-- Thời gian đã tạo: Th12 27, 2019 lúc 11:29 AM
 -- Phiên bản máy phục vụ: 10.4.10-MariaDB
 -- Phiên bản PHP: 7.3.12
 
@@ -29,18 +29,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `comments` (
-  `comment_id` int(11) NOT NULL,
+  `commentid` int(11) NOT NULL,
   `comment` text COLLATE utf8mb4_vietnamese_ci DEFAULT ' ',
-  `profileID` int(11) NOT NULL,
+  `profileIDcmt` int(11) NOT NULL,
   `postID` int(11) NOT NULL,
-  `Time_cmt` datetime NOT NULL DEFAULT current_timestamp()
+  `Timecmt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `comments`
 --
 
-INSERT INTO `comments` (`comment_id`, `comment`, `profileID`, `postID`, `Time_cmt`) VALUES
+INSERT INTO `comments` (`commentid`, `comment`, `profileIDcmt`, `postID`, `Timecmt`) VALUES
 (6, '            s', 2, 9, '2019-12-16 16:45:25'),
 (7, 'dasd', 2, 9, '2019-12-16 16:45:29'),
 (8, '            ds', 2, 9, '2019-12-16 16:45:39'),
@@ -97,19 +97,13 @@ INSERT INTO `comments` (`comment_id`, `comment`, `profileID`, `postID`, `Time_cm
 (63, 'cmt4', 2, 12, '2019-12-19 01:12:25'),
 (64, 'cmt5', 2, 13, '2019-12-19 01:33:20'),
 (65, 'cmt6', 2, 12, '2019-12-19 01:33:20'),
-(70, NULL, 2, 17, '2019-12-19 14:32:24'),
-(71, NULL, 2, 16, '2019-12-19 14:32:24'),
-(72, NULL, 2, 15, '2019-12-19 14:32:24'),
-(73, NULL, 2, 12, '2019-12-19 14:32:24'),
-(74, NULL, 2, 17, '2019-12-19 15:04:13'),
-(75, NULL, 2, 17, '2019-12-19 15:08:55'),
-(76, NULL, 2, 17, '2019-12-19 15:08:59'),
-(77, NULL, 2, 17, '2019-12-19 15:16:03'),
-(78, NULL, 2, 17, '2019-12-19 15:18:21'),
-(79, NULL, 2, 17, '2019-12-19 15:28:10'),
-(80, NULL, 2, 17, '2019-12-19 15:28:36'),
-(81, NULL, 2, 17, '2019-12-19 15:35:13'),
-(82, NULL, 2, 17, '2019-12-19 15:36:30');
+(85, 'đ m nó', 2, 17, '2019-12-23 17:52:24'),
+(86, '                         asdasd', 2, 9, '2019-12-23 17:59:42'),
+(87, '                         asdasd', 2, 9, '2019-12-23 18:01:40'),
+(88, '                         asdasd', 2, 9, '2019-12-23 18:01:47'),
+(163, 'đ m m NGỌC', 2, 17, '2019-12-27 15:13:25'),
+(164, 'đ m m NGỌC', 2, 17, '2019-12-27 15:21:31'),
+(165, 'đ m m NGỌC', 2, 17, '2019-12-27 15:22:42');
 
 -- --------------------------------------------------------
 
@@ -230,7 +224,7 @@ INSERT INTO `likes` (`id_likes`, `id_users`, `id_posts`, `time_likes`) VALUES
 (70, 2, 14, '2019-12-19 07:10:05'),
 (72, 2, 16, '2019-12-19 11:52:59'),
 (73, 2, 15, '2019-12-19 11:53:05'),
-(76, 2, 17, '2019-12-19 18:09:57');
+(81, 2, 17, '2019-12-27 15:59:47');
 
 -- --------------------------------------------------------
 
@@ -327,7 +321,7 @@ INSERT INTO `users` (`profileID`, `username`, `email`, `password`, `fullname`, `
 -- Chỉ mục cho bảng `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`comment_id`);
+  ADD PRIMARY KEY (`commentid`);
 
 --
 -- Chỉ mục cho bảng `conversations`
@@ -397,7 +391,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `commentid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT cho bảng `conversations`
@@ -415,7 +409,7 @@ ALTER TABLE `conversations_sent`
 -- AUTO_INCREMENT cho bảng `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id_likes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id_likes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT cho bảng `notifications`
